@@ -1,0 +1,27 @@
+# ===== 运行时数据 / 大文件（绝对不要纳入版本控制）=====
+# 这些目录含浏览器 profile、日志、虚拟环境、历史归档，体积大且含隐私/运行态
+.venv39/
+.browser_profile*/
+profiles/
+server_logs/
+archive/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+laya-model/laya.egg-info/
+build/
+dist/
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ===== 编辑器 / IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
