@@ -36,6 +36,16 @@ class BrowserBase:
 
     # ---------- 通用：启动 / 关闭 ----------
     async def start(self):
+        # 启动前清理Chrome锁文件，避免异常退出后下次启动失败
+        lock_files = ["SingletonLock", "SingletonCookie", "SingletonSocket"]
+        for f in lock_files:
+            lock_path = Path(self.PROFILE_DIR) / f
+            if lock_path.exists():
+                try:
+                    lock_path.unlink()
+                    print(f"[启动] 清理锁文件: {f}", flush=True)
+                except Exception:
+                    pass
         self.playwright = await async_playwright().start()
         self.context = await self.playwright.chromium.launch_persistent_context(
             user_data_dir=str(self.PROFILE_DIR),

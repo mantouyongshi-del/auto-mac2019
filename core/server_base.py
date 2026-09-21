@@ -36,10 +36,22 @@ class BatchAskRequest(BaseModel):
 
 
 def save_log(record: dict, service_name: str):
-    """保存一条请求记录到按日期分的 JSONL 文件（按服务名分文件）"""
+    """保存一条请求记录到按日期分的 JSONL 文件（按服务名分文件，单文件超过100MB自动分割）"""
     today = datetime.now().strftime("%Y-%m-%d")
     LOG_DIR.mkdir(parents=True, exist_ok=True)
-    log_file = LOG_DIR / f"{today}.jsonl"
+    
+    # 找当前日期的最大序号，单文件超过100MB就分下一个
+    MAX_SIZE = 100 * 1024 * 1024  # 100MB
+    seq = 1
+    while True:
+        if seq == 1:
+            log_file = LOG_DIR / f"{today}.jsonl"
+        else:
+            log_file = LOG_DIR / f"{today}_{seq}.jsonl"
+        if not log_file.exists() or log_file.stat().st_size < MAX_SIZE:
+            break
+        seq += 1
+    
     record["timestamp"] = datetime.now().isoformat()
     record["service"] = service_name
     with open(log_file, "a", encoding="utf-8") as f:

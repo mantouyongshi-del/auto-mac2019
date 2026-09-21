@@ -40,6 +40,8 @@ TASKS_DIR.mkdir(exist_ok=True)
 
 # 内存中运行中的任务状态
 running_tasks = {}
+# 全局任务锁：同一时间只跑一个批量任务，避免抢窗口
+task_lock = asyncio.Lock()
 
 
 class CreateTaskRequest(BaseModel):
@@ -87,6 +89,15 @@ def call_model(model_id: str, question: str) -> dict:
 
 async def run_task(task_id: str, questions: list, model_ids: list, delay_min: int, delay_max: int):
     """后台任务调度器：逐个问题发，每个问题跑所有模型，随机间隔。"""
+    # 加全局任务锁，同一时间只跑一个任务
+    await task_lock.acquire()
+    try:
+        await _run_task_inner(task_id, questions, model_ids, delay_min, delay_max)
+    finally:
+        task_lock.release()
+
+
+async def _run_task_inner(task_id: str, questions: list, model_ids: list, delay_min: int, delay_max: int):
     task_file = TASKS_DIR / f"{task_id}.json"
 
     # 检查是否是恢复的任务
@@ -112,7 +123,21 @@ async def run_task(task_id: str, questions: list, model_ids: list, delay_min: in
             "all_questions": questions,  # 存完整问题列表，用于恢复
         }
 
+    # 任务最大时长1小时，超时自动标记失败
+    task_start_time = time.time()
+    MAX_TASK_DURATION = 3600  # 1小时
+
     for i in range(start_index, len(questions)):
+        # 检查是否超时
+        if time.time() - task_start_time > MAX_TASK_DURATION:
+            task_state["status"] = "timeout"
+            task_state["finished_at"] = datetime.now().isoformat()
+            with open(task_file, "w", encoding="utf-8") as f:
+                json.dump(task_state, f, ensure_ascii=False, indent=2)
+            print(f"[任务 {task_id}] 超过1小时，自动标记超时", flush=True)
+            del running_tasks[task_id]
+            return
+
         # 检查任务是否被取消/暂停
         with open(task_file, encoding="utf-8") as f:
             current = json.load(f)
@@ -521,6 +546,13 @@ async def health_check_loop():
     await asyncio.sleep(60)
 
     while True:
+        # 有批量任务在跑就跳过这次健康检查，避免抢窗口
+        if len(running_tasks) > 0:
+            print(f"[健康检查] 检测到批量任务运行中，跳过本次检查", flush=True)
+            delay = random.uniform(HEALTH_CHECK_INTERVAL_MIN, HEALTH_CHECK_INTERVAL_MAX)
+            await asyncio.sleep(delay)
+            continue
+
         print(f"[健康检查] 开始检查 {datetime.now().isoformat()}", flush=True)
 
         # 并发检查所有5个模型
