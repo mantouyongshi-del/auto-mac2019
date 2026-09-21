@@ -60,6 +60,8 @@ class BrowserBase:
                 "--hide-crash-restore-bubble",
                 # 禁用系统通知弹窗
                 "--disable-notifications",
+                # 禁用Chrome命令行标记提示条
+                "--disable-infobars",
                 # 窗口位置和大小
                 f"--window-position={self.WINDOW_POS[0]},{self.WINDOW_POS[1]}",
                 f"--window-size={self.WINDOW_SIZE[0]},{self.WINDOW_SIZE[1]}",
@@ -80,6 +82,10 @@ class BrowserBase:
         title_keyword = getattr(self, "WINDOW_TITLE_KEYWORD", None)
         if title_keyword:
             self._move_window(title_keyword)
+        
+        # 启动后先关掉所有可能的弹窗
+        await asyncio.sleep(2)
+        await self.dismiss_popups()
 
     async def close(self):
         if self.context:
