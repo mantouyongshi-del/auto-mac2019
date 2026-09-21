@@ -154,7 +154,16 @@ async def run_task(task_id: str, questions: list, model_ids: list, delay_min: in
 
         # 随机间隔，最后一个问题不用等
         if i < len(questions) - 1:
-            delay = random.uniform(delay_min, delay_max)
+            # 夜间0-6点自动降频，间隔拉长3倍
+            hour = datetime.now().hour
+            if 0 <= hour < 6:
+                actual_min = delay_min * 3
+                actual_max = delay_max * 3
+                print(f"  [夜间降频] 间隔拉长到 {actual_min}-{actual_max} 秒", flush=True)
+            else:
+                actual_min = delay_min
+                actual_max = delay_max
+            delay = random.uniform(actual_min, actual_max)
             print(f"  等待 {delay:.1f} 秒...", flush=True)
             await asyncio.sleep(delay)
 
@@ -168,11 +177,33 @@ async def run_task(task_id: str, questions: list, model_ids: list, delay_min: in
     print(f"[任务 {task_id}] 完成！", flush=True)
 
 
+# 每周随机休息日：每周随机挑半天（4小时）不跑批量任务，更像真人
+import datetime as dt
+_rest_day_cache = {}
+def is_rest_time():
+    """检查当前是不是每周休息日的休息时段。"""
+    now = dt.datetime.now()
+    week_key = now.strftime("%Y-%W")
+    if week_key not in _rest_day_cache:
+        # 本周随机挑一个星期几
+        rest_weekday = random.randint(0, 6)
+        # 随机挑半天（0-20点之间选一个开始时间）
+        rest_start = random.randint(0, 20)
+        _rest_day_cache[week_key] = (rest_weekday, rest_start)
+    rest_weekday, rest_start = _rest_day_cache[week_key]
+    # 休息4小时
+    return now.weekday() == rest_weekday and rest_start <= now.hour < rest_start + 4
+
+
 @app.post("/api/tasks")
 async def create_task(req: CreateTaskRequest):
     """创建一个批量提问任务。"""
     if not req.questions:
         raise HTTPException(status_code=400, detail="questions 不能为空")
+    
+    # 每周休息日检查
+    if is_rest_time():
+        raise HTTPException(status_code=429, detail="今天是每周休息日，系统正在休息，请稍后再试")
 
     # 用默认模型列表
     model_ids = req.models or [m["id"] for m in MODELS]

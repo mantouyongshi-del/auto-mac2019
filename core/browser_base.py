@@ -184,10 +184,36 @@ class BrowserBase:
 
         # 5. 逐字输入
         inp = page.locator(self.INPUT_SELECTOR).first
+        
+        # 5.1 模拟真人鼠标移动：先随机移到页面某点，再慢慢移到输入框
+        await page.mouse.move(
+            random.randint(100, 800),
+            random.randint(100, 400),
+            steps=random.randint(10, 30)
+        )
+        await asyncio.sleep(random.uniform(0.1, 0.3))
+        await inp.hover(force=True)
+        await asyncio.sleep(random.uniform(0.2, 0.5))
         await inp.click()
         await asyncio.sleep(random.uniform(0.3, 0.8))
+        
+        # 5.2 逐字输入，10%概率模拟打错字再删掉
+        if random.random() < 0.1 and len(question) > 5:
+            # 打错一个字
+            wrong_char = random.choice('asdfghjkl')
+            await inp.type(wrong_char, delay=random.uniform(50, 150))
+            await asyncio.sleep(random.uniform(0.2, 0.5))
+            # 删掉
+            await inp.press('Backspace')
+            await asyncio.sleep(random.uniform(0.3, 0.8))
+        
+        # 正常输入
         await inp.press_sequentially(question, delay=random.uniform(50, 150))
         await asyncio.sleep(random.uniform(0.2, 0.5))
+        
+        # 5.3 输完后20%概率停一下再按回车，像在检查
+        if random.random() < 0.2:
+            await asyncio.sleep(random.uniform(2.0, 3.5))
 
         # 6. 记录当前回答块数（定位本次新增）
         try:
@@ -228,7 +254,15 @@ class BrowserBase:
         citations = await self.extract_citations(base_count)
         search_queries = await self.extract_search_queries(base_count)
 
-        # 10. 回答完自动开新对话，保持窗口干净，随时准备下一个问题
+        # 10. 回答完后先停留2-5秒，像在看回答内容，再开新对话
+        await asyncio.sleep(random.uniform(2.0, 5.0))
+        # 偶尔滚动一下，像在仔细看回答
+        if random.random() < 0.3:
+            await page.mouse.wheel(0, random.randint(100, 300))
+            await asyncio.sleep(random.uniform(0.5, 1.5))
+            await page.mouse.wheel(0, -random.randint(100, 300))
+            await asyncio.sleep(random.uniform(0.3, 1.0))
+        
         try:
             await self.new_chat()
         except Exception:
