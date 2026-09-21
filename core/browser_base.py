@@ -48,6 +48,8 @@ class BrowserBase:
                 # 禁用"恢复之前的页面"崩溃提示气泡
                 "--disable-session-crashed-bubble",
                 "--hide-crash-restore-bubble",
+                # 禁用系统通知弹窗
+                "--disable-notifications",
                 # 窗口位置和大小
                 f"--window-position={self.WINDOW_POS[0]},{self.WINDOW_POS[1]}",
                 f"--window-size={self.WINDOW_SIZE[0]},{self.WINDOW_SIZE[1]}",
@@ -164,6 +166,9 @@ class BrowserBase:
     async def ask(self, question: str) -> dict:
         page = self.page
 
+        # 0. 先关掉可能弹出的广告/通知弹窗
+        await self.dismiss_popups()
+
         # 1. 每题独立会话
         if not await self.new_chat():
             raise RuntimeError("开启新会话失败")
@@ -277,3 +282,23 @@ class BrowserBase:
             if last_len > 0 and stable_rounds >= 5:
                 await asyncio.sleep(1.0)
                 break
+
+    async def dismiss_popups(self):
+        """自动关闭常见网页弹窗：通知、广告、引导浮层。"""
+        page = self.page
+        # 常见的关闭按钮文字
+        close_texts = [
+            "暂不", "关闭", "×", "我知道了", "知道了", "不再提示",
+            "取消", "以后再说", "下次再说", "暂不开启", "拒绝"
+        ]
+        for text in close_texts:
+            try:
+                # 找可见的、包含这些文字的小按钮
+                btn = page.get_by_text(text, exact=False).first
+                if await btn.is_visible(timeout=200):
+                    await btn.click()
+                    await asyncio.sleep(random.uniform(0.2, 0.5))
+                    print(f"[弹窗] 已关闭: {text}", flush=True)
+                    break
+            except Exception:
+                continue
