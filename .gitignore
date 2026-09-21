@@ -5,6 +5,8 @@
 profiles/
 server_logs/
 archive/
+tasks/
+backups/
 
 # ===== Python =====
 __pycache__/

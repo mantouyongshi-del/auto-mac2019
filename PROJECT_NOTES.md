@@ -82,12 +82,15 @@ git clone https://github.com/NandhaKishorM/laya.git
 ├── bots/                 # 【模型适配层】每个模型一个文件，只写差异部分
 │   ├── deepseek.py         #   DeepSeek：选择器、新对话按钮、引用提取
 │   ├── qianwen.py          #   千问：contenteditable 输入框、来源卡片引用
-│   └── (doubao.py / kimi.py ... 待接入)
+│   ├── doubao.py           #   豆包：contenteditable 输入框、点击"参考N篇资料"展开引用
+│   └── (kimi.py / ... 待接入)
 ├── run_deepseek.py       # 【入口】DeepSeek 服务（端口 8000，薄封装）
 ├── run_qianwen.py        # 【入口】千问服务（端口 8001，薄封装）
+├── run_doubao.py         # 【入口】豆包服务（端口 8002，薄封装）
 ├── profiles/             # 各模型 Chrome 持久化登录态
 │   ├── deepseek/
-│   └── qianwen/
+│   ├── qianwen/
+│   └── doubao/
 ├── laya-model/           # Laya 本地模型包（备用，暂不调用）
 ├── .venv39/               # Python 3.9 虚拟环境（共用）
 ├── server_logs/           # 本地请求日志（JSONL + launchd 输出）
@@ -159,6 +162,15 @@ git clone https://github.com/NandhaKishorM/laya.git
 | 引用链接 | 页面所有外链 `a[href^='http']`（来源卡片，排除 qianwen/aliyun 域名） |
 | 输入框 | `[contenteditable='true']`（富文本编辑区，非 textarea） |
 | 新对话（独立会话） | `text=新建对话` |
+| 发送 | 回车 |
+
+### 豆包页面选择器
+| 元素 | 选择器 |
+|---|---|
+| 回答正文 | `[class*='markdown']` / `[class*='message-content']` 等多选择器兜底 |
+| 引用链接 | 点击 `text=/参考 \d+ 篇资料/` 展开后，抓页面外链 `a[href^='http']` |
+| 输入框 | `[contenteditable='true']`（富文本编辑区） |
+| 新对话（独立会话） | `text=新对话` |
 | 发送 | 回车 |
 
 ### 反检测措施

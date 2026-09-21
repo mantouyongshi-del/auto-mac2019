@@ -6,12 +6,13 @@
 """
 import asyncio
 import random
+import subprocess
 from pathlib import Path
 from playwright.async_api import async_playwright
 from fastapi import HTTPException
 
 # 项目根目录（所有模型共用 profile / 日志的根）
-PROJECT_ROOT = Path("/Users/alili/laya")
+PROJECT_ROOT = Path(__file__).parent.parent.resolve()
 LOG_DIR = PROJECT_ROOT / "server_logs"
 
 
@@ -23,11 +24,15 @@ class BrowserBase:
     ANSWER_BLOCK_SELECTOR = ""            # 回答正文块选择器
     WAIT_TIMEOUT = 120                     # 等待回答最长秒数
     HEADLESS = False                      # 首次登录需 False 看到浏览器
+    # 窗口位置和大小（x, y, width, height），每个模型自己配
+    WINDOW_POS = (0, 0)
+    WINDOW_SIZE = (1280, 900)
 
     def __init__(self):
         self.playwright = None
         self.context = None
         self.page = None
+        self.captured_responses = {}  # URL -> body text（网络拦截捕获）
 
     # ---------- 通用：启动 / 关闭 ----------
     async def start(self):
@@ -36,13 +41,16 @@ class BrowserBase:
             user_data_dir=str(self.PROFILE_DIR),
             channel="chrome",
             headless=self.HEADLESS,
-            viewport={"width": 1280, "height": 900},
+            viewport={"width": self.WINDOW_SIZE[0], "height": self.WINDOW_SIZE[1]},
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--disable-features=IsolateOrigins,site-per-process",
                 # 禁用"恢复之前的页面"崩溃提示气泡
                 "--disable-session-crashed-bubble",
                 "--hide-crash-restore-bubble",
+                # 窗口位置和大小
+                f"--window-position={self.WINDOW_POS[0]},{self.WINDOW_POS[1]}",
+                f"--window-size={self.WINDOW_SIZE[0]},{self.WINDOW_SIZE[1]}",
             ],
         )
         # 反检测：隐藏 webdriver 等自动化痕迹
@@ -54,19 +62,24 @@ class BrowserBase:
         """)
         self.page = self.context.pages[0] if self.context.pages else await self.context.new_page()
         await self.page.goto(self.URL, wait_until="domcontentloaded")
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)  # 等页面加载完，窗口标题出来
+
+        # 移动窗口到指定位置
+        title_keyword = getattr(self, "WINDOW_TITLE_KEYWORD", None)
+        if title_keyword:
+            self._move_window(title_keyword)
 
     async def close(self):
         if self.context:
             try:
                 await self.context.close()
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[browser] context.close() 异常: {e}", flush=True)
         if self.playwright:
             try:
                 await self.playwright.stop()
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[browser] playwright.stop() 异常: {e}", flush=True)
 
     # ---------- 子类必须实现 ----------
     async def new_chat(self) -> bool:
@@ -85,7 +98,40 @@ class BrowserBase:
         """提取本次回答的引用列表，返回 [{"ref": ..., "url": ...}]。"""
         raise NotImplementedError
 
+    async def extract_search_queries(self, base_count: int = 0) -> list:
+        """提取本次回答用了哪些搜索关键词。默认返回空（拿不到的模型）。"""
+        return []
+
     # ---------- 子类可覆盖（有默认值） ----------
+    def should_capture_url(self, url: str) -> bool:
+        """判断是否需要捕获此响应的 body。默认不捕获（DOM 模式）。"""
+        return False
+
+    @staticmethod
+    def _fix_double_encoding(s: str) -> str:
+        """修复 cp1252 双重编码问题（UTF-8 字节被 cp1252 解码后又 UTF-8 编码）。"""
+        cp1252_map = {
+            '\u20ac': b'\x80', '\u201a': b'\x82', '\u0192': b'\x83',
+            '\u201e': b'\x84', '\u2026': b'\x85', '\u2020': b'\x86',
+            '\u2021': b'\x87', '\u02c6': b'\x88', '\u2030': b'\x89',
+            '\u0160': b'\x8a', '\u2039': b'\x8b', '\u0152': b'\x8c',
+            '\u017d': b'\x8e', '\u2018': b'\x91', '\u2019': b'\x92',
+            '\u201c': b'\x93', '\u201d': b'\x94', '\u2022': b'\x95',
+            '\u2013': b'\x96', '\u2014': b'\x97', '\u02dc': b'\x98',
+            '\u2122': b'\x99', '\u0161': b'\x9a', '\u203a': b'\x9b',
+            '\u0153': b'\x9c', '\u017e': b'\x9e', '\u0178': b'\x9f',
+        }
+        result = bytearray()
+        for ch in s:
+            if ch in cp1252_map:
+                result.extend(cp1252_map[ch])
+            elif ord(ch) < 256:
+                result.append(ord(ch))
+            else:
+                # 不在 cp1252 范围的字符，直接 UTF-8 编码
+                result.extend(ch.encode('utf-8'))
+        return bytes(result).decode('utf-8', errors='replace')
+
     def stop_button_selector(self) -> str:
         """停止生成按钮选择器（存在=仍在生成）。返回空串表示不用此信号。"""
         return ""
@@ -97,6 +143,22 @@ class BrowserBase:
     async def check_login_url(self):
         """发送前检查登录态（URL 跳转登录页则抛 401）。默认不检查。"""
         return
+
+    def _move_window(self, title_keyword: str):
+        """用 macOS AppleScript 移动 Chrome 窗口到指定位置。"""
+        x, y = self.WINDOW_POS
+        w, h = self.WINDOW_SIZE
+        script = f'''
+        tell application "Google Chrome"
+            set targetWin to first window whose title contains "{title_keyword}"
+            set bounds of targetWin to {x}, {y}, {x + w}, {y + h}
+        end tell
+        '''
+        try:
+            subprocess.run(["osascript", "-e", script], check=True, capture_output=True)
+            print(f"[窗口] 已移动 {title_keyword} 到 ({x},{y}) {w}x{h}", flush=True)
+        except Exception as e:
+            print(f"[窗口] 移动 {title_keyword} 失败: {e}", flush=True)
 
     # ---------- 通用：提问主流程 ----------
     async def ask(self, question: str) -> dict:
@@ -128,8 +190,29 @@ class BrowserBase:
         except Exception:
             base_count = 0
 
-        # 7. 回车发送
-        await inp.press("Enter")
+        # 7. 回车发送（同时监听回答接口响应）
+        self.captured_responses.clear()
+
+        # 如果子类需要网络拦截，用 expect_response 精准捕获
+        answer_url_pattern = getattr(self, 'ANSWER_URL_PATTERN', None)
+        if answer_url_pattern:
+            try:
+                async with page.expect_response(answer_url_pattern, timeout=self.WAIT_TIMEOUT * 1000) as resp_info:
+                    await inp.press("Enter")
+                resp = await resp_info.value
+                body_bytes = await resp.body()
+                # 修复双重编码
+                try:
+                    body = self._fix_double_encoding(body_bytes.decode('utf-8'))
+                except Exception:
+                    body = body_bytes.decode('utf-8', errors='replace')
+                self.captured_responses[resp.url] = body
+                print(f"[网络拦截] 成功捕获: {len(body)} 字节", flush=True)
+            except Exception as e:
+                print(f"[网络拦截] 失败: {e}", flush=True)
+                await inp.press("Enter")
+        else:
+            await inp.press("Enter")
 
         # 8. 等待回答完成
         await self.wait_for_answer(base_count)
@@ -138,17 +221,29 @@ class BrowserBase:
         await asyncio.sleep(1)
         answer = await self.extract_answer(base_count)
         citations = await self.extract_citations(base_count)
+        search_queries = await self.extract_search_queries(base_count)
+
+        # 10. 回答完自动开新对话，保持窗口干净，随时准备下一个问题
+        try:
+            await self.new_chat()
+        except Exception:
+            pass
 
         return {
             "answer": answer["text"],
             "answer_html": answer["html"],
             "citations": citations,
+            "search_queries": search_queries,
         }
 
     async def wait_for_answer(self, base_count: int = 0):
-        """多信号等待回答完成：停止按钮存在性 + 内容长度稳定性。"""
+        """等待回答完成。如果已通过 expect_response 捕获到回答，直接返回。"""
+        if self.captured_responses:
+            await asyncio.sleep(1)  # 等 SSE 流完全结束
+            return
+
         page = self.page
-        await asyncio.sleep(3)  # 等流式开始
+        await asyncio.sleep(3)
 
         last_len = -1
         stable_rounds = 0
@@ -157,15 +252,13 @@ class BrowserBase:
         for _ in range(self.WAIT_TIMEOUT // 2):
             await asyncio.sleep(2)
 
-            # 信号A：停止按钮
             has_stop = False
             if stop_sel:
                 try:
                     has_stop = await page.locator(stop_sel).count() > 0
                 except Exception:
-                    has_stop = True  # 检测异常保守按"仍在生成"
+                    has_stop = True
 
-            # 信号B：回答块内容长度
             try:
                 block = page.locator(self.ANSWER_BLOCK_SELECTOR).last
                 cur_len = len(await block.inner_text())
@@ -178,11 +271,9 @@ class BrowserBase:
                 stable_rounds = 0
                 last_len = cur_len
 
-            # 完成条件1：无停止按钮 + 内容已出现 + 连续2轮稳定
             if not has_stop and last_len > 0 and stable_rounds >= 2:
                 await asyncio.sleep(1.5)
                 break
-            # 完成条件2：兜底——内容已出现且连续5轮稳定
             if last_len > 0 and stable_rounds >= 5:
                 await asyncio.sleep(1.0)
                 break
