@@ -328,21 +328,49 @@ class BrowserBase:
                 break
 
     async def dismiss_popups(self):
-        """自动关闭常见网页弹窗：通知、广告、引导浮层。"""
+        """自动关闭常见网页弹窗：通知、广告、引导浮层、浏览器提示条。"""
         page = self.page
-        # 常见的关闭按钮文字
+        
+        # 1. 先按常见的×图标关闭按钮选择器找（图标型按钮，没有文字）
+        close_selectors = [
+            'div[class*="close"]', 'button[class*="close"]',
+            'div[class*="Close"]', 'button[class*="Close"]',
+            'svg[class*="close"]', '.modal-close', '.popup-close',
+        ]
+        for sel in close_selectors:
+            try:
+                btn = page.locator(sel).first
+                if await btn.is_visible(timeout=200):
+                    await btn.click()
+                    await asyncio.sleep(random.uniform(0.2, 0.5))
+                    print(f"[弹窗] 已通过选择器关闭: {sel}", flush=True)
+                    break
+            except Exception:
+                continue
+        
+        # 2. 再按文字找关闭按钮
         close_texts = [
             "暂不", "关闭", "×", "我知道了", "知道了", "不再提示",
-            "取消", "以后再说", "下次再说", "暂不开启", "拒绝"
+            "取消", "以后再说", "下次再说", "暂不开启", "拒绝", "暂不体验"
         ]
         for text in close_texts:
             try:
-                # 找可见的、包含这些文字的小按钮
                 btn = page.get_by_text(text, exact=False).first
                 if await btn.is_visible(timeout=200):
                     await btn.click()
                     await asyncio.sleep(random.uniform(0.2, 0.5))
-                    print(f"[弹窗] 已关闭: {text}", flush=True)
+                    print(f"[弹窗] 已通过文字关闭: {text}", flush=True)
                     break
             except Exception:
                 continue
+        
+        # 3. 关闭Chrome浏览器顶部的提示条（比如"不支持的命令行标记"）
+        try:
+            # Chrome的infobars关闭按钮
+            infobar_close = page.locator('xpath=//div[@role="button" and contains(@class, "close")]').first
+            if await infobar_close.is_visible(timeout=200):
+                await infobar_close.click()
+                await asyncio.sleep(0.3)
+                print(f"[弹窗] 已关闭浏览器提示条", flush=True)
+        except Exception:
+            pass
