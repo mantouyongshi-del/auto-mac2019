@@ -3,372 +3,364 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laya 多模型管理面板</title>
+<title>Laya 农场监控大盘</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'bg-dark': '#0f172a',
+        'bg-card': '#1e293b',
+        'border': '#334155',
+      }
+    }
+  }
+}
+</script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; color: #333; }
-
-.header { background: #fff; padding: 16px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; }
-.header h1 { font-size: 20px; font-weight: 600; }
-.header-btns { display: flex; gap: 8px; }
-.refresh-btn { padding: 6px 16px; background: #4f46e5; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
-.refresh-btn:hover { background: #4338ca; }
-.refresh-btn.secondary { background: #6b7280; }
-.refresh-btn.secondary:hover { background: #4b5563; }
-
-/* 资源监控条 */
-.resource-bar { background: #fff; margin: 12px 24px 0; padding: 12px 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; gap: 30px; font-size: 13px; }
-.resource-item { display: flex; align-items: center; gap: 8px; }
-.resource-label { color: #666; }
-.resource-value { font-weight: 600; }
-.resource-bar-bg { width: 80px; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
-.resource-bar-fill { height: 100%; background: #4f46e5; }
-
-/* 模型状态卡片 */
-.models-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding: 20px 24px; }
-.model-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
-.model-card .name { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-.model-card .port { font-size: 12px; color: #666; margin-bottom: 8px; }
-.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-.status-online { background: #10b981; }
-.status-offline { background: #ef4444; }
-.status-text { font-size: 13px; }
-
-/* Tab 切换 */
-.main-tabs { display: flex; gap: 8px; padding: 0 24px; margin-bottom: 16px; }
-.main-tab { padding: 8px 20px; border: 1px solid #e5e7eb; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; }
-.main-tab.active { background: #4f46e5; color: #fff; border-color: #4f46e5; }
-
-/* 提问区 */
-.ask-section { background: #fff; margin: 0 24px 20px; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.ask-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-.tab-btn { padding: 8px 16px; border: 1px solid #e5e7eb; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; }
-.tab-btn.active { background: #4f46e5; color: #fff; border-color: #4f46e5; }
-.model-select-group { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.model-btn { padding: 8px 16px; border: 1px solid #e5e7eb; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; }
-.model-btn.active { background: #4f46e5; color: #fff; border-color: #4f46e5; }
-.question-input { width: 100%; height: 80px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 14px; resize: vertical; margin-bottom: 12px; }
-.ask-btn { padding: 10px 24px; background: #4f46e5; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
-.ask-btn:disabled { background: #9ca3af; cursor: not-allowed; }
-
-/* 结果区 */
-.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 16px; padding: 0 24px 24px; }
-.result-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.result-card .model-name { font-size: 16px; font-weight: 600; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e5e7eb; }
-.result-card .answer { font-size: 14px; line-height: 1.6; margin-bottom: 16px; white-space: pre-wrap; max-height: 400px; overflow-y: auto; }
-.result-card .citations { font-size: 13px; }
-.citations-title { font-weight: 600; margin-bottom: 8px; color: #4f46e5; }
-.result-card .queries { font-size: 13px; margin-bottom: 16px; }
-.queries-title { font-weight: 600; margin-bottom: 8px; color: #059669; }
-.query-tag { display: inline-block; background: #ecfdf5; color: #059669; padding: 4px 10px; border-radius: 12px; margin-right: 6px; margin-bottom: 6px; font-size: 12px; }
-.cite-item { padding: 6px 0; border-bottom: 1px solid #f3f4f6; }
-.cite-item .cite-ref { color: #333; margin-bottom: 2px; }
-.cite-item .cite-url { color: #2563eb; font-size: 12px; word-break: break-all; }
-.error-text { color: #ef4444; padding: 12px; background: #fef2f2; border-radius: 6px; }
-.loading { text-align: center; padding: 20px; color: #666; }
-
-/* 任务列表 */
-.task-list { background: #fff; margin: 0 24px 24px; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.task-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid #f3f4f6; }
-.task-item:last-child { border-bottom: none; }
-.task-info { flex: 1; }
-.task-id { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-.task-meta { font-size: 12px; color: #666; }
-.task-status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px; }
-.status-running { background: #dbeafe; color: #1e40af; }
-.status-completed { background: #d1fae5; color: #065f46; }
-.status-failed { background: #fee2e2; color: #991b1b; }
-.status-paused { background: #fef3c7; color: #92400e; }
-.task-btns { display: flex; gap: 6px; }
-.task-btn { padding: 4px 10px; border: 1px solid #e5e7eb; background: #fff; border-radius: 4px; cursor: pointer; font-size: 12px; }
-.task-btn:hover { background: #f9fafb; }
-.task-btn.danger { color: #ef4444; border-color: #fecaca; }
+  body { background: #0f172a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .glow-green { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+  .glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+  .bar-bg { background: #334155; border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; transition: width 0.5s; border-radius: 4px; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>Laya 多模型管理面板</h1>
-  <div class="header-btns">
-    <button class="refresh-btn secondary" onclick="backupLogs()">备份日志</button>
-    <button class="refresh-btn secondary" onclick="cleanupLogs()">清理7天前日志</button>
-    <button class="refresh-btn" onclick="refreshAll()">刷新</button>
+<div class="bg-bg-card border-b border-border px-6 py-3 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+    <h1 class="text-xl font-bold text-white">🤖 Laya 多模型农场监控大盘</h1>
+  </div>
+  <div class="flex items-center gap-4 text-sm text-gray-400">
+    <span id="current-time"></span>
+    <button onclick="refreshAll()" class="px-3 py-1 bg-blue-600/20 text-blue-400 rounded hover:bg-blue-600/30">刷新</button>
   </div>
 </div>
 
-<div class="resource-bar" id="resourceBar">
-  <div class="resource-item">
-    <span class="resource-label">CPU:</span>
-    <div class="resource-bar-bg"><div class="resource-bar-fill" id="cpuBar" style="width: 0%"></div></div>
-    <span class="resource-value" id="cpuVal">-</span>
-  </div>
-  <div class="resource-item">
-    <span class="resource-label">内存:</span>
-    <div class="resource-bar-bg"><div class="resource-bar-fill" id="memBar" style="width: 0%"></div></div>
-    <span class="resource-value" id="memVal">-</span>
-  </div>
-  <div class="resource-item">
-    <span class="resource-label">磁盘:</span>
-    <div class="resource-bar-bg"><div class="resource-bar-fill" id="diskBar" style="width: 0%"></div></div>
-    <span class="resource-value" id="diskVal">-</span>
-  </div>
-</div>
-
-<div class="models-grid" id="modelsGrid"></div>
-
-<div class="main-tabs">
-  <div class="main-tab active" data-tab="ask" onclick="switchMainTab('ask')">提问测试</div>
-  <div class="main-tab" data-tab="tasks" onclick="switchMainTab('tasks')">任务历史</div>
-</div>
-
-<div id="askTab">
-  <div class="ask-section">
-    <div class="ask-tabs">
-      <button class="tab-btn active" onclick="switchTab('single')">单模型提问</button>
-      <button class="tab-btn" onclick="switchTab('batch')">批量提问（所有模型）</button>
+<div class="mx-6 mt-4 grid grid-cols-4 gap-4">
+  <div class="bg-bg-card rounded-lg p-4 border border-border">
+    <div class="text-gray-400 text-sm mb-2">CPU 使用率</div>
+    <div class="flex items-center gap-3">
+      <div class="text-2xl font-bold text-white" id="cpu-val">--</div>
+      <div class="flex-1 bar-bg h-2">
+        <div class="bar-fill bg-blue-500" id="cpu-bar" style="width: 0%"></div>
+      </div>
     </div>
-
-    <div class="model-select-group" id="modelSelectGroup">
-      <button class="model-btn active" data-model="deepseek">DeepSeek</button>
-      <button class="model-btn" data-model="qianwen">千问</button>
-      <button class="model-btn" data-model="doubao">豆包</button>
-      <button class="model-btn" data-model="wenxin">文心一言</button>
-      <button class="model-btn" data-model="yuanbao">元宝</button>
-    </div>
-
-    <textarea class="question-input" id="questionInput" placeholder="输入问题..."></textarea>
-
-    <button class="ask-btn" id="askBtn" onclick="ask()">发送提问</button>
   </div>
-
-  <div class="results-grid" id="resultsGrid"></div>
+  <div class="bg-bg-card rounded-lg p-4 border border-border">
+    <div class="text-gray-400 text-sm mb-2">内存使用率</div>
+    <div class="flex items-center gap-3">
+      <div class="text-2xl font-bold text-white" id="mem-val">--</div>
+      <div class="flex-1 bar-bg h-2">
+        <div class="bar-fill bg-yellow-500" id="mem-bar" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-bg-card rounded-lg p-4 border border-border">
+    <div class="text-gray-400 text-sm mb-2">磁盘使用率</div>
+    <div class="flex items-center gap-3">
+      <div class="text-2xl font-bold text-white" id="disk-val">--</div>
+      <div class="flex-1 bar-bg h-2">
+        <div class="bar-fill bg-green-500" id="disk-bar" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-bg-card rounded-lg p-4 border border-border">
+    <div class="text-gray-400 text-sm mb-2">在线模型</div>
+    <div class="text-2xl font-bold text-green-500" id="online-count">-- / 5</div>
+  </div>
 </div>
 
-<div id="tasksTab" style="display:none;">
-  <div class="task-list" id="taskList">
-    <div class="loading">加载中...</div>
+<div class="mx-6 mt-4 grid grid-cols-5 gap-4" id="models-grid"></div>
+
+<div class="mx-6 mt-6 flex gap-2 border-b border-border">
+  <button class="tab-btn px-4 py-2 text-sm border-b-2 border-blue-500 text-blue-400" data-tab="ask">单模型提问</button>
+  <button class="tab-btn px-4 py-2 text-sm border-b-2 border-transparent text-gray-400" data-tab="batch">批量任务</button>
+  <button class="tab-btn px-4 py-2 text-sm border-b-2 border-transparent text-gray-400" data-tab="tasks">任务历史</button>
+  <button class="tab-btn px-4 py-2 text-sm border-b-2 border-transparent text-gray-400" data-tab="health">健康检查记录</button>
+  <button class="tab-btn px-4 py-2 text-sm border-b-2 border-transparent text-gray-400" data-tab="backup">日志管理</button>
+</div>
+
+<div class="mx-6 mt-4 mb-8">
+  <div id="tab-ask" class="tab-content">
+    <div class="bg-bg-card rounded-lg p-5 border border-border">
+      <div class="mb-3 text-sm text-gray-400">选择模型：</div>
+      <div class="flex gap-2 mb-4 flex-wrap" id="single-model-select"></div>
+      <textarea id="single-question" class="w-full h-24 bg-slate-800 border border-border rounded p-3 text-white mb-3" placeholder="输入问题..."></textarea>
+      <button onclick="askSingle()" class="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-500">发送提问</button>
+      <div id="single-result" class="mt-4 hidden">
+        <div class="text-gray-400 text-sm mb-2">回答结果：</div>
+        <div id="single-answer" class="bg-slate-800 rounded p-3 text-sm whitespace-pre-wrap"></div>
+        <div id="single-citations" class="mt-2 text-sm"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-batch" class="tab-content hidden">
+    <div class="bg-bg-card rounded-lg p-5 border border-border">
+      <div class="mb-3 text-sm text-gray-400">批量问题（每行一个）：</div>
+      <textarea id="batch-questions" class="w-full h-32 bg-slate-800 border border-border rounded p-3 text-white mb-3" placeholder="问题1&#10;问题2&#10;..."></textarea>
+      <div class="mb-3 text-sm text-gray-400">问题间隔：<span id="delay-display">5-10秒</span>（随机）</div>
+      <input type="range" id="delay-range" min="3" max="15" value="7" class="w-48" oninput="document.getElementById('delay-display').textContent=this.value+'-'+(parseInt(this.value)+3)+'秒'">
+      <button onclick="createBatchTask()" class="ml-4 px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-500">创建任务</button>
+    </div>
+  </div>
+
+  <div id="tab-tasks" class="tab-content hidden">
+    <div class="bg-bg-card rounded-lg p-5 border border-border">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-gray-400 border-b border-border">
+            <th class="text-left py-2">任务ID</th>
+            <th class="text-left py-2">状态</th>
+            <th class="text-left py-2">进度</th>
+            <th class="text-left py-2">创建时间</th>
+            <th class="text-left py-2">操作</th>
+          </tr>
+        </thead>
+        <tbody id="tasks-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-health" class="tab-content hidden">
+    <div class="bg-bg-card rounded-lg p-5 border border-border">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-gray-400 border-b border-border">
+            <th class="text-left py-2">时间</th>
+            <th class="text-left py-2">状态</th>
+            <th class="text-left py-2">异常详情</th>
+          </tr>
+        </thead>
+        <tbody id="health-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-backup" class="tab-content hidden">
+    <div class="bg-bg-card rounded-lg p-5 border border-border">
+      <div class="flex gap-3 mb-4">
+        <button onclick="backupLogs()" class="px-4 py-2 bg-blue-600 text-white rounded">备份日志</button>
+        <button onclick="cleanupLogs()" class="px-4 py-2 bg-yellow-600 text-white rounded">清理7天前日志</button>
+      </div>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-gray-400 border-b border-border">
+            <th class="text-left py-2">时间</th>
+            <th class="text-left py-2">操作</th>
+            <th class="text-left py-2">详情</th>
+          </tr>
+        </thead>
+        <tbody id="backup-table"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 <script>
-const MODEL_PORTS = {
-  deepseek: 8000, qianwen: 8001, doubao: 8002, wenxin: 8003, yuanbao: 8004,
-};
-const MODEL_NAMES = {
-  deepseek: "DeepSeek", qianwen: "千问", doubao: "豆包", wenxin: "文心一言", yuanbao: "元宝",
-};
-let currentTab = 'single';
 let selectedModel = 'deepseek';
-let currentMainTab = 'ask';
+const MODEL_PORT = {deepseek:8000, qianwen:8001, doubao:8002, wenxin:8003, yuanbao:8004};
+const MODELS = [
+  {id: 'deepseek', name: 'DeepSeek'},
+  {id: 'qianwen', name: '千问'},
+  {id: 'doubao', name: '豆包'},
+  {id: 'wenxin', name: '文心一言'},
+  {id: 'yuanbao', name: '元宝'},
+];
 
-// 主 Tab 切换
-function switchMainTab(tab) {
-  currentMainTab = tab;
-  document.querySelectorAll('.main-tab').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === tab);
-  });
-  document.getElementById('askTab').style.display = tab === 'ask' ? 'block' : 'none';
-  document.getElementById('tasksTab').style.display = tab === 'tasks' ? 'block' : 'none';
-  if (tab === 'tasks') loadTasks();
-}
-
-// 子 Tab 切换
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.ask-tabs .tab-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', (i === 0 && tab === 'single') || (i === 1 && tab === 'batch'));
-  });
-  document.getElementById('modelSelectGroup').style.display = tab === 'single' ? 'flex' : 'none';
-}
-
-// 模型按钮点击
-document.querySelectorAll('.model-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedModel = btn.dataset.model;
-  });
-});
-
-// 刷新所有
-async function refreshAll() {
-  refreshStatus();
-  refreshResources();
-}
-
-// 模型状态
-async function refreshStatus() {
-  const resp = await fetch('/api/models');
-  const data = await resp.json();
-  const grid = document.getElementById('modelsGrid');
-  grid.innerHTML = data.models.map(m => `
-    <div class="model-card">
-      <div class="name">${m.name}</div>
-      <div class="port">端口 ${m.port}</div>
-      <div>
-        <span class="status-dot ${m.status === 'online' ? 'status-online' : 'status-offline'}"></span>
-        <span class="status-text">${m.status === 'online' ? '在线' : '离线'}</span>
-      </div>
-    </div>
-  `).join('');
-}
-
-// 系统资源
-async function refreshResources() {
-  try {
-    const resp = await fetch('/api/health');
-    const data = await resp.json();
-    document.getElementById('cpuBar').style.width = data.cpu_percent + '%';
-    document.getElementById('cpuVal').textContent = data.cpu_percent + '%';
-    document.getElementById('memBar').style.width = data.mem_used_percent + '%';
-    document.getElementById('memVal').textContent = data.mem_used_percent + '%';
-    document.getElementById('diskBar').style.width = data.disk_used_percent + '%';
-    document.getElementById('diskVal').textContent = data.disk_used_percent + '%';
-  } catch (e) {}
-}
-
-// 提问
-async function ask() {
-  const question = document.getElementById('questionInput').value.trim();
-  if (!question) { alert('请输入问题'); return; }
-
-  const btn = document.getElementById('askBtn');
-  btn.disabled = true;
-  btn.textContent = '提问中...';
-
-  const grid = document.getElementById('resultsGrid');
-  grid.innerHTML = '';
-
-  const models = currentTab === 'single' ? [selectedModel] : Object.keys(MODEL_PORTS);
-
-  models.forEach(id => {
-    grid.innerHTML += `
-      <div class="result-card" id="result-${id}">
-        <div class="model-name">${MODEL_NAMES[id]}</div>
-        <div class="loading">等待回答...</div>
-      </div>
-    `;
-  });
-
-  await Promise.all(models.map(async (id) => {
-    const port = MODEL_PORTS[id];
-    const card = document.getElementById(`result-${id}`);
-    try {
-      const resp = await fetch(`http://127.0.0.1:${port}/ask`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question })
-      });
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const data = await resp.json();
-
-      const queriesHtml = data.search_queries && data.search_queries.length > 0
-        ? `<div class="queries">
-             <div class="queries-title">搜索关键词 (${data.search_queries.length})</div>
-             ${data.search_queries.map(q => `<span class="query-tag">${q}</span>`).join('')}
-           </div>`
-        : '<div style="color:#999;font-size:13px;margin-bottom:16px;">无搜索关键词（本次未联网搜索）</div>';
-
-      const citationsHtml = data.citations && data.citations.length > 0
-        ? `<div class="citations">
-             <div class="citations-title">引用来源 (${data.citations.length})</div>
-             ${data.citations.map(c => `
-               <div class="cite-item">
-                 <div class="cite-ref">${c.ref || ''}</div>
-                 <div class="cite-url">${c.url || ''}</div>
-               </div>
-             `).join('')}
-           </div>`
-        : '<div style="color:#999;font-size:13px;">无引用</div>';
-
-      card.innerHTML = `
-        <div class="model-name">${MODEL_NAMES[id]}</div>
-        <div class="answer">${data.answer || ''}</div>
-        ${queriesHtml}
-        ${citationsHtml}
-      `;
-    } catch (e) {
-      card.innerHTML = `
-        <div class="model-name">${MODEL_NAMES[id]}</div>
-        <div class="error-text">请求失败: ${e.message}</div>
-      `;
-    }
-  }));
-
-  btn.disabled = false;
-  btn.textContent = '发送提问';
-}
-
-// 任务列表
-async function loadTasks() {
-  const resp = await fetch('/api/tasks');
-  const data = await resp.json();
-  const list = document.getElementById('taskList');
-
-  if (!data.tasks.length) {
-    list.innerHTML = '<div class="loading">暂无任务</div>';
-    return;
-  }
-
-  list.innerHTML = data.tasks.map(t => `
-    <div class="task-item">
-      <div class="task-info">
-        <div class="task-id">
-          ${t.task_id}
-          <span class="task-status status-${t.status}">${t.status}</span>
-        </div>
-        <div class="task-meta">
-          共 ${t.total} 题，完成 ${t.completed}，失败 ${t.failed} | 创建于 ${t.created_at.slice(0, 16).replace('T', ' ')}
-        </div>
-      </div>
-      <div class="task-btns">
-        ${t.status === 'running' ? `<button class="task-btn" onclick="taskAction('${t.task_id}', 'pause')">暂停</button>` : ''}
-        ${t.status === 'paused' ? `<button class="task-btn" onclick="taskAction('${t.task_id}', 'resume')">继续</button>` : ''}
-        ${t.status === 'running' ? `<button class="task-btn danger" onclick="taskAction('${t.task_id}', 'cancel')">取消</button>` : ''}
-        <button class="task-btn" onclick="exportTask('${t.task_id}')">导出CSV</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-async function taskAction(taskId, action) {
-  await fetch(`/api/tasks/${taskId}/${action}`, { method: 'POST' });
-  loadTasks();
+window.onload = function() {
+  initModelCards();
+  initSingleModelSelect();
+  initTabs();
   refreshAll();
+  setInterval(refreshAll, 5000);
+  setInterval(() => {
+    document.getElementById('current-time').textContent = new Date().toLocaleString('zh-CN');
+  }, 1000);
+};
+
+function initModelCards() {
+  const grid = document.getElementById('models-grid');
+  grid.innerHTML = MODELS.map(m => `
+    <div class="bg-bg-card rounded-lg p-4 border border-border text-center" id="card-${m.id}">
+      <div class="text-lg font-bold text-white mb-2">${m.name}</div>
+      <div class="flex items-center justify-center gap-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-gray-500" id="dot-${m.id}"></div>
+        <span class="text-sm text-gray-400" id="status-${m.id}">未知</span>
+      </div>
+    </div>
+  `).join('');
 }
 
-async function exportTask(taskId) {
-  const resp = await fetch(`/api/tasks/${taskId}/export`);
-  const data = await resp.json();
-  const blob = new Blob([data.csv], { type: 'text/csv' });
+function initSingleModelSelect() {
+  const sel = document.getElementById('single-model-select');
+  sel.innerHTML = MODELS.map(m => `
+    <button class="model-btn px-4 py-1.5 rounded border text-sm ${m.id === selectedModel ? 'bg-blue-600/20 text-blue-400 border-blue-500' : 'border-border text-gray-400'}" data-mid="${m.id}" onclick="selectModel('${m.id}')">${m.name}</button>
+  `).join('');
+}
+
+function selectModel(mid) {
+  selectedModel = mid;
+  document.querySelectorAll('.model-btn').forEach(btn => {
+    if (btn.dataset.mid === mid) {
+      btn.className = 'model-btn px-4 py-1.5 rounded border text-sm bg-blue-600/20 text-blue-400 border-blue-500';
+    } else {
+      btn.className = 'model-btn px-4 py-1.5 rounded border text-sm border-border text-gray-400';
+    }
+  });
+}
+
+function initTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.className = 'tab-btn px-4 py-2 text-sm border-b-2 border-transparent text-gray-400';
+      });
+      btn.className = 'tab-btn px-4 py-2 text-sm border-b-2 border-blue-500 text-blue-400';
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+      document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+      if (btn.dataset.tab === 'tasks') loadTasks();
+      if (btn.dataset.tab === 'health') loadHealthHistory();
+      if (btn.dataset.tab === 'backup') loadBackupRecords();
+    };
+  });
+}
+
+async function refreshAll() {
+  await Promise.all([loadModelStatus(), loadSystemHealth()]);
+}
+
+async function loadModelStatus() {
+  const res = await fetch('/api/models');
+  const data = await res.json();
+  let online = 0;
+  data.models.forEach(m => {
+    const dot = document.getElementById('dot-' + m.id);
+    const status = document.getElementById('status-' + m.id);
+    const card = document.getElementById('card-' + m.id);
+    if (m.status === 'online') {
+      dot.className = 'w-2.5 h-2.5 rounded-full bg-green-500';
+      status.textContent = '在线';
+      card.className = 'bg-bg-card rounded-lg p-4 border border-green-500/50 text-center glow-green';
+      online++;
+    } else {
+      dot.className = 'w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse';
+      status.textContent = '离线';
+      card.className = 'bg-bg-card rounded-lg p-4 border border-red-500/50 text-center glow-red';
+    }
+  });
+  document.getElementById('online-count').textContent = online + ' / 5';
+}
+
+async function loadSystemHealth() {
+  const res = await fetch('/api/health');
+  const data = await res.json();
+  document.getElementById('cpu-val').textContent = data.cpu_percent + '%';
+  document.getElementById('cpu-bar').style.width = data.cpu_percent + '%';
+  document.getElementById('mem-val').textContent = data.mem_used_percent + '%';
+  document.getElementById('mem-bar').style.width = data.mem_used_percent + '%';
+  document.getElementById('disk-val').textContent = data.disk_used_percent + '%';
+  document.getElementById('disk-bar').style.width = data.disk_used_percent + '%';
+}
+
+async function askSingle() {
+  const q = document.getElementById('single-question').value.trim();
+  if (!q) return alert('请输入问题');
+  const res = await fetch(`http://127.0.0.1:${MODEL_PORT[selectedModel]}/ask`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({question: q})
+  });
+  const data = await res.json();
+  document.getElementById('single-result').classList.remove('hidden');
+  document.getElementById('single-answer').textContent = data.answer || JSON.stringify(data);
+  document.getElementById('single-citations').innerHTML = (data.citations || []).map(c => `<a href="${c.url}" target="_blank" class="text-blue-400">${c.ref}</a>`).join(' | ');
+}
+
+async function createBatchTask() {
+  const qs = document.getElementById('batch-questions').value.trim().split('\n').filter(x => x.trim());
+  if (qs.length === 0) return alert('请输入问题');
+  const delay = parseInt(document.getElementById('delay-range').value);
+  const res = await fetch('/api/tasks', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({questions: qs, delay_min: delay, delay_max: delay + 3})
+  });
+  const data = await res.json();
+  alert('任务已创建：' + data.task_id);
+  document.querySelector('[data-tab="tasks"]').click();
+}
+
+async function loadTasks() {
+  const res = await fetch('/api/tasks');
+  const data = await res.json();
+  document.getElementById('tasks-table').innerHTML = data.tasks.map(t => `
+    <tr class="border-b border-border/50">
+      <td class="py-2 text-gray-300">${t.task_id}</td>
+      <td class="py-2"><span class="px-2 py-0.5 rounded text-xs ${t.status === 'completed' ? 'bg-green-500/20 text-green-400' : t.status === 'running' ? 'bg-blue-500/20 text-blue-400' : 'bg-yellow-500/20 text-yellow-400'}">${t.status}</span></td>
+      <td class="py-2 text-gray-300">${t.completed} / ${t.total}</td>
+      <td class="py-2 text-gray-400">${new Date(t.created_at).toLocaleString('zh-CN')}</td>
+      <td class="py-2">
+        <button onclick="exportTask('${t.task_id}')" class="text-blue-400 text-xs mr-2">导出CSV</button>
+        ${t.status === 'running' ? `<button onclick="cancelTask('${t.task_id}')" class="text-red-400 text-xs mr-2">取消</button>` : ''}
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function exportTask(tid) {
+  const res = await fetch(`/api/tasks/${tid}/export`);
+  const data = await res.json();
+  const blob = new Blob([data.csv], {type: 'text/csv'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `${taskId}.csv`;
+  a.download = tid + '.csv';
   a.click();
 }
 
-// 备份清理
+async function cancelTask(tid) {
+  await fetch(`/api/tasks/${tid}/cancel`, {method: 'POST'});
+  loadTasks();
+}
+
+async function loadHealthHistory() {
+  const res = await fetch('/api/health_history');
+  const data = await res.json();
+  document.getElementById('health-table').innerHTML = data.history.map(h => `
+    <tr class="border-b border-border/50">
+      <td class="py-2 text-gray-400">${new Date(h.time).toLocaleString('zh-CN')}</td>
+      <td class="py-2"><span class="px-2 py-0.5 rounded text-xs ${h.abnormal.length === 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">${h.abnormal.length === 0 ? '正常' : '异常'}</span></td>
+      <td class="py-2 text-gray-300">${h.abnormal.join(', ') || '-'}</td>
+    </tr>
+  `).join('');
+}
+
 async function backupLogs() {
-  if (!confirm("确认备份当前所有日志？")) return;
-  try {
-    const resp = await fetch('/api/backup_logs', { method: 'POST' });
-    const data = await resp.json();
-    alert(`备份成功！文件：${data.record.file}\n大小：${data.record.size_mb} MB`);
-  } catch (e) { alert(`备份失败：${e.message}`); }
+  await fetch('/api/backup_logs', {method: 'POST'});
+  alert('备份完成');
+  loadBackupRecords();
 }
 
 async function cleanupLogs() {
-  if (!confirm("确认删除7天前的日志？此操作不可恢复！")) return;
-  try {
-    const resp = await fetch('/api/cleanup_logs', { method: 'POST' });
-    const data = await resp.json();
-    alert(`清理完成！删除了 ${data.record.deleted_count} 个文件`);
-  } catch (e) { alert(`清理失败：${e.message}`); }
+  if (!confirm('确定清理7天前的日志？')) return;
+  await fetch('/api/cleanup_logs', {method: 'POST'});
+  loadBackupRecords();
 }
 
-// 初始化
-refreshAll();
-setInterval(refreshAll, 30000);
+async function loadBackupRecords() {
+  const res = await fetch('/api/backup_records');
+  const data = await res.json();
+  document.getElementById('backup-table').innerHTML = data.records.map(r => `
+    <tr class="border-b border-border/50">
+      <td class="py-2 text-gray-400">${new Date(r.time).toLocaleString('zh-CN')}</td>
+      <td class="py-2">${r.action === 'backup' ? '备份日志' : '清理日志'}</td>
+      <td class="py-2 text-gray-300">${r.size_mb ? '大小: ' + r.size_mb + 'MB' : '删除: ' + r.deleted_count + '个文件'}</td>
+    </tr>
+  `).join('');
+}
 </script>
 
 </body>

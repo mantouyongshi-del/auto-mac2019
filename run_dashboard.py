@@ -11,12 +11,18 @@ import subprocess
 import urllib.request
 from datetime import datetime, timedelta
 from pathlib import Path
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Optional
 from pydantic import BaseModel
+import secrets
 
 app = FastAPI(title="Laya Dashboard")
+
+# Dashboard 密码
+DASHBOARD_PASSWORD = "beijixing1"
+# 简单token存储（内存里，重启失效）
+valid_tokens = set()
 
 # 五个模型配置
 MODELS = [
@@ -291,15 +297,19 @@ def export_task(task_id: str):
     # 表头
     headers = ["问题"]
     for mid in task["models"]:
-        headers.extend([f"{mid}_回答", f"{mid}_引用数", f"{mid}_搜索关键词"])
+        headers.extend([f"{mid}_回答", f"{mid}_引用数", f"{mid}_引用链接", f"{mid}_搜索关键词"])
     writer.writerow(headers)
 
     for r in task["results"]:
         row = [r["question"]]
         for mid in task["models"]:
             m = r["models"].get(mid, {})
+            citations = m.get("citations", [])
+            # 把所有引用URL拼起来
+            citation_urls = " | ".join([c.get("url", "") for c in citations if c.get("url")])
             row.append(m.get("answer", ""))
-            row.append(len(m.get("citations", [])))
+            row.append(len(citations))
+            row.append(citation_urls)
             row.append(" | ".join(m.get("search_queries", [])))
         writer.writerow(row)
 
@@ -308,11 +318,98 @@ def export_task(task_id: str):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index():
-    """返回前端页面。"""
+async def index(request: Request):
+    """返回前端页面，检查是否登录。"""
+    token = request.cookies.get("dashboard_token", "")
+    if token not in valid_tokens:
+        return RedirectResponse(url="/login")
     html_path = __file__.replace("run_dashboard.py", "static/index.html")
     with open(html_path, encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_page():
+    """登录页面。"""
+    return """
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <title>登录 - Laya Dashboard</title>
+        <style>
+            body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f5f5f5; }
+            .login-box { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 320px; }
+            h2 { text-align: center; color: #333; margin-bottom: 24px; }
+            input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 16px; }
+            button { width: 100%; padding: 12px; background: #1677ff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+            button:hover { background: #4096ff; }
+            .error { color: #ff4d4f; text-align: center; margin-top: 12px; display: none; }
+        </style>
+    </head>
+    <body>
+        <div class="login-box">
+            <h2>Laya 农场管理后台</h2>
+            <form id="loginForm">
+                <input type="password" id="password" placeholder="请输入密码" required>
+                <button type="submit">登 录</button>
+                <div class="error" id="error">密码错误</div>
+            </form>
+        </div>
+        <script>
+            document.getElementById('loginForm').onsubmit = async (e) => {
+                e.preventDefault();
+                const password = document.getElementById('password').value;
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({password})
+                });
+                if (res.ok) {
+                    window.location.href = '/';
+                } else {
+                    document.getElementById('error').style.display = 'block';
+                }
+            };
+        </script>
+    </body>
+    </html>
+    """
+
+
+class LoginRequest(BaseModel):
+    password: str
+
+
+@app.post("/api/login")
+async def login(req: LoginRequest):
+    if req.password != DASHBOARD_PASSWORD:
+        raise HTTPException(status_code=401, detail="密码错误")
+    token = secrets.token_urlsafe(32)
+    valid_tokens.add(token)
+    from fastapi.responses import Response
+    resp = Response(status_code=200)
+    resp.set_cookie(key="dashboard_token", value=token, httponly=True, max_age=86400)
+    return resp
+
+
+@app.middleware("http")
+async def auth_middleware(request: Request, call_next):
+    """简单鉴权中间件。"""
+    path = request.url.path
+    # 公开路径
+    if path.startswith("/login") or path.startswith("/static") or path == "/favicon.ico":
+        return await call_next(request)
+    # API 登录接口
+    if path == "/api/login":
+        return await call_next(request)
+    # 检查token
+    token = request.cookies.get("dashboard_token", "")
+    if token not in valid_tokens:
+        if path.startswith("/api/"):
+            raise HTTPException(status_code=401, detail="未登录")
+        return RedirectResponse(url="/login")
+    return await call_next(request)
 
 
 # ---------- 自动健康检查 ----------
@@ -366,31 +463,39 @@ def play_alarm():
         print(f"[健康检查] 播放报警失败: {e}", flush=True)
 
 
+async def check_single_model(m: dict) -> str:
+    """并发检查单个模型，返回异常描述或空字符串。"""
+    try:
+        loop = asyncio.get_event_loop()
+        def _check():
+            question = random.choice(HEALTH_CHECK_QUESTIONS)
+            req = urllib.request.Request(
+                f"http://127.0.0.1:{m['port']}/ask",
+                data=json.dumps({"question": question}).encode(),
+                headers={"Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                data = json.loads(resp.read())
+                if len(data.get("answer", "")) < 5:
+                    return f"{m['name']} 回答过短"
+                return ""
+        return await loop.run_in_executor(None, _check)
+    except Exception as e:
+        return f"{m['name']} 异常: {str(e)[:50]}"
+
+
 async def health_check_loop():
-    """定时健康检查循环：每5-10分钟随机间隔，发轻量问题探测，异常先自愈再报警。"""
+    """定时健康检查循环：10-20分钟随机间隔，并发检查所有模型，异常先自愈再报警。"""
     # 启动后先等1分钟再第一次检查
     await asyncio.sleep(60)
 
     while True:
         print(f"[健康检查] 开始检查 {datetime.now().isoformat()}", flush=True)
-        abnormal = []
 
-        for m in MODELS:
-            try:
-                # 从问题池随机抽一个，60秒超时
-                question = random.choice(HEALTH_CHECK_QUESTIONS)
-                req = urllib.request.Request(
-                    f"http://127.0.0.1:{m['port']}/ask",
-                    data=json.dumps({"question": question}).encode(),
-                    headers={"Content-Type": "application/json"},
-                )
-                with urllib.request.urlopen(req, timeout=60) as resp:
-                    data = json.loads(resp.read())
-                    # 检查回答长度，太短可能有问题
-                    if len(data.get("answer", "")) < 5:
-                        abnormal.append(f"{m['name']} 回答过短")
-            except Exception as e:
-                abnormal.append(f"{m['name']} 异常: {str(e)[:50]}")
+        # 并发检查所有5个模型
+        tasks = [check_single_model(m) for m in MODELS]
+        results = await asyncio.gather(*tasks)
+        abnormal = [r for r in results if r]
 
         # 有异常，先尝试自动重启
         if abnormal:
@@ -413,23 +518,10 @@ async def health_check_loop():
             print(f"[健康检查] 等待30秒服务重启...", flush=True)
             await asyncio.sleep(30)
 
-            # 再检查一次
-            still_abnormal = []
-            for mid in abnormal_ids:
-                m = MODEL_MAP[mid]
-                try:
-                    question = random.choice(HEALTH_CHECK_QUESTIONS)
-                    req = urllib.request.Request(
-                        f"http://127.0.0.1:{m['port']}/ask",
-                        data=json.dumps({"question": question}).encode(),
-                        headers={"Content-Type": "application/json"},
-                    )
-                    with urllib.request.urlopen(req, timeout=60) as resp:
-                        data = json.loads(resp.read())
-                        if len(data.get("answer", "")) < 5:
-                            still_abnormal.append(f"{m['name']} 重启后仍异常")
-                except Exception as e:
-                    still_abnormal.append(f"{m['name']} 重启后仍失败: {str(e)[:50]}")
+            # 再并发检查一次异常的模型
+            still_tasks = [check_single_model(MODEL_MAP[mid]) for mid in abnormal_ids]
+            still_results = await asyncio.gather(*still_tasks)
+            still_abnormal = [r for r in still_results if r]
 
             if still_abnormal:
                 print(f"[健康检查] 重启后仍异常: {still_abnormal}，触发报警", flush=True)
