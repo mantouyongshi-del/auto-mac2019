@@ -356,10 +356,14 @@ async function createBatchTask() {
   const qs = document.getElementById('batch-questions').value.trim().split('\n').filter(x => x.trim());
   if (qs.length === 0) return alert('请输入问题');
   const delay = parseInt(document.getElementById('delay-range').value);
+  // 获取选中的模型
+  const checked = document.querySelectorAll('#batch-model-select input:checked');
+  const models = Array.from(checked).map(c => c.value);
+  if (models.length === 0) return alert('请至少选一个模型');
   const res = await fetch('/api/tasks', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({questions: qs, delay_min: delay, delay_max: delay + 3})
+    body: JSON.stringify({questions: qs, models: models, delay_min: delay, delay_max: delay + 10})
   });
   const data = await res.json();
   alert('任务已创建：' + data.task_id);
