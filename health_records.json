@@ -1,5 +1,102 @@
 [
   {
+    "time": "2026-09-23T03:57:15.247043",
+    "abnormal": [],
+    "self_healed": true
+  },
+  {
+    "time": "2026-09-23T03:29:16.498819",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T03:01:49.333371",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T02:36:35.833795",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T02:14:55.763624",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T01:54:49.968767",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T01:27:48.063553",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T01:08:19.575535",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T00:52:45.484782",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T00:28:25.788698",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T00:01:51.427233",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T23:44:51.046914",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T23:25:44.092565",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T23:00:34.609870",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T22:43:30.437371",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T22:23:17.234582",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T22:03:52.256775",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T21:34:31.944531",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-22T21:13:19.266275",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-22T20:52:49.299162",
     "abnormal": [],
     "self_healed": false
