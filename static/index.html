@@ -381,9 +381,9 @@ async function cancelTask(tid) {
 }
 
 async function loadHealthHistory() {
-  const res = await fetch('/api/health_history');
+  const res = await fetch('/api/health_records');
   const data = await res.json();
-  document.getElementById('health-table').innerHTML = data.history.map(h => `
+  document.getElementById('health-table').innerHTML = data.records.map(h => `
     <tr class="border-b border-border/50">
       <td class="py-2 text-gray-400">${new Date(h.time).toLocaleString('zh-CN')}</td>
       <td class="py-2"><span class="px-2 py-0.5 rounded text-xs ${h.abnormal.length === 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">${h.abnormal.length === 0 ? '正常' : '异常'}</span></td>

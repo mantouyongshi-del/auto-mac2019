@@ -639,6 +639,7 @@ async def health_check_loop():
                     "self_healed": False,
                 }
                 health_history.append(record)
+            save_health_record(record)
                 play_alarm()
             else:
                 print(f"[健康检查] 自动重启成功，已自愈", flush=True)
@@ -648,6 +649,7 @@ async def health_check_loop():
                     "self_healed": True,
                 }
                 health_history.append(record)
+            save_health_record(record)
         else:
             print(f"[健康检查] 全部正常", flush=True)
             record = {
@@ -656,6 +658,7 @@ async def health_check_loop():
                 "self_healed": False,
             }
             health_history.append(record)
+            save_health_record(record)
 
         # 只保留最近50条
         if len(health_history) > 50:
@@ -818,3 +821,24 @@ if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=9000)
 
 
+
+# 健康检查记录存储
+HEALTH_RECORD_FILE = Path(__file__).parent / "health_records.json"
+MAX_HEALTH_RECORDS = 100  # 最多存100条
+
+def load_health_records():
+    if HEALTH_RECORD_FILE.exists():
+        with open(HEALTH_RECORD_FILE) as f:
+            return json.load(f)
+    return []
+
+def save_health_record(record):
+    records = load_health_records()
+    records.insert(0, record)
+    records = records[:MAX_HEALTH_RECORDS]
+    with open(HEALTH_RECORD_FILE, "w") as f:
+        json.dump(records, f, ensure_ascii=False, indent=2)
+
+@app.get("/api/health_records")
+async def get_health_records():
+    return {"records": load_health_records()}
