@@ -35,7 +35,7 @@ MODELS = [
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
 # 模型暂停状态存储
-PAUSE_FILE = BASE_DIR / "paused_models.json"
+PAUSE_FILE = Path(__file__).parent / "paused_models.json"
 
 def load_paused():
     if PAUSE_FILE.exists():
@@ -792,3 +792,28 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=9000)
 
+
+@app.get("/api/logs")
+async def get_logs(service: str = "", limit: int = 100):
+    """读取日志列表，支持按模型筛选。"""
+    log_dir = Path(__file__).parent / "server_logs"
+    today = datetime.now().strftime("%Y-%m-%d")
+    log_file = log_dir / f"{today}.jsonl"
+    
+    if not log_file.exists():
+        return {"logs": []}
+    
+    logs = []
+    with open(log_file, encoding="utf-8") as f:
+        for line in f:
+            try:
+                item = json.loads(line.strip())
+                if service and item.get("service") != service:
+                    continue
+                logs.append(item)
+            except:
+                continue
+    
+    # 倒序，最新的在前
+    logs.reverse()
+    return {"logs": logs[:limit]}

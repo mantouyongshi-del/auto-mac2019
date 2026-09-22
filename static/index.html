@@ -141,11 +141,36 @@ tailwind.config = {
   </div>
 
   <div id="tab-backup" class="tab-content hidden">
-    <div class="bg-bg-card rounded-lg p-5 border border-border">
-      <div class="flex gap-3 mb-4">
+    <div class="bg-bg-card rounded-lg p-5 border border-border mb-4">
+      <div class="flex gap-3 mb-4 items-center">
         <button onclick="backupLogs()" class="px-4 py-2 bg-blue-600 text-white rounded">备份日志</button>
         <button onclick="cleanupLogs()" class="px-4 py-2 bg-yellow-600 text-white rounded">清理7天前日志</button>
+        <select id="log-filter" class="bg-gray-800 text-white px-3 py-2 rounded" onchange="loadLogs()">
+          <option value="">全部模型</option>
+          <option value="laya-deepseek">DeepSeek</option>
+          <option value="laya-qianwen">千问</option>
+          <option value="laya-doubao">豆包</option>
+          <option value="laya-wenxin">文心一言</option>
+          <option value="laya-yuanbao">元宝</option>
+        </select>
+        <button onclick="loadLogs()" class="px-3 py-2 bg-gray-700 text-white rounded">刷新日志</button>
       </div>
+      <div class="max-h-96 overflow-y-auto">
+        <table class="w-full text-sm">
+          <thead class="sticky top-0 bg-gray-900">
+            <tr class="text-gray-400 border-b border-border">
+              <th class="text-left py-2">时间</th>
+              <th class="text-left py-2">模型</th>
+              <th class="text-left py-2">问题</th>
+              <th class="text-left py-2">状态</th>
+            </tr>
+          </thead>
+          <tbody id="logs-table"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bg-bg-card rounded-lg p-5 border border-border">
+      <div class="text-gray-400 text-sm mb-3">备份清理记录</div>
       <table class="w-full text-sm">
         <thead>
           <tr class="text-gray-400 border-b border-border">
@@ -363,6 +388,24 @@ async function loadHealthHistory() {
       <td class="py-2 text-gray-300">${h.abnormal.join(', ') || '-'}</td>
     </tr>
   `).join('');
+}
+
+async function loadLogs() {
+  const service = document.getElementById('log-filter').value;
+  const res = await fetch(`/api/logs?service=${service}&limit=100`);
+  const data = await res.json();
+  const tbody = document.getElementById('logs-table');
+  tbody.innerHTML = data.logs.map(log => {
+    const time = log.timestamp ? log.timestamp.substring(11, 19) : '';
+    const question = log.question ? log.question.substring(0, 30) : '';
+    const status = log.error ? '<span class="text-red-400">失败</span>' : '<span class="text-green-400">成功</span>';
+    return `<tr class="border-b border-gray-800">
+      <td class="py-2 text-gray-400">${time}</td>
+      <td class="py-2">${log.service || ''}</td>
+      <td class="py-2 text-gray-300">${question}</td>
+      <td class="py-2">${status}</td>
+    </tr>`;
+  }).join('');
 }
 
 async function backupLogs() {
