@@ -108,9 +108,25 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         async with lock:
             try:
                 result = await browser.ask(req.question)
-            except HTTPException:
+            except HTTPException as e:
+                # 失败也记录日志
+                save_log({
+                    "question": req.question,
+                    "error": e.detail,
+                    "answer": "",
+                    "citations": [],
+                    "search_queries": [],
+                }, service_name)
                 raise
             except Exception as e:
+                # 失败也记录日志
+                save_log({
+                    "question": req.question,
+                    "error": str(e),
+                    "answer": "",
+                    "citations": [],
+                    "search_queries": [],
+                }, service_name)
                 raise HTTPException(status_code=502, detail=f"{service_name} 请求失败: {str(e)}")
 
         result = {
