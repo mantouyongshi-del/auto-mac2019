@@ -639,7 +639,7 @@ async def health_check_loop():
                     "self_healed": False,
                 }
                 health_history.append(record)
-            save_health_record(record)
+                save_health_record(record)
                 play_alarm()
             else:
                 print(f"[健康检查] 自动重启成功，已自愈", flush=True)
@@ -649,7 +649,7 @@ async def health_check_loop():
                     "self_healed": True,
                 }
                 health_history.append(record)
-            save_health_record(record)
+                save_health_record(record)
         else:
             print(f"[健康检查] 全部正常", flush=True)
             record = {
