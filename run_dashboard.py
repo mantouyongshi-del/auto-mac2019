@@ -725,6 +725,31 @@ def get_health_history():
 backup_records = []  # 备份/清理操作记录
 
 
+@app.get("/api/request_logs")
+async def get_logs(service: str = "", limit: int = 100):
+    """读取日志列表，支持按模型筛选。"""
+    log_dir = Path(__file__).parent / "server_logs"
+    today = datetime.now().strftime("%Y-%m-%d")
+    log_file = log_dir / f"{today}.jsonl"
+    
+    if not log_file.exists():
+        return {"logs": []}
+    
+    logs = []
+    with open(log_file, encoding="utf-8") as f:
+        for line in f:
+            try:
+                item = json.loads(line.strip())
+                if service and item.get("service") != service:
+                    continue
+                logs.append(item)
+            except:
+                continue
+    
+    # 倒序，最新的在前
+    logs.reverse()
+    return {"logs": logs[:limit]}
+
 @app.post("/api/backup_logs")
 def backup_logs():
     """备份日志：把当前日志打包成 zip 文件。"""
@@ -793,27 +818,3 @@ if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=9000)
 
 
-@app.get("/api/logs")
-async def get_logs(service: str = "", limit: int = 100):
-    """读取日志列表，支持按模型筛选。"""
-    log_dir = Path(__file__).parent / "server_logs"
-    today = datetime.now().strftime("%Y-%m-%d")
-    log_file = log_dir / f"{today}.jsonl"
-    
-    if not log_file.exists():
-        return {"logs": []}
-    
-    logs = []
-    with open(log_file, encoding="utf-8") as f:
-        for line in f:
-            try:
-                item = json.loads(line.strip())
-                if service and item.get("service") != service:
-                    continue
-                logs.append(item)
-            except:
-                continue
-    
-    # 倒序，最新的在前
-    logs.reverse()
-    return {"logs": logs[:limit]}

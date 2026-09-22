@@ -201,6 +201,7 @@ window.onload = function() {
   initSingleModelSelect();
   initTabs();
   refreshAll();
+  loadLogs();
   setInterval(refreshAll, 5000);
   setInterval(() => {
     document.getElementById('current-time').textContent = new Date().toLocaleString('zh-CN');
@@ -250,7 +251,7 @@ function initTabs() {
       document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
       if (btn.dataset.tab === 'tasks') loadTasks();
       if (btn.dataset.tab === 'health') loadHealthHistory();
-      if (btn.dataset.tab === 'backup') loadBackupRecords();
+      if (btn.dataset.tab === 'backup') { loadBackupRecords(); loadLogs(); }
     };
   });
 }
@@ -261,6 +262,7 @@ async function togglePause(id, name) {
   await fetch(`/api/models/${id}/${action}`, {method: 'POST'});
   await loadPaused();
   await refreshAll();
+  loadLogs();
 }
 
 async function loadPaused() {
@@ -392,10 +394,12 @@ async function loadHealthHistory() {
 
 async function loadLogs() {
   const service = document.getElementById('log-filter').value;
-  const res = await fetch(`/api/logs?service=${service}&limit=100`);
-  const data = await res.json();
-  const tbody = document.getElementById('logs-table');
-  tbody.innerHTML = data.logs.map(log => {
+  try {
+    const res = await fetch(`/api/request_logs?service=${service}&limit=100`);
+    const data = await res.json();
+    console.log('日志数据:', data);
+    const tbody = document.getElementById('logs-table');
+    tbody.innerHTML = data.logs.map(log => {
     const time = log.timestamp ? log.timestamp.substring(11, 19) : '';
     const question = log.question ? log.question.substring(0, 30) : '';
     const status = log.error ? '<span class="text-red-400">失败</span>' : '<span class="text-green-400">成功</span>';
@@ -406,6 +410,10 @@ async function loadLogs() {
       <td class="py-2">${status}</td>
     </tr>`;
   }).join('');
+  } catch(e) {
+    console.error('加载日志失败:', e);
+    document.getElementById('logs-table').innerHTML = '<tr><td colspan="4" class="text-red-400 py-4">加载失败: ' + e.message + '</td></tr>';
+  }
 }
 
 async function backupLogs() {
