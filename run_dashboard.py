@@ -48,6 +48,27 @@ def save_paused(paused):
         json.dump(list(paused), f)
 
 paused_models = load_paused()
+# 健康检查记录存储
+HEALTH_RECORD_FILE = Path(__file__).parent / "health_records.json"
+MAX_HEALTH_RECORDS = 100  # 最多存100条
+
+def load_health_records():
+    if HEALTH_RECORD_FILE.exists():
+        with open(HEALTH_RECORD_FILE) as f:
+            return json.load(f)
+    return []
+
+def save_health_record(record):
+    records = load_health_records()
+    records.insert(0, record)
+    records = records[:MAX_HEALTH_RECORDS]
+    with open(HEALTH_RECORD_FILE, "w") as f:
+        json.dump(records, f, ensure_ascii=False, indent=2)
+
+@app.get("/api/health_records")
+async def get_health_records():
+    return {"records": load_health_records()}
+
 
 @app.post("/api/models/{model_id}/pause")
 async def pause_model(model_id: str):
@@ -155,6 +176,9 @@ async def _run_task_inner(task_id: str, questions: list, model_ids: list, delay_
             "results": [],
             "all_questions": questions,  # 存完整问题列表，用于恢复
         }
+        # 立刻写文件，避免后面读不到
+        with open(task_file, "w", encoding="utf-8") as f:
+            json.dump(task_state, f, ensure_ascii=False, indent=2)
 
     # 任务最大时长1小时，超时自动标记失败
     task_start_time = time.time()
@@ -822,23 +846,3 @@ if __name__ == "__main__":
 
 
 
-# 健康检查记录存储
-HEALTH_RECORD_FILE = Path(__file__).parent / "health_records.json"
-MAX_HEALTH_RECORDS = 100  # 最多存100条
-
-def load_health_records():
-    if HEALTH_RECORD_FILE.exists():
-        with open(HEALTH_RECORD_FILE) as f:
-            return json.load(f)
-    return []
-
-def save_health_record(record):
-    records = load_health_records()
-    records.insert(0, record)
-    records = records[:MAX_HEALTH_RECORDS]
-    with open(HEALTH_RECORD_FILE, "w") as f:
-        json.dump(records, f, ensure_ascii=False, indent=2)
-
-@app.get("/api/health_records")
-async def get_health_records():
-    return {"records": load_health_records()}
