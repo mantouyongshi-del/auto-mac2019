@@ -187,10 +187,11 @@ function initModelCards() {
   grid.innerHTML = MODELS.map(m => `
     <div class="bg-bg-card rounded-lg p-4 border border-border text-center" id="card-${m.id}">
       <div class="text-lg font-bold text-white mb-2">${m.name}</div>
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-2 mb-3">
         <div class="w-2.5 h-2.5 rounded-full bg-gray-500" id="dot-${m.id}"></div>
         <span class="text-sm text-gray-400" id="status-${m.id}">未知</span>
       </div>
+      <button onclick="togglePause('${m.name}')" class="px-3 py-1 text-xs rounded bg-yellow-600/20 text-yellow-400 hover:bg-yellow-600/30" id="btn-${m.id}">暂停</button>
     </div>
   `).join('');
 }
@@ -226,6 +227,32 @@ function initTabs() {
       if (btn.dataset.tab === 'health') loadHealthHistory();
       if (btn.dataset.tab === 'backup') loadBackupRecords();
     };
+  });
+}
+
+async function togglePause(name) {
+  const isPaused = pausedModels.includes(name);
+  const action = isPaused ? 'resume' : 'pause';
+  await fetch(`/api/models/${name}/${action}`, {method: 'POST'});
+  await loadPaused();
+  await refreshAll();
+}
+
+async function loadPaused() {
+  const res = await fetch('/api/models');
+  // 从后端拿暂停列表
+  const res2 = await fetch('/api/paused');
+  const data = await res2.json();
+  pausedModels = data.paused || [];
+  MODELS.forEach(m => {
+    const btn = document.getElementById('btn-' + m.id);
+    if (pausedModels.includes(m.name)) {
+      btn.textContent = '恢复';
+      btn.className = 'px-3 py-1 text-xs rounded bg-green-600/20 text-green-400 hover:bg-green-600/30';
+    } else {
+      btn.textContent = '暂停';
+      btn.className = 'px-3 py-1 text-xs rounded bg-yellow-600/20 text-yellow-400 hover:bg-yellow-600/30';
+    }
   });
 }
 

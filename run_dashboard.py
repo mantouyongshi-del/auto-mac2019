@@ -237,7 +237,10 @@ async def create_task(req: CreateTaskRequest):
         raise HTTPException(status_code=429, detail="今天是每周休息日，系统正在休息，请稍后再试")
 
     # 用默认模型列表
-    model_ids = req.models or [m["id"] for m in MODELS]
+    all_ids = [m["id"] for m in MODELS]
+    model_ids = req.models or all_ids
+    # 过滤掉暂停的模型
+    model_ids = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in paused_models]
     # 校验模型ID
     for mid in model_ids:
         if mid not in MODEL_MAP:
@@ -526,6 +529,9 @@ def play_alarm():
 
 
 async def check_single_model(m: dict) -> str:
+    # 暂停的模型不检查
+    if m["name"] in paused_models:
+        return ""
     """并发检查单个模型，返回异常描述或空字符串。"""
     try:
         loop = asyncio.get_event_loop()
@@ -752,3 +758,35 @@ def get_backup_records():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=9000)
+
+# 模型暂停状态存储
+PAUSE_FILE = BASE_DIR / "paused_models.json"
+
+def load_paused():
+    if PAUSE_FILE.exists():
+        with open(PAUSE_FILE) as f:
+            return set(json.load(f))
+    return set()
+
+def save_paused(paused):
+    with open(PAUSE_FILE, "w") as f:
+        json.dump(list(paused), f)
+
+paused_models = load_paused()
+
+# 暂停/恢复模型API
+@app.post("/api/models/{name}/pause")
+async def pause_model(name: str):
+    paused_models.add(name)
+    save_paused(paused_models)
+    return {"ok": True, "paused": list(paused_models)}
+
+@app.post("/api/models/{name}/resume")
+async def resume_model(name: str):
+    paused_models.discard(name)
+    save_paused(paused_models)
+    return {"ok": True, "paused": list(paused_models)}
+
+@app.get("/api/paused")
+async def get_paused():
+    return {"paused": list(paused_models)}
