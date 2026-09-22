@@ -208,21 +208,24 @@ async def _run_task_inner(task_id: str, questions: list, model_ids: list, delay_
 
         question_result = {"question": question, "models": {}}
 
-        # 依次调用每个模型，带重试
-        for mid in model_ids:
+        # 并发调用所有模型，同时提问
+        async def ask_one(mid):
             print(f"  -> {mid} 提问中...", flush=True)
             # 重试2次
-            result = None
             for attempt in range(2):
                 loop = asyncio.get_event_loop()
                 result = await loop.run_in_executor(None, call_model, mid, question)
                 if result["status"] == "success":
-                    break
+                    return result
                 print(f"  -> {mid} 第{attempt+1}次失败，重试...", flush=True)
                 await asyncio.sleep(3)
+            return result
 
+        results = await asyncio.gather(*[ask_one(mid) for mid in model_ids])
+
+        for i, mid in enumerate(model_ids):
+            result = results[i]
             question_result["models"][mid] = result
-
             if result["status"] == "error":
                 task_state["failed"] += 1
             else:
