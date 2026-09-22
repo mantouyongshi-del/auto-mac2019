@@ -86,6 +86,9 @@ class BrowserBase:
         # 启动后先关掉所有可能的弹窗
         await asyncio.sleep(2)
         await self.dismiss_popups()
+        # 关掉Chrome顶部提示条
+        await asyncio.sleep(0.5)
+        self.dismiss_chrome_infobar()
 
     async def close(self):
         if self.context:
@@ -223,9 +226,23 @@ class BrowserBase:
             await inp.press('Backspace')
             await asyncio.sleep(random.uniform(0.3, 0.8))
         
-        # 正常输入
-        await inp.press_sequentially(question, delay=random.uniform(50, 150))
+        # 正常输入，输入到一半偶尔停顿一下，像真人思考
+        await inp.press_sequentially(question[:len(question)//2], delay=random.uniform(50, 150))
+        # 20%概率输入到一半停一下
+        if random.random() < 0.2:
+            await asyncio.sleep(random.uniform(1.0, 2.5))
+        await inp.press_sequentially(question[len(question)//2:], delay=random.uniform(50, 150))
         await asyncio.sleep(random.uniform(0.2, 0.5))
+        
+        # 10%概率点错地方再点回来，更像真人
+        if random.random() < 0.1:
+            await page.mouse.click(
+                random.randint(100, 800),
+                random.randint(100, 400)
+            )
+            await asyncio.sleep(random.uniform(0.2, 0.5))
+            await inp.click()
+            await asyncio.sleep(random.uniform(0.2, 0.5))
         
         # 5.3 输完后20%概率停一下再按回车，像在检查
         if random.random() < 0.2:
@@ -380,3 +397,21 @@ class BrowserBase:
                 print(f"[弹窗] 已关闭浏览器提示条", flush=True)
         except Exception:
             pass
+
+    def dismiss_chrome_infobar(self):
+        """用AppleScript点击Chrome顶部提示条的关闭按钮（系统级坐标）。"""
+        x, y = self.WINDOW_POS
+        w, h = self.WINDOW_SIZE
+        # 提示条高度约40px，关闭×在窗口右上角
+        close_x = x + w - 25
+        close_y = y + 45
+        script = f'''
+        tell application "System Events"
+            click at {{{close_x}, {close_y}}}
+        end tell
+        '''
+        try:
+            subprocess.run(["osascript", "-e", script], check=True, capture_output=True)
+            print(f"[提示条] 已点击关闭按钮 ({close_x}, {close_y})", flush=True)
+        except Exception as e:
+            print(f"[提示条] 关闭失败: {e}", flush=True)

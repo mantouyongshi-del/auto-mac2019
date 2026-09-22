@@ -47,8 +47,8 @@ task_lock = asyncio.Lock()
 class CreateTaskRequest(BaseModel):
     questions: list
     models: Optional[list] = None
-    delay_min: int = 5
-    delay_max: int = 10
+    delay_min: int = 15
+    delay_max: int = 25
     task_name: str = ""
 
 
@@ -179,6 +179,12 @@ async def _run_task_inner(task_id: str, questions: list, model_ids: list, delay_
 
         # 随机间隔，最后一个问题不用等
         if i < len(questions) - 1:
+            # 每跑10个问题，自动休息5-10分钟，像真人歇一会
+            if (i + 1) % 10 == 0:
+                rest_min = random.randint(300, 600)  # 5-10分钟
+                print(f"  [休息] 已连续跑10个问题，休息 {rest_min/60:.1f} 分钟...", flush=True)
+                await asyncio.sleep(rest_min)
+
             # 夜间0-6点自动降频，间隔拉长3倍
             hour = datetime.now().hour
             if 0 <= hour < 6:
@@ -469,8 +475,8 @@ async def auth_middleware(request: Request, call_next):
 
 
 # ---------- 自动健康检查 ----------
-HEALTH_CHECK_INTERVAL_MIN = 600  # 最少10分钟
-HEALTH_CHECK_INTERVAL_MAX = 1200  # 最多20分钟
+HEALTH_CHECK_INTERVAL_MIN = 900  # 最少10分钟
+HEALTH_CHECK_INTERVAL_MAX = 1800  # 最多20分钟
 health_history = []  # 健康检查历史
 
 # 探测问题池：30个日常小问题，每次随机抽一个，避免重复被风控
