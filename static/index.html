@@ -191,7 +191,7 @@ function initModelCards() {
         <div class="w-2.5 h-2.5 rounded-full bg-gray-500" id="dot-${m.id}"></div>
         <span class="text-sm text-gray-400" id="status-${m.id}">未知</span>
       </div>
-      <button onclick="togglePause('${m.name}')" class="px-3 py-1 text-xs rounded bg-yellow-600/20 text-yellow-400 hover:bg-yellow-600/30" id="btn-${m.id}">暂停</button>
+      <button onclick="togglePause('${m.id}', '${m.name}')" class="px-3 py-1 text-xs rounded bg-yellow-600/20 text-yellow-400 hover:bg-yellow-600/30" id="btn-${m.id}">暂停</button>
     </div>
   `).join('');
 }
@@ -230,10 +230,10 @@ function initTabs() {
   });
 }
 
-async function togglePause(name) {
+async function togglePause(id, name) {
   const isPaused = pausedModels.includes(name);
   const action = isPaused ? 'resume' : 'pause';
-  await fetch(`/api/models/${name}/${action}`, {method: 'POST'});
+  await fetch(`/api/models/${id}/${action}`, {method: 'POST'});
   await loadPaused();
   await refreshAll();
 }
@@ -257,7 +257,7 @@ async function loadPaused() {
 }
 
 async function refreshAll() {
-  await Promise.all([loadModelStatus(), loadSystemHealth()]);
+  await Promise.all([loadModelStatus(), loadSystemHealth(), loadPaused()]);
 }
 
 async function loadModelStatus() {

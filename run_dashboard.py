@@ -34,6 +34,39 @@ MODELS = [
 ]
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
+# 模型暂停状态存储
+PAUSE_FILE = BASE_DIR / "paused_models.json"
+
+def load_paused():
+    if PAUSE_FILE.exists():
+        with open(PAUSE_FILE) as f:
+            return set(json.load(f))
+    return set()
+
+def save_paused(paused):
+    with open(PAUSE_FILE, "w") as f:
+        json.dump(list(paused), f)
+
+paused_models = load_paused()
+
+@app.post("/api/models/{model_id}/pause")
+async def pause_model(model_id: str):
+    m = MODEL_MAP[model_id]
+    paused_models.add(m["name"])
+    save_paused(paused_models)
+    return {"ok": True, "paused": list(paused_models)}
+
+@app.post("/api/models/{model_id}/resume")
+async def resume_model(model_id: str):
+    m = MODEL_MAP[model_id]
+    paused_models.discard(m["name"])
+    save_paused(paused_models)
+    return {"ok": True, "paused": list(paused_models)}
+
+@app.get("/api/paused")
+async def get_paused():
+    return {"paused": list(paused_models)}
+
 # 任务存储目录
 TASKS_DIR = Path(__file__).parent / "tasks"
 TASKS_DIR.mkdir(exist_ok=True)
@@ -759,34 +792,3 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=9000)
 
-# 模型暂停状态存储
-PAUSE_FILE = BASE_DIR / "paused_models.json"
-
-def load_paused():
-    if PAUSE_FILE.exists():
-        with open(PAUSE_FILE) as f:
-            return set(json.load(f))
-    return set()
-
-def save_paused(paused):
-    with open(PAUSE_FILE, "w") as f:
-        json.dump(list(paused), f)
-
-paused_models = load_paused()
-
-# 暂停/恢复模型API
-@app.post("/api/models/{name}/pause")
-async def pause_model(name: str):
-    paused_models.add(name)
-    save_paused(paused_models)
-    return {"ok": True, "paused": list(paused_models)}
-
-@app.post("/api/models/{name}/resume")
-async def resume_model(name: str):
-    paused_models.discard(name)
-    save_paused(paused_models)
-    return {"ok": True, "paused": list(paused_models)}
-
-@app.get("/api/paused")
-async def get_paused():
-    return {"paused": list(paused_models)}
