@@ -102,7 +102,25 @@ tailwind.config = {
     <div class="bg-bg-card rounded-lg p-5 border border-border">
       <div class="mb-3 text-sm text-gray-400">批量问题（每行一个）：</div>
       <textarea id="batch-questions" class="w-full h-32 bg-slate-800 border border-border rounded p-3 text-white mb-3" placeholder="问题1&#10;问题2&#10;..."></textarea>
-      <div class="mb-3 text-sm text-gray-400">问题间隔：<span id="delay-display">5-10秒</span>（随机）</div>
+      <div class="mb-3 text-sm text-gray-400 mb-3">选择模型：</div>
+      <div class="flex gap-4 mb-4 flex-wrap" id="batch-model-select">
+        <label class="flex items-center gap-2 text-gray-300">
+          <input type="checkbox" value="deepseek" checked> DeepSeek
+        </label>
+        <label class="flex items-center gap-2 text-gray-300">
+          <input type="checkbox" value="qianwen" checked> 千问
+        </label>
+        <label class="flex items-center gap-2 text-gray-300">
+          <input type="checkbox" value="doubao" checked> 豆包
+        </label>
+        <label class="flex items-center gap-2 text-gray-300">
+          <input type="checkbox" value="wenxin" checked> 文心一言
+        </label>
+        <label class="flex items-center gap-2 text-gray-300">
+          <input type="checkbox" value="yuanbao" checked> 元宝
+        </label>
+      </div>
+      <div class="mb-3 text-sm text-gray-400">问题间隔：<span id="delay-display">15-25秒</span>（随机）</div>
       <input type="range" id="delay-range" min="10" max="30" value="20" class="w-48" oninput="document.getElementById('delay-display').textContent=this.value+'-'+(parseInt(this.value)+3)+'秒'">
       <button onclick="createBatchTask()" class="ml-4 px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-500">创建任务</button>
     </div>
