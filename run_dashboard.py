@@ -1259,21 +1259,32 @@ async def startup():
     """服务启动时：1. 启动健康检查 2. 恢复未完成的任务。"""
     asyncio.create_task(health_check_loop())
 
-    # 恢复未完成的任务
-    for task_file in TASKS_DIR.glob("task_*.json"):
-        try:
-            with open(task_file, encoding="utf-8") as f:
-                task = json.load(f)
-            if task.get("status") == "running":
-                task_id = task["task_id"]
-                # 用存好的完整问题列表，run_task 会自动从断点开始
-                all_questions = task.get("all_questions", [])
-                model_ids = task["models"]
-                print(f"[启动] 恢复未完成任务: {task_id}", flush=True)
-                asyncio.create_task(run_task(task_id, all_questions, model_ids, 5, 10))
-                running_tasks[task_id] = True
-        except Exception as e:
-            print(f"[启动] 恢复任务失败: {e}", flush=True)
+    # 恢复未完成的任务（同时支持普通任务和GEO任务）
+    for pattern in ["task_*.json", "geo_*.json"]:
+        for task_file in TASKS_DIR.glob(pattern):
+            try:
+                with open(task_file, encoding="utf-8") as f:
+                    task = json.load(f)
+                if task.get("status") in ["running", "queued"]:
+                    task_id = task["task_id"]
+                    model_ids = task["models"]
+                    print(f"[启动] 恢复未完成任务: {task_id}", flush=True)
+                    if task_id.startswith("geo_"):
+                        # GEO任务用geo_run_task恢复
+                        questions = [q["text"] for q in task.get("questions", [])]
+                        req = type('Req', (), {
+                            'questions': [type('Q', (), {'question_id': q['question_id'], 'text': q['text']})() for q in task.get('questions', [])],
+                            'department_id': task.get('department_id', ''),
+                            'brand_code': task.get('brand_code', '')
+                        })()
+                        asyncio.create_task(geo_run_task(task_id, questions, model_ids, req))
+                    else:
+                        # 普通任务用原来的run_task恢复
+                        all_questions = task.get("all_questions", [])
+                        asyncio.create_task(run_task(task_id, all_questions, model_ids, 5, 10))
+                    running_tasks[task_id] = "running"
+            except Exception as e:
+                print(f"[启动] 恢复任务失败 {task_file.name}: {e}", flush=True)
 
 
 @app.get("/api/health")
@@ -1594,7 +1605,7 @@ async def geo_health():
         "running_tasks": list(running_tasks.keys()),
         "disk": disk_usage,
         "disk_alert": disk_alert,
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().astimezone().isoformat()
     }
 
 async def geo_run_task(task_id, questions, model_ids, req):
