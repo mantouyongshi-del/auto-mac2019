@@ -1,5 +1,85 @@
 [
   {
+    "time": "2026-09-23T22:41:27.078734",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T22:16:53.558884",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T21:53:46.815112",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T21:31:51.627206",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T21:11:35.262627",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T20:42:52.536184",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T20:39:42.570783",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T20:32:03.654791",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-23T20:23:44.441423",
     "abnormal": [
       "千问 异常: HTTP Error 401: Unauthorized",

@@ -149,7 +149,7 @@ def get_models():
     results = []
     for m in MODELS:
         try:
-            with urllib.request.urlopen(f"http://127.0.0.1:{m['port']}/", timeout=3) as resp:
+            with urllib.request.urlopen(f"http://127.0.0.1:{m['port']}/", timeout=8) as resp:
                 data = json.loads(resp.read())
                 results.append({**m, "status": "online", "service": data.get("service", "")})
         except Exception:
@@ -164,7 +164,7 @@ def call_model(model_id: str, question: str) -> dict:
         req = urllib.request.Request(
             f"http://127.0.0.1:{m['port']}/ask",
             data=json.dumps({"question": question}).encode(),
-            headers={"Content-Type": "application/json"},
+            headers={"Content-Type": "application/json", "X-API-Key": LAYA_MODEL_API_KEY},
         )
         with urllib.request.urlopen(req, timeout=180) as resp:
             data = json.loads(resp.read())
@@ -1157,7 +1157,7 @@ async def check_single_model(m: dict) -> str:
             req = urllib.request.Request(
                 f"http://127.0.0.1:{m['port']}/ask",
                 data=json.dumps({"question": question}).encode(),
-                headers={"Content-Type": "application/json"},
+                headers={"Content-Type": "application/json", "X-API-Key": LAYA_MODEL_API_KEY},
             )
             with urllib.request.urlopen(req, timeout=60) as resp:
                 data = json.loads(resp.read())
@@ -1574,23 +1574,17 @@ async def geo_health():
         }
         try:
             with urllib.request.urlopen(f"http://127.0.0.1:{m['port']}/", timeout=3) as resp:
+                health = json.loads(resp.read())
                 model_info["process"] = "ok"
-                model_info["browser"] = "ok"
-                model_info["login"] = "ok"
+                model_info["browser"] = "ok" if health.get("browser_alive") else "down"
+                model_info["login"] = "ok" if health.get("logged_in") else "not_logged_in"
+                model_info["last_success_at"] = health.get("last_success_at")
         except Exception as e:
             model_info["process"] = "down"
             model_info["browser"] = "down"
             model_info["login"] = "unknown"
             model_info["last_error"] = str(e)[:100]
-        # 从健康记录里找最近成功时间
-        # 从健康记录读最近成功时间
-        records = load_health_records()
-        last_success = None
-        for rec in records:
-            if rec.get("model") == m["name"] and rec.get("status") == "ok":
-                last_success = rec.get("time")
-                break
-        model_info["last_success_at"] = last_success
+        model_info.setdefault("last_success_at", None)
         model_status[m["id"]] = model_info
     
     # 磁盘告警

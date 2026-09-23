@@ -73,6 +73,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
 
     lock = asyncio.Lock()
     browser_ref = {"b": None}  # startup 后填入
+    runtime_state = {"last_success_at": None}
 
     @app.on_event("startup")
     async def startup():
@@ -103,7 +104,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         logged_in = False
         if b:
             try:
-                logged_in = await b.is_logged_in()
+                logged_in = await asyncio.wait_for(b.is_logged_in(), timeout=3)
             except:
                 pass
         return {
@@ -111,7 +112,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             "service": service_name,
             "browser_alive": True,
             "logged_in": logged_in,
-            "last_success_at": None
+            "last_success_at": runtime_state["last_success_at"],
         }
 
     @app.post("/ask", dependencies=[Depends(verify_api_key)])
@@ -148,6 +149,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             "citations": result["citations"],
             "search_queries": result.get("search_queries", []),
         }
+        runtime_state["last_success_at"] = datetime.now().astimezone().isoformat()
         save_log(result, service_name)
         return result
 
@@ -181,6 +183,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     save_log(record, service_name)
                     results.append(record)
                     succeeded += 1
+                    runtime_state["last_success_at"] = datetime.now().astimezone().isoformat()
                 except HTTPException as e:
                     failed += 1
                     record = {"question": q, "error": e.detail}
