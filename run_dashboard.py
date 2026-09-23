@@ -209,7 +209,7 @@ async def _run_task_inner(task_id: str, questions: list, model_ids: list, delay_
             "completed": 0,
             "failed": 0,
             "models": model_ids,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now().astimezone().isoformat(),
             "results": [],
             "all_questions": questions,  # 存完整问题列表，用于恢复
         }
@@ -1463,7 +1463,7 @@ async def geo_create_task(req: GEOCreateTask):
         "priority": req.priority,
         "metadata": req.metadata,
         "status": "queued",
-        "created_at": datetime.now().isoformat(),
+        "created_at": datetime.now().astimezone().isoformat(),
         "farm_version": "1.0.0",
         "prompt_version": "v1",
         "results": [],
@@ -1572,7 +1572,14 @@ async def geo_health():
             model_info["login"] = "unknown"
             model_info["last_error"] = str(e)[:100]
         # 从健康记录里找最近成功时间
-        model_info["last_success_at"] = None
+        # 从健康记录读最近成功时间
+        records = load_health_records()
+        last_success = None
+        for rec in records:
+            if rec.get("model") == m["name"] and rec.get("status") == "ok":
+                last_success = rec.get("time")
+                break
+        model_info["last_success_at"] = last_success
         model_status[m["id"]] = model_info
     
     # 磁盘告警
@@ -1593,125 +1600,122 @@ async def geo_health():
 async def geo_run_task(task_id, questions, model_ids, req):
     """后台执行GEO任务"""
     running_tasks[task_id] = "running"
-    async with task_lock:
-        task_file = TASKS_DIR / f"{task_id}.json"
-        with open(task_file) as f:
-            task = json.load(f)
-        task["status"] = "running"
-        task["started_at"] = datetime.now().isoformat()
-        with open(task_file, "w") as f:
-            json.dump(task, f, ensure_ascii=False, indent=2)
-        geo_log("task_started", {"task_id": task_id, "models": model_ids, "questions": len(questions)})
-        
-        # 过滤暂停模型
-        active_models = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in paused_models]
-        
-        # 并发给所有模型发问题
-        for q_idx, q_text in enumerate(questions):
-            # 每次循环重新读文件，检测取消状态
+    try:
+        async with task_lock:
+            task_file = TASKS_DIR / f"{task_id}.json"
             with open(task_file) as f:
                 task = json.load(f)
-            if task["status"] == "cancelled":
-                break
-            
-            # 并发问所有模型
-            async def ask_one(mid):
-                loop = asyncio.get_event_loop()
-                try:
-                    def _call():
-                        data = json.dumps({"question": q_text}).encode()
-                        req_url = urllib.request.Request(
-                            f"http://127.0.0.1:{MODEL_MAP[mid]['port']}/ask",
-                            data=data,
-                            headers={"Content-Type": "application/json"}
-                        )
-                        with urllib.request.urlopen(req_url, timeout=180) as resp:
-                            return json.loads(resp.read())
-                    result = await loop.run_in_executor(None, _call)
-                    model_fail_counts[mid] = 0  # 成功重置失败计数
-                    return {
-                        "task_id": task_id,
-                        "question_id": req.questions[q_idx].question_id,
-                        "question": q_text,
-                        "model": mid,
-                        "status": "success",
-                        "answer": result.get("answer", ""),
-                        "citations": result.get("citations", []),
-                        "search_queries": result.get("search_queries", []),
-                        "source": "laya-browser",
-                        "farm_version": "1.0.0",
-                        "prompt_version": "v1",
-                        "finished_at": datetime.now().isoformat(),
-                        "error": None
-                    }
-                except Exception as e:
-                    err_str = str(e).lower()
-                    err_type = "unknown"
-                    if "timeout" in err_str or "timed out" in err_str:
-                        err_type = "timeout"
-                    elif "login" in err_str or "401" in err_str or "未登录" in str(e):
-                        err_type = "not_logged_in"
-                    elif "429" in err_str or "rate" in err_str or "风控" in str(e) or "频繁" in str(e):
-                        err_type = "rate_limited"
-                    elif "browser" in err_str or "crash" in err_str or "closed" in err_str:
-                        err_type = "browser_error"
-                    elif "connection" in err_str or "refused" in err_str or "unreachable" in err_str:
-                        err_type = "service_unavailable"
-                    model_fail_counts[mid] += 1
-                    # 连续失败自动延长间隔
-                    interval = BACKOFF_INTERVAL if model_fail_counts[mid] >= MODEL_FAIL_THRESHOLD else random.uniform(15, 25)
-                    return {
-                        "task_id": task_id,
-                        "question_id": req.questions[q_idx].question_id,
-                        "question": q_text,
-                        "model": mid,
-                        "status": "failed",
-                        "error": err_type,
-                        "error_msg": str(e)[:200],
-                        "source": "laya-browser",
-                        "farm_version": "1.0.0",
-                        "finished_at": datetime.now().isoformat()
-                    }
-            
-            results = await asyncio.gather(*[ask_one(mid) for mid in active_models])
-            
-            # 保存每道题的结果
-            with open(task_file) as f:
-                task = json.load(f)
-            task["results"].extend(results)
-            # 累计统计所有结果
-            task["completed"] = sum(1 for r in task["results"] if r["status"] == "success")
-            task["failed"] = sum(1 for r in task["results"] if r["status"] == "failed")
-            # 记录每模型失败计数，用于退避
-            for r in results:
-                if r["status"] == "success":
-                    model_fail_counts[r["model"]] = 0
-                else:
-                    model_fail_counts[r["model"]] = model_fail_counts.get(r["model"], 0) + 1
-            
-            if q_idx < len(questions) - 1:
-                task["status"] = "running"
-            else:
-                task["status"] = "partial" if task["failed"] > 0 else "completed"
-                task["finished_at"] = datetime.now().isoformat()
+            task["status"] = "running"
+            task["started_at"] = datetime.now().astimezone().isoformat()
             with open(task_file, "w") as f:
                 json.dump(task, f, ensure_ascii=False, indent=2)
+            geo_log("task_started", {"task_id": task_id, "models": model_ids, "questions": len(questions)})
             
-            # 题间间隔：如果有模型连续失败，用退避间隔，否则用随机15-25秒
-            if q_idx < len(questions) - 1:
-                max_fail = max(model_fail_counts.get(mid, 0) for mid in active_models)
-                if max_fail >= MODEL_FAIL_THRESHOLD:
-                    wait_sec = BACKOFF_INTERVAL
+            # 过滤暂停模型
+            active_models = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in paused_models]
+            
+            # 并发给所有模型发问题
+            for q_idx, q_text in enumerate(questions):
+                # 每次循环重新读文件，检测取消状态
+                with open(task_file) as f:
+                    task = json.load(f)
+                if task["status"] == "cancelled":
+                    geo_log("task_cancelled", {"task_id": task_id})
+                    break
+                
+                # 并发问所有模型
+                async def ask_one(mid):
+                    loop = asyncio.get_event_loop()
+                    try:
+                        def _call():
+                            data = json.dumps({"question": q_text}).encode()
+                            req_url = urllib.request.Request(
+                                f"http://127.0.0.1:{MODEL_MAP[mid]['port']}/ask",
+                                data=data,
+                                headers={"Content-Type": "application/json", "X-API-Key": LAYA_MODEL_API_KEY}
+                            )
+                            with urllib.request.urlopen(req_url, timeout=180) as resp:
+                                return json.loads(resp.read())
+                        result = await loop.run_in_executor(None, _call)
+                        model_fail_counts[mid] = 0
+                        return {
+                            "task_id": task_id,
+                            "question_id": req.questions[q_idx].question_id,
+                            "question": q_text,
+                            "model": mid,
+                            "status": "success",
+                            "answer": result.get("answer", ""),
+                            "citations": result.get("citations", []),
+                            "search_queries": result.get("search_queries", []),
+                            "source": "laya-browser",
+                            "farm_version": "1.0.0",
+                            "prompt_version": "v1",
+                            "finished_at": datetime.now().astimezone().isoformat(),
+                            "error": None
+                        }
+                    except Exception as e:
+                        err_str = str(e).lower()
+                        err_type = "unknown"
+                        if "timeout" in err_str or "timed out" in err_str:
+                            err_type = "timeout"
+                        elif "login" in err_str or "401" in err_str or "未登录" in str(e):
+                            err_type = "not_logged_in"
+                        elif "429" in err_str or "rate" in err_str or "风控" in str(e) or "频繁" in str(e):
+                            err_type = "rate_limited"
+                        elif "browser" in err_str or "crash" in err_str or "closed" in err_str:
+                            err_type = "browser_error"
+                        elif "connection" in err_str or "refused" in err_str or "unreachable" in err_str:
+                            err_type = "service_unavailable"
+                        geo_log("task_question_failed", {"task_id": task_id, "model": mid, "error": err_type, "msg": str(e)[:100]})
+                        return {
+                            "task_id": task_id,
+                            "question_id": req.questions[q_idx].question_id,
+                            "question": q_text,
+                            "model": mid,
+                            "status": "failed",
+                            "error": err_type,
+                            "error_msg": str(e)[:200],
+                            "source": "laya-browser",
+                            "farm_version": "1.0.0",
+                            "finished_at": datetime.now().astimezone().isoformat()
+                        }
+                
+                results = await asyncio.gather(*[ask_one(mid) for mid in active_models])
+                
+                # 保存每道题的结果
+                with open(task_file) as f:
+                    task = json.load(f)
+                task["results"].extend(results)
+                task["completed"] = sum(1 for r in task["results"] if r["status"] == "success")
+                task["failed"] = sum(1 for r in task["results"] if r["status"] == "failed")
+                for r in results:
+                    if r["status"] == "success":
+                        model_fail_counts[r["model"]] = 0
+                    else:
+                        model_fail_counts[r["model"]] = model_fail_counts.get(r["model"], 0) + 1
+                
+                if q_idx < len(questions) - 1:
+                    task["status"] = "running"
                 else:
-                    wait_sec = random.uniform(TASK_INTERVAL_MIN, TASK_INTERVAL_MAX)
-                await asyncio.sleep(wait_sec)
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=9000)
-
-
-
+                    task["status"] = "partial" if task["failed"] > 0 else "completed"
+                    task["finished_at"] = datetime.now().astimezone().isoformat()
+                with open(task_file, "w") as f:
+                    json.dump(task, f, ensure_ascii=False, indent=2)
+                
+                # 题间间隔：连续失败用退避，否则随机15-25秒
+                if q_idx < len(questions) - 1:
+                    max_fail = max(model_fail_counts.get(mid, 0) for mid in active_models)
+                    if max_fail >= MODEL_FAIL_THRESHOLD:
+                        wait_sec = BACKOFF_INTERVAL
+                    else:
+                        wait_sec = random.uniform(TASK_INTERVAL_MIN, TASK_INTERVAL_MAX)
+                    await asyncio.sleep(wait_sec)
+    finally:
+        running_tasks.pop(task_id, None)
+        task_file = TASKS_DIR / f"{task_id}.json"
+        if task_file.exists():
+            with open(task_file) as f:
+                task = json.load(f)
+            geo_log("task_finished", {"task_id": task_id, "status": task.get("status"), "completed": task.get("completed",0), "failed": task.get("failed",0)})
 
 

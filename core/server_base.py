@@ -14,14 +14,14 @@ from pydantic import BaseModel
 
 from core.browser_base import BrowserBase, LOG_DIR
 
-# API Key 鉴权：从环境变量读，没设置就不校验（本地开发方便）
-API_KEY = os.getenv("LAYA_API_KEY", "")
+# API Key 鉴权：强制从环境变量读，未配置直接拒绝启动
+API_KEY = os.getenv("LAYA_API_KEY")
+if not API_KEY:
+    raise RuntimeError("必须设置环境变量 LAYA_API_KEY")
 
 
 def verify_api_key(request: Request):
-    """简单 API Key 校验。如果没设置 LAYA_API_KEY 环境变量，直接放行。"""
-    if not API_KEY:
-        return  # 未配置则不鉴权
+    """强制 API Key 校验，不允许未鉴权访问"""
     api_key = request.headers.get("X-API-Key", "")
     if api_key != API_KEY:
         raise HTTPException(status_code=401, detail="无效的 API Key")
