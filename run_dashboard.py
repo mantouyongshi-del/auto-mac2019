@@ -578,7 +578,8 @@ async def auth_middleware(request: Request, call_next):
 # ---------- 自动健康检查 ----------
 HEALTH_CHECK_INTERVAL_MIN = 900  # 最少10分钟
 HEALTH_CHECK_INTERVAL_MAX = 1800  # 最多20分钟
-health_history = []  # 健康检查历史
+health_history = []
+last_alarm_time = 0  # 健康检查历史
 
 # 探测问题池：30个日常小问题，每次随机抽一个，避免重复被风控
 HEALTH_CHECK_QUESTIONS = [
@@ -1159,7 +1160,7 @@ async def check_single_model(m: dict) -> str:
                 data=json.dumps({"question": question}).encode(),
                 headers={"Content-Type": "application/json", "X-API-Key": LAYA_MODEL_API_KEY},
             )
-            with urllib.request.urlopen(req, timeout=60) as resp:
+            with urllib.request.urlopen(req, timeout=180) as resp:
                 data = json.loads(resp.read())
                 if len(data.get("answer", "")) < 5:
                     return f"{m['name']} 回答过短"
@@ -1218,13 +1219,18 @@ async def health_check_loop():
             if still_abnormal:
                 print(f"[健康检查] 重启后仍异常: {still_abnormal}，触发报警", flush=True)
                 record = {
-                    "time": datetime.now().isoformat(),
+                    "time": datetime.now().astimezone().isoformat(),
                     "abnormal": still_abnormal,
                     "self_healed": False,
                 }
                 health_history.append(record)
                 save_health_record(record)
-                play_alarm()
+                # 报警防抖：5分钟内不重复响
+                now = time.time()
+                global last_alarm_time
+                if now - last_alarm_time > 300:
+                    play_alarm()
+                    last_alarm_time = now
             else:
                 print(f"[健康检查] 自动重启成功，已自愈", flush=True)
                 record = {
@@ -1619,8 +1625,11 @@ async def geo_run_task(task_id, questions, model_ids, req):
             for r in task.get("results", []):
                 done_pairs.add((r.get("question_id"), r.get("model")))
             print(f"[恢复] 任务{task_id} 已完成{len(done_pairs)}个组合", flush=True)
-            with open(task_file, "w") as f:
+            # 原子写：先写临时文件再rename，避免崩溃写坏文件
+            tmp_file = task_file.with_suffix(".tmp")
+            with open(tmp_file, "w") as f:
                 json.dump(task, f, ensure_ascii=False, indent=2)
+            tmp_file.replace(task_file)
             geo_log("task_started", {"task_id": task_id, "models": model_ids, "questions": len(questions)})
             
             # 过滤暂停模型
