@@ -20,9 +20,15 @@ import secrets
 
 app = FastAPI(title="Laya Dashboard")
 
-# 从环境变量读密钥，本地开发默认值，生产环境必须通过环境变量覆盖
-DASHBOARD_PASSWORD = os.getenv("DASHBOARD_PASSWORD", "beijixing1")
-GEO_API_KEY = os.getenv("GEO_API_KEY", "geo-local-dev-key-2026")
+# 强制从环境变量读密钥，未配置直接拒绝启动
+DASHBOARD_PASSWORD = os.getenv("DASHBOARD_PASSWORD")
+GEO_API_KEY = os.getenv("GEO_API_KEY")
+LAYA_MODEL_API_KEY = os.getenv("LAYA_MODEL_API_KEY", "laya-local-model-key")
+
+if not DASHBOARD_PASSWORD:
+    raise RuntimeError("必须设置环境变量 DASHBOARD_PASSWORD")
+if not GEO_API_KEY:
+    raise RuntimeError("必须设置环境变量 GEO_API_KEY")
 # 简单token存储（内存里，重启失效）
 valid_tokens = set()
 
@@ -123,8 +129,10 @@ running_tasks = {}
 task_lock = asyncio.Lock()
 # 每个模型连续失败计数器，用于自动退避
 model_fail_counts = {m["id"]: 0 for m in MODELS}
-MODEL_FAIL_THRESHOLD = 2  # 连续失败2次触发退避
-BACKOFF_INTERVAL = 30  # 退避间隔30秒
+MODEL_FAIL_THRESHOLD = int(os.getenv("FAIL_THRESHOLD", 2))  # 连续失败2次触发退避
+BACKOFF_INTERVAL = int(os.getenv("BACKOFF_INTERVAL", 30))  # 退避间隔30秒
+TASK_INTERVAL_MIN = float(os.getenv("TASK_INTERVAL_MIN", 15))
+TASK_INTERVAL_MAX = float(os.getenv("TASK_INTERVAL_MAX", 25))
 
 
 class CreateTaskRequest(BaseModel):
@@ -561,7 +569,8 @@ async def auth_middleware(request: Request, call_next):
     token = request.cookies.get("dashboard_token", "")
     if token not in valid_tokens:
         if path.startswith("/api/"):
-            raise HTTPException(status_code=401, detail="未登录")
+            from fastapi.responses import JSONResponse
+            return JSONResponse(status_code=401, content={"detail": "未登录"})
         return RedirectResponse(url="/login")
     return await call_next(request)
 
@@ -1439,6 +1448,7 @@ async def geo_create_task(req: GEOCreateTask):
         except:
             continue
     
+    geo_log("task_create", {"department_id": req.department_id, "brand_code": req.brand_code, "models": req.models, "questions": len(req.questions)})
     task_id = f"geo_{int(time.time())}_{secrets.token_hex(4)}"
     questions_text = [q.text for q in req.questions]
     
@@ -1519,6 +1529,7 @@ async def geo_get_results(task_id: str, page: int = 1, page_size: int = 50):
 
 @app.post("/geo/tasks/{task_id}/cancel", dependencies=[Depends(verify_geo_api_key)])
 async def geo_cancel_task(task_id: str):
+    geo_log("task_cancel", {"task_id": task_id})
     """取消任务，未开始的问题不再执行"""
     task_file = TASKS_DIR / f"{task_id}.json"
     if not task_file.exists():
@@ -1581,6 +1592,7 @@ async def geo_health():
 
 async def geo_run_task(task_id, questions, model_ids, req):
     """后台执行GEO任务"""
+    running_tasks[task_id] = "running"
     async with task_lock:
         task_file = TASKS_DIR / f"{task_id}.json"
         with open(task_file) as f:
@@ -1589,12 +1601,16 @@ async def geo_run_task(task_id, questions, model_ids, req):
         task["started_at"] = datetime.now().isoformat()
         with open(task_file, "w") as f:
             json.dump(task, f, ensure_ascii=False, indent=2)
+        geo_log("task_started", {"task_id": task_id, "models": model_ids, "questions": len(questions)})
         
         # 过滤暂停模型
         active_models = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in paused_models]
         
         # 并发给所有模型发问题
         for q_idx, q_text in enumerate(questions):
+            # 每次循环重新读文件，检测取消状态
+            with open(task_file) as f:
+                task = json.load(f)
             if task["status"] == "cancelled":
                 break
             
@@ -1663,16 +1679,32 @@ async def geo_run_task(task_id, questions, model_ids, req):
             with open(task_file) as f:
                 task = json.load(f)
             task["results"].extend(results)
-            task["completed"] = sum(1 for r in results if r["status"] == "success")
-            task["failed"] = sum(1 for r in results if r["status"] == "failed")
-            task["status"] = "running" if q_idx < len(questions) - 1 else "partial" if task["failed"] > 0 else "completed"
-            task["finished_at"] = datetime.now().isoformat() if q_idx == len(questions) - 1 else None
+            # 累计统计所有结果
+            task["completed"] = sum(1 for r in task["results"] if r["status"] == "success")
+            task["failed"] = sum(1 for r in task["results"] if r["status"] == "failed")
+            # 记录每模型失败计数，用于退避
+            for r in results:
+                if r["status"] == "success":
+                    model_fail_counts[r["model"]] = 0
+                else:
+                    model_fail_counts[r["model"]] = model_fail_counts.get(r["model"], 0) + 1
+            
+            if q_idx < len(questions) - 1:
+                task["status"] = "running"
+            else:
+                task["status"] = "partial" if task["failed"] > 0 else "completed"
+                task["finished_at"] = datetime.now().isoformat()
             with open(task_file, "w") as f:
                 json.dump(task, f, ensure_ascii=False, indent=2)
             
-            # 题间间隔
+            # 题间间隔：如果有模型连续失败，用退避间隔，否则用随机15-25秒
             if q_idx < len(questions) - 1:
-                await asyncio.sleep(random.uniform(15, 25))
+                max_fail = max(model_fail_counts.get(mid, 0) for mid in active_models)
+                if max_fail >= MODEL_FAIL_THRESHOLD:
+                    wait_sec = BACKOFF_INTERVAL
+                else:
+                    wait_sec = random.uniform(TASK_INTERVAL_MIN, TASK_INTERVAL_MAX)
+                await asyncio.sleep(wait_sec)
 
 
 if __name__ == "__main__":

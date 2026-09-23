@@ -1,5 +1,222 @@
 [
   {
+    "time": "2026-09-23T19:31:00.684765",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T19:14:14.769855",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T18:50:05.718735",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T18:25:43.355746",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T18:05:40.254724",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T17:39:58.697812",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T17:20:07.672788",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T16:58:36.137209",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T16:32:23.105807",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T16:11:05.078835",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T15:49:35.023258",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T15:19:27.358197",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T15:02:39.522776",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T14:41:48.621319",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T14:25:51.639778",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T14:05:36.264192",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T13:38:08.307905",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T13:20:48.835623",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T13:03:29.719022",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T12:43:53.987387",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T12:16:47.382610",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T11:53:28.505316",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T11:22:41.439139",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T10:58:47.093948",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T10:33:21.195158",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T10:10:07.346961",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T09:44:50.179059",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T09:26:18.766442",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T08:57:32.495069",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T08:27:19.026675",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T08:05:38.478937",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T07:44:51.763096",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T07:21:04.216034",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T06:58:36.417438",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T06:33:54.267834",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T06:11:57.847992",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T05:48:40.424058",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T05:21:00.183149",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T05:03:24.914640",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T04:33:55.721008",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T04:07:37.762442",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-23T03:57:15.247043",
     "abnormal": [],
     "self_healed": true

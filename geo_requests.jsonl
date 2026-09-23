@@ -1,0 +1,2 @@
+{"ts": "2026-09-23T19:43:44.191659", "event": "task_create", "department_id": "stat-test", "brand_code": "t", "models": ["yuanbao"], "questions": 2}
+{"ts": "2026-09-23T19:43:44.192992", "event": "task_started", "task_id": "geo_1790163824_97481c91", "models": ["yuanbao"], "questions": 2}
