@@ -27,3 +27,6 @@ dist/
 .idea/
 *.swp
 *.swo
+
+# 旧根目录运行日志不再入库
+geo_requests.jsonl

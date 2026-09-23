@@ -111,7 +111,8 @@ async def get_paused():
     return {"paused": list(paused_models)}
 
 # 结构化JSONL日志
-GEO_LOG_FILE = Path(__file__).parent / "geo_requests.jsonl"
+GEO_LOG_FILE = Path(__file__).parent / "server_logs" / "geo_requests.jsonl"
+GEO_LOG_FILE.parent.mkdir(exist_ok=True)
 
 def geo_log(event: str, data: dict):
     """写结构化JSONL日志"""
@@ -131,8 +132,8 @@ task_lock = asyncio.Lock()
 model_fail_counts = {m["id"]: 0 for m in MODELS}
 MODEL_FAIL_THRESHOLD = int(os.getenv("FAIL_THRESHOLD", 2))  # 连续失败2次触发退避
 BACKOFF_INTERVAL = int(os.getenv("BACKOFF_INTERVAL", 30))  # 退避间隔30秒
-TASK_INTERVAL_MIN = float(os.getenv("TASK_INTERVAL_MIN", 15))
-TASK_INTERVAL_MAX = float(os.getenv("TASK_INTERVAL_MAX", 25))
+TASK_INTERVAL_MIN = max(30.0, float(os.getenv("TASK_INTERVAL_MIN", 30)))
+TASK_INTERVAL_MAX = max(TASK_INTERVAL_MIN, float(os.getenv("TASK_INTERVAL_MAX", 40)))
 
 
 class CreateTaskRequest(BaseModel):
