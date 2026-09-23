@@ -1,5 +1,37 @@
 [
   {
+    "time": "2026-09-24T00:53:38.361355",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T00:25:45.805458",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T00:09:22.163737",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T23:44:45.167646+08:00",
+    "abnormal": [
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T23:12:27.019715",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-23T22:49:26.455028",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-23T22:43:28.768973",
     "abnormal": [],
     "self_healed": false

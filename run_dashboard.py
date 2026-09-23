@@ -1183,14 +1183,30 @@ async def health_check_loop():
             await asyncio.sleep(delay)
             continue
 
-        print(f"[健康检查] 开始检查 {datetime.now().isoformat()}", flush=True)
+        now = datetime.now()
+        hour = now.hour
+        is_night = 0 <= hour < 6  # 凌晨0-6点
 
-        # 并发检查所有5个模型
-        tasks = [check_single_model(m) for m in MODELS]
-        results = await asyncio.gather(*tasks)
-        abnormal = [r for r in results if r]
+        if is_night:
+            # 夜间只做HTTP根路径探活，不发真实提问，间隔拉长到1小时
+            print(f"[健康检查] 凌晨静默时段，只做HTTP探活，不发提问", flush=True)
+            abnormal = []
+            for m in MODELS:
+                if m["name"] in paused_models:
+                    continue
+                try:
+                    requests.get(f"http://127.0.0.1:{m['port']}/", timeout=5)
+                except Exception as e:
+                    abnormal.append(f"{m['name']} 夜间探活异常: {str(e)[:50]}")
+            delay = 3600  # 夜间1小时检查一次
+        else:
+            print(f"[健康检查] 开始检查 {now.isoformat()}", flush=True)
+            # 白天才发真实提问探测
+            tasks = [check_single_model(m) for m in MODELS]
+            results = await asyncio.gather(*tasks)
+            abnormal = [r for r in results if r]
+            delay = random.uniform(HEALTH_CHECK_INTERVAL_MIN, HEALTH_CHECK_INTERVAL_MAX)
 
-        # 有异常，先尝试自动重启
         if abnormal:
             print(f"[健康检查] 发现异常: {abnormal}", flush=True)
             print(f"[健康检查] 尝试自动重启...", flush=True)
