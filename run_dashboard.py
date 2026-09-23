@@ -1719,3 +1719,9 @@ async def geo_run_task(task_id, questions, model_ids, req):
             geo_log("task_finished", {"task_id": task_id, "status": task.get("status"), "completed": task.get("completed",0), "failed": task.get("failed",0)})
 
 
+
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=9000)
