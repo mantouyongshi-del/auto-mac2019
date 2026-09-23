@@ -1195,10 +1195,21 @@ async def health_check_loop():
                 if m["name"] in paused_models:
                     continue
                 try:
-                    requests.get(f"http://127.0.0.1:{m['port']}/", timeout=5)
+                    urllib.request.urlopen(f"http://127.0.0.1:{m['port']}/", timeout=5)
                 except Exception as e:
                     abnormal.append(f"{m['name']} 夜间探活异常: {str(e)[:50]}")
             delay = 3600  # 夜间1小时检查一次
+            # 夜间不自动重启浏览器，只记录异常，避免凌晨弹窗
+            if abnormal:
+                print(f"[健康检查] 夜间探活发现异常: {abnormal}，记录但不自动重启，等白天再处理", flush=True)
+                record = {
+                    "time": datetime.now().astimezone().isoformat(),
+                    "abnormal": abnormal,
+                    "self_healed": False,
+                }
+                health_history.append(record)
+                save_health_record(record)
+                abnormal = []  # 夜间不触发重启流程
         else:
             print(f"[健康检查] 开始检查 {now.isoformat()}", flush=True)
             # 白天才发真实提问探测
