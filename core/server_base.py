@@ -99,7 +99,20 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
 
     @app.get("/")
     async def health():
-        return {"status": "ok", "service": service_name}
+        b = browser_ref["b"]
+        logged_in = False
+        if b:
+            try:
+                logged_in = await b.is_logged_in()
+            except:
+                pass
+        return {
+            "status": "ok",
+            "service": service_name,
+            "browser_alive": True,
+            "logged_in": logged_in,
+            "last_success_at": None
+        }
 
     @app.post("/ask", dependencies=[Depends(verify_api_key)])
     async def ask(req: AskRequest):

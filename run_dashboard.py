@@ -1617,7 +1617,14 @@ async def geo_run_task(task_id, questions, model_ids, req):
             with open(task_file) as f:
                 task = json.load(f)
             task["status"] = "running"
-            task["started_at"] = datetime.now().astimezone().isoformat()
+            if not task.get("started_at"):
+                task["started_at"] = datetime.now().astimezone().isoformat()
+            
+            # 断点恢复：收集已经完成的(question_id, model)，避免重复执行
+            done_pairs = set()
+            for r in task.get("results", []):
+                done_pairs.add((r.get("question_id"), r.get("model")))
+            print(f"[恢复] 任务{task_id} 已完成{len(done_pairs)}个组合", flush=True)
             with open(task_file, "w") as f:
                 json.dump(task, f, ensure_ascii=False, indent=2)
             geo_log("task_started", {"task_id": task_id, "models": model_ids, "questions": len(questions)})
@@ -1691,7 +1698,14 @@ async def geo_run_task(task_id, questions, model_ids, req):
                             "finished_at": datetime.now().astimezone().isoformat()
                         }
                 
-                results = await asyncio.gather(*[ask_one(mid) for mid in active_models])
+                # 只执行没完成的(question_id, model)
+                qid = req.questions[q_idx].question_id
+                pending_models = [mid for mid in active_models if (qid, mid) not in done_pairs]
+                if not pending_models:
+                    results = []
+                    print(f"[恢复] 第{q_idx}题已全部完成，跳过", flush=True)
+                else:
+                    results = await asyncio.gather(*[ask_one(mid) for mid in pending_models])
                 
                 # 保存每道题的结果
                 with open(task_file) as f:

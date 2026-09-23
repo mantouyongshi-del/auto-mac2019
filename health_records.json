@@ -1,5 +1,15 @@
 [
   {
+    "time": "2026-09-23T20:23:44.441423",
+    "abnormal": [
+      "千问 异常: HTTP Error 401: Unauthorized",
+      "豆包 异常: HTTP Error 401: Unauthorized",
+      "文心一言 异常: HTTP Error 401: Unauthorized",
+      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+    ],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-23T20:16:45.425858",
     "abnormal": [
       "千问 异常: HTTP Error 401: Unauthorized",
