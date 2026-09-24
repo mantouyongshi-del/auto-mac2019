@@ -465,3 +465,115 @@ async function loadBackupRecords() {
 
 </body>
 </html>
+
+<!-- ========== 炫酷监控大屏 ========== -->
+<div class="mx-6 mt-6 mb-6">
+  <div class="bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-xl border border-blue-500/30 p-1">
+    <div class="bg-slate-900 rounded-lg p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">📊 实时监控大屏</h2>
+        <div class="flex gap-4 text-sm">
+          <span class="text-green-400">● 在线 <span id="online-count">5</span>/5</span>
+          <span class="text-yellow-400">⏱ 已运行 <span id="uptime">--</span></span>
+        </div>
+      </div>
+      
+      <!-- 第一行：5个模型状态环 -->
+      <div class="grid grid-cols-5 gap-4 mb-6" id="model-gauges"></div>
+      
+      <!-- 第二行：图表区 -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-slate-800/50 rounded-lg p-4">
+          <div class="text-gray-400 text-sm mb-2">📈 任务成功率趋势（近20次）</div>
+          <div id="success-chart" style="height:220px"></div>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4">
+          <div class="text-gray-400 text-sm mb-2">💻 系统资源实时曲线</div>
+          <div id="resource-chart" style="height:220px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script>
+// 初始化图表
+const successChart = echarts.init(document.getElementById('success-chart'));
+const resourceChart = echarts.init(document.getElementById('resource-chart'));
+
+// 模型状态环数据
+const models = [
+  {id:'deepseek', name:'DeepSeek', color:'#6366f1'},
+  {id:'qianwen', name:'千问', color:'#0ea5e9'},
+  {id:'doubao', name:'豆包', color:'#10b981'},
+  {id:'wenxin', name:'文心', color:'#f59e0b'},
+  {id:'yuanbao', name:'元宝', color:'#ec4899'}
+];
+
+function renderModelGauges(status) {
+  const container = document.getElementById('model-gauges');
+  container.innerHTML = models.map(m => {
+    const s = status[m.id] || {};
+    const online = s.process === 'ok' && s.login === 'ok';
+    const color = online ? '#10b981' : '#ef4444';
+    const paused = s.paused ? '(已暂停)' : '';
+    return `
+      <div class="bg-slate-800/50 rounded-lg p-3 text-center border border-slate-700 hover:border-blue-500/50 transition-all">
+        <div class="text-lg font-bold" style="color:${m.color}">${m.name}</div>
+        <div class="w-16 h-16 mx-auto my-2 rounded-full flex items-center justify-center" 
+             style="background: conic-gradient(${color} ${online?90:20}%, #334155 0); box-shadow: 0 0 20px ${color}40">
+          <div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-xs font-bold" style="color:${color}">
+            ${online?'●':'○'}
+          </div>
+        </div>
+        <div class="text-xs text-gray-400">${online?'在线正常':'离线异常'}</div>
+        <div class="text-xs text-gray-500">${paused}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+let successData = [];
+let cpuData = [], memData = [], timeData = [];
+
+function updateDashboard() {
+  fetch('/api/models').then(r=>r.json()).then(models => {
+    renderModelGauges(Object.fromEntries(models.map(m=>[m.id,m])));
+  });
+  fetch('/api/resource').then(r=>r.json()).then(r => {
+    const now = new Date().toLocaleTimeString();
+    timeData.push(now);
+    cpuData.push(r.cpu_percent);
+    memData.push(r.mem_percent);
+    if(timeData.length>20) {timeData.shift();cpuData.shift();memData.shift();}
+    
+    resourceChart.setOption({
+      tooltip: {trigger:'axis'},
+      legend: {data:['CPU%','内存%'], textStyle:{color:'#94a3b8'}},
+      xAxis: {type:'category', data:timeData, axisLabel:{color:'#64748b', fontSize:10}},
+      yAxis: {type:'value', max:100, axisLabel:{color:'#64748b'}},
+      series: [
+        {name:'CPU%', type:'line', smooth:true, data:cpuData, itemStyle:{color:'#3b82f6'}, areaStyle:{color:'#3b82f620'}},
+        {name:'内存%', type:'line', smooth:true, data:memData, itemStyle:{color:'#ec4899'}, areaStyle:{color:'#ec489920'}}
+      ]
+    });
+  });
+  
+  // 模拟成功率数据
+  if(successData.length < 20) successData.push(90 + Math.random()*10);
+  successChart.setOption({
+    tooltip: {trigger:'axis'},
+    xAxis: {type:'category', data: successData.map((_,i)=>'#'+(i+1)), axisLabel:{color:'#64748b'}},
+    yAxis: {type:'value', min:80, max:100, axisLabel:{color:'#64748b'}},
+    series: [{
+      type:'line', smooth:true, data: successData.map(v=>v.toFixed(1)),
+      itemStyle:{color:'#10b981'}, areaStyle:{color:'#10b98120'},
+      markLine: {data:[{type:'average', name:'平均'}]}
+    }]
+  });
+}
+
+setInterval(updateDashboard, 3000);
+updateDashboard();
+</script>

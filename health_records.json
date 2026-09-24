@@ -1,5 +1,250 @@
 [
   {
+    "time": "2026-09-24T18:34:48.143901",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T18:14:31.105070",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T17:47:45.609268",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T17:28:28.445250",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T16:57:58.872990",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T16:34:21.190326",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T16:09:40.582402",
+    "abnormal": [],
+    "self_healed": true
+  },
+  {
+    "time": "2026-09-24T15:35:54.703767",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T15:16:58.730211",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T14:56:15.211654",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T14:34:00.074925",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T14:11:15.352333",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T13:45:22.272817",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T13:22:39.337167",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T12:53:30.712306",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T12:37:12.393533",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T12:17:37.011176",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T11:59:31.187288",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T11:41:12.521915",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T11:13:29.430361",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T10:55:35.111284",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T10:28:26.596945",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T10:09:51.644267",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T09:44:45.982461",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T09:24:06.892119",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T09:06:26.734857",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T08:37:12.509901",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T08:11:41.366213",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T07:47:03.702925",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T07:29:50.524720",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T07:02:22.139049",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T06:40:52.422574",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T06:22:42.297387",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T06:02:10.874425",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T05:36:27.945117",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T05:19:14.094126",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T04:56:59.086917",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T04:49:01.997601",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T04:32:44.472592",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T04:17:05.260485",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T03:55:40.531315",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T03:34:22.784084",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T03:10:50.037979",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T02:49:49.824073",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T02:30:21.398135",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T02:08:24.238056",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T01:39:56.354403",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T01:21:32.930671",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-09-24T00:58:04.796344",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-24T00:56:29.246416+08:00",
     "abnormal": [
       "元宝 异常: <urlopen error [Errno 61] Connection refused>"
@@ -315,150 +560,6 @@
   },
   {
     "time": "2026-09-23T07:21:04.216034",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T06:58:36.417438",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T06:33:54.267834",
-    "abnormal": [
-      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
-    ],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T06:11:57.847992",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T05:48:40.424058",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T05:21:00.183149",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T05:03:24.914640",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T04:33:55.721008",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T04:07:37.762442",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T03:57:15.247043",
-    "abnormal": [],
-    "self_healed": true
-  },
-  {
-    "time": "2026-09-23T03:29:16.498819",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T03:01:49.333371",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T02:36:35.833795",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T02:14:55.763624",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T01:54:49.968767",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T01:27:48.063553",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T01:08:19.575535",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T00:52:45.484782",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T00:28:25.788698",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-23T00:01:51.427233",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T23:44:51.046914",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T23:25:44.092565",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T23:00:34.609870",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T22:43:30.437371",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T22:23:17.234582",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T22:03:52.256775",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T21:34:31.944531",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T21:13:19.266275",
-    "abnormal": [
-      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
-    ],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-22T20:52:49.299162",
     "abnormal": [],
     "self_healed": false
   }
