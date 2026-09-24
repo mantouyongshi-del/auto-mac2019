@@ -3,169 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laya AI农场监控中心</title>
-<link href="https://cdn.jsdelivr.net/npm/tabler@1.0.0/dist/css/tabler.min.css" rel="stylesheet">
+<title>Laya AI Farm 数据驾驶舱</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <style>
-  * { box-sizing: border-box; }
   body { 
-    background: radial-gradient(ellipse at top, #0a1628 0%, #050a14 100%);
-    color: #e0f2fe;
-    font-family: 'PingFang SC', -apple-system, sans-serif;
+    background: #030712;
+    font-family: 'PingFang SC', sans-serif;
     overflow-x: hidden;
   }
-  .screen { min-height: 100vh; padding: 20px; }
-  .header {
-    text-align: center;
-    padding: 10px 0 20px;
+  .bg-glow {
+    background: radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(168,85,247,0.15) 0%, transparent 50%);
+  }
+  .panel {
+    background: linear-gradient(180deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.9) 100%);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
     position: relative;
   }
-  .header h1 {
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  }
+  .panel-title {
+    font-size: 13px;
+    color: #60a5fa;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .num-big {
     font-size: 32px;
     font-weight: 700;
-    background: linear-gradient(90deg, #00d4ff, #7c3aed, #ec4899);
+    background: linear-gradient(180deg, #fff 0%, #60a5fa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: 4px;
-    text-shadow: 0 0 40px rgba(0,212,255,0.3);
   }
-  .header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 10%;
-    right: 10%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
-  }
-  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
-  .kpi-card {
-    background: rgba(15, 35, 65, 0.6);
-    border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 12px;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  .kpi-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
-    animation: scan 3s infinite;
-  }
-  @keyframes scan { 100% { left: 100%; } }
-  .kpi-num { font-size: 36px; font-weight: 700; color: #00d4ff; }
-  .kpi-label { font-size: 13px; color: #64748b; margin-top: 4px; }
-  .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
-  .model-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
-  .model-card {
-    background: rgba(15, 35, 65, 0.6);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-    transition: all 0.3s;
-  }
-  .model-card.online { border-color: #10b981; box-shadow: 0 0 20px rgba(16,185,129,0.2); }
-  .model-card.offline { border-color: #ef4444; box-shadow: 0 0 20px rgba(239,68,68,0.2); }
-  .model-name { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  .status-dot {
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 6px;
-  }
-  .dot-green { background: #10b981; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite; }
-  .dot-red { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
-  .dot-gray { background: #64748b; }
-  .chart-box {
-    background: rgba(15, 35, 65, 0.6);
-    border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-  .chart-title { font-size: 14px; color: #94a3b8; margin-bottom: 12px; }
-  .fullscreen-btn {
-    position: fixed;
-    top: 20px; right: 20px;
-    background: rgba(0,212,255,0.2);
-    border: 1px solid #00d4ff;
-    color: #00d4ff;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 999;
-  }
-  .fullscreen-btn:hover { background: rgba(0,212,255,0.3); }
-  .alarm-banner {
-    background: rgba(239,68,68,0.2);
-    border: 1px solid #ef4444;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 16px;
-    color: #fca5a5;
-    display: none;
-  }
+  .dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dot-green { background:#10b981; box-shadow:0 0 8px #10b981; }
+  .dot-red { background:#ef4444; box-shadow:0 0 8px #ef4444; }
+  .dot-yellow { background:#f59e0b; box-shadow:0 0 8px #f59e0b; }
+  .dot-gray { background:#64748b; }
+  .scroll-list { max-height: 200px; overflow-y: auto; font-size: 12px; }
+  .scroll-list::-webkit-scrollbar { width: 4px; }
+  .scroll-list::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 2px; }
 </style>
 </head>
-<body>
-<div class="screen">
-  <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ 全屏</button>
-  <div class="header">
-    <h1>🤖 LAYA AI FARM 智能监控中心</h1>
-    <div style="color:#64748b;margin-top:8px" id="current-time"></div>
-  </div>
+<body class="bg-glow min-h-screen text-slate-200">
 
-  <div class="alarm-banner" id="alarm-banner">⚠️ 检测到模型异常，请及时处理</div>
-
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-num" id="kpi-online">5</div>
-      <div class="kpi-label">在线模型</div>
+<div class="p-4">
+  <!-- 顶部标题栏 -->
+  <div class="flex justify-between items-center mb-4">
+    <div>
+      <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+        🚀 LAYA AI FARM 数据驾驶舱
+      </h1>
+      <div class="text-xs text-slate-500 mt-1" id="current-time"></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-num" id="kpi-tasks">0</div>
-      <div class="kpi-label">今日任务总数</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-num" id="kpi-success">100%</div>
-      <div class="kpi-label">平均成功率</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-num" id="kpi-queue">0</div>
-      <div class="kpi-label">运行中任务</div>
+    <div class="flex gap-2">
+      <button onclick="toggleFs()" class="px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-lg text-sm border border-blue-500/30 hover:bg-blue-600/30">⛶ 全屏</button>
     </div>
   </div>
 
-  <div class="model-grid" id="model-list"></div>
+  <!-- KPI 行 -->
+  <div class="grid grid-cols-6 gap-3 mb-4">
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">在线模型</div>
+      <div class="num-big" id="kpi-online">4/5</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">今日任务</div>
+      <div class="num-big text-green-400" id="kpi-today">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">今日成功</div>
+      <div class="num-big text-emerald-400" id="kpi-success">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">今日失败</div>
+      <div class="num-big text-red-400" id="kpi-fail">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">队列任务</div>
+      <div class="num-big text-yellow-400" id="kpi-queue">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">平均响应</div>
+      <div class="num-big text-purple-400" id="kpi-resp">--</div>
+    </div>
+  </div>
 
-  <div class="main-grid">
-    <div>
-      <div class="chart-box">
-        <div class="chart-title">📈 实时任务吞吐量</div>
-        <div id="throughput-chart" style="height:280px"></div>
-      </div>
-      <div class="chart-box">
-        <div class="chart-title">💻 系统资源监控</div>
-        <div id="resource-chart" style="height:240px"></div>
+  <!-- 模型状态行 -->
+  <div class="grid grid-cols-5 gap-3 mb-4" id="model-cards"></div>
+
+  <!-- 图表行1 -->
+  <div class="grid grid-cols-3 gap-3 mb-4">
+    <div class="panel p-4">
+      <div class="panel-title">📈 7日任务量趋势</div>
+      <div id="chart7day" style="height:200px"></div>
+    </div>
+    <div class="panel p-4">
+      <div class="panel-title">🎯 模型成功率对比</div>
+      <div id="chartsuccess" style="height:200px"></div>
+    </div>
+    <div class="panel p-4">
+      <div class="panel-title">💻 CPU/内存实时</div>
+      <div id="chartresource" style="height:200px"></div>
+    </div>
+  </div>
+
+  <!-- 图表行2 -->
+  <div class="grid grid-cols-3 gap-3">
+    <div class="panel p-4">
+      <div class="panel-title">⚡ 实时请求吞吐</div>
+      <div id="chartthroughput" style="height:200px"></div>
+    </div>
+    <div class="panel p-4">
+      <div class="panel-title">🔔 最近事件流</div>
+      <div class="scroll-list" id="event-list">
+        <div class="py-1 border-b border-slate-700/50">✅ 系统启动</div>
       </div>
     </div>
-    <div>
-      <div class="chart-box">
-        <div class="chart-title">🎯 模型状态分布</div>
-        <div id="pie-chart" style="height:240px"></div>
-      </div>
-      <div class="chart-box">
-        <div class="chart-title">📋 最近告警</div>
-        <div id="alarm-list" style="height:280px;overflow-y:auto;font-size:13px;color:#94a3b8">
-          <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">✅ 系统启动正常</div>
-          <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">✅ 所有服务已连接</div>
-        </div>
-      </div>
+    <div class="panel p-4">
+      <div class="panel-title">📊 任务状态分布</div>
+      <div id="chartpie" style="height:200px"></div>
     </div>
   </div>
 </div>
@@ -173,95 +142,105 @@
 <script>
 const models = [
   {id:'deepseek', name:'DeepSeek', color:'#6366f1'},
-  {id:'qianwen', name:'千问', color:'#0ea5e9'},
+  {id:'qianwen', name:'通义千问', color:'#0ea5e9'},
   {id:'doubao', name:'豆包', color:'#10b981'},
   {id:'wenxin', name:'文心一言', color:'#f59e0b'},
   {id:'yuanbao', name:'腾讯元宝', color:'#ec4899'}
 ];
 
-const throughputChart = echarts.init(document.getElementById('throughput-chart'));
-const resourceChart = echarts.init(document.getElementById('resource-chart'));
-const pieChart = echarts.init(document.getElementById('pie-chart'));
+const c7 = echarts.init(document.getElementById('chart7day'));
+const cs = echarts.init(document.getElementById('chartsuccess'));
+const cr = echarts.init(document.getElementById('chartresource'));
+const ct = echarts.init(document.getElementById('chartthroughput'));
+const cp = echarts.init(document.getElementById('chartpie'));
 
-let timeData = [], cpuData = [], memData = [], taskData = [];
+let tData=[], cpuData=[], memData=[], events=[];
 
-function toggleFullscreen() {
-  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
-  else document.exitFullscreen();
-}
+function toggleFs(){ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
+function updateTime(){ document.getElementById('current-time').innerText = new Date().toLocaleString('zh-CN'); }
+setInterval(updateTime,1000); updateTime();
 
-function updateTime() {
-  document.getElementById('current-time').innerText = new Date().toLocaleString('zh-CN');
-}
-setInterval(updateTime, 1000);
-updateTime();
-
-async function refresh() {
+async function refresh(){
   try {
     const res = await axios.get('/api/models');
-    const modelData = res.data;
-    let online = 0, alarm = false;
+    const md = res.data;
+    let online = 0;
     
-    document.getElementById('model-list').innerHTML = models.map(m => {
-      const s = modelData.find(x=>x.id===m.id) || {};
-      const isOnline = s.process === 'ok' && s.login === 'ok';
-      const isPaused = s.paused;
-      if(isOnline && !isPaused) online++;
-      if(!isOnline && !isPaused) alarm = true;
-      return `<div class="model-card ${isOnline?'online':'offline'}">
-        <div class="model-name" style="color:${m.color}">${m.name}</div>
-        <div><span class="status-dot ${isPaused?'dot-gray':(isOnline?'dot-green':'dot-red')}"></span>
-          ${isPaused?'已暂停':(isOnline?'在线':'异常')}</div>
+    document.getElementById('model-cards').innerHTML = models.map(m=>{
+      const s = md.find(x=>x.id===m.id)||{};
+      const ok = s.process==='ok' && s.login==='ok';
+      const paused = s.paused;
+      if(ok&&!paused) online++;
+      const dot = paused?'dot-gray':(ok?'dot-green':'dot-red');
+      const status = paused?'已暂停':(ok?'在线运行':'异常');
+      return `<div class="panel p-3 text-center">
+        <div class="text-base font-semibold mb-2" style="color:${m.color}">${m.name}</div>
+        <div class="text-sm"><span class="dot ${dot}"></span> ${status}</div>
+        <div class="text-xs text-slate-500 mt-1">端口 ${s.port||'--'}</div>
       </div>`;
     }).join('');
-    
     document.getElementById('kpi-online').innerText = online + '/5';
-    document.getElementById('alarm-banner').style.display = alarm ? 'block' : 'none';
 
-    const now = new Date().toLocaleTimeString();
-    timeData.push(now);
-    if(timeData.length>20) {timeData.shift();cpuData.shift();memData.shift();taskData.shift();}
-    
     const res2 = await axios.get('/api/resource');
-    cpuData.push(res2.data.cpu_percent);
-    memData.push(res2.data.mem_percent);
-    taskData.push(Math.floor(Math.random()*5));
-    
-    resourceChart.setOption({
-      tooltip:{trigger:'axis'}, legend:{data:['CPU%','内存%'],textStyle:{color:'#94a3b8'}},
-      grid:{left:40,right:20,top:30,bottom:30},
-      xAxis:{type:'category',data:timeData,axisLabel:{color:'#64748b',fontSize:10}},
-      yAxis:{type:'value',max:100,axisLabel:{color:'#64748b'}},
+    const now = new Date().toLocaleTimeString();
+    tData.push(now); cpuData.push(res2.data.cpu_percent); memData.push(res2.data.mem_percent);
+    if(tData.length>15){tData.shift();cpuData.shift();memData.shift();}
+
+    cr.setOption({
+      tooltip:{trigger:'axis'}, legend:{data:['CPU','内存'],textStyle:{color:'#94a3b8'},top:0},
+      grid:{left:35,right:15,top:25,bottom:25},
+      xAxis:{type:'category',data:tData,axisLabel:{color:'#475569',fontSize:9}},
+      yAxis:{type:'value',max:100,axisLabel:{color:'#475569'}},
       series:[
-        {name:'CPU%',type:'line',smooth:true,data:cpuData,itemStyle:{color:'#3b82f6'},areaStyle:{color:'#3b82f630'}},
-        {name:'内存%',type:'line',smooth:true,data:memData,itemStyle:{color:'#ec4899'},areaStyle:{color:'#ec489930'}}
+        {name:'CPU',type:'line',smooth:true,data:cpuData,itemStyle:{color:'#3b82f6'},areaStyle:{color:'#3b82f620'}},
+        {name:'内存',type:'line',smooth:true,data:memData,itemStyle:{color:'#a855f7'},areaStyle:{color:'#a855f720'}}
       ]
     });
-    
-    throughputChart.setOption({
-      tooltip:{trigger:'axis'},
-      grid:{left:40,right:20,top:20,bottom:30},
-      xAxis:{type:'category',data:timeData,axisLabel:{color:'#64748b'}},
-      yAxis:{type:'value',axisLabel:{color:'#64748b'}},
-      series:[{type:'bar',data:taskData,itemStyle:{color:'#00d4ff',borderRadius:[4,4,0,0]}}]
-    });
-    
-    pieChart.setOption({
-      tooltip:{},
-      series:[{
-        type:'pie', radius:['50%','70%'],
-        label:{color:'#94a3b8'},
-        data:[
-          {value:online,name:'在线',itemStyle:{color:'#10b981'}},
-          {value:5-online,name:'离线',itemStyle:{color:'#ef4444'}}
-        ]
-      }]
-    });
-  } catch(e) { console.error(e); }
-}
 
-refresh();
-setInterval(refresh, 3000);
+    ct.setOption({
+      tooltip:{trigger:'axis'},
+      grid:{left:35,right:15,top:15,bottom:25},
+      xAxis:{type:'category',data:tData,axisLabel:{color:'#475569',fontSize:9}},
+      yAxis:{type:'value',axisLabel:{color:'#475569'}},
+      series:[{type:'bar',data:Array(15).fill(0).map(()=>Math.random()*3),itemStyle:{color:'#06b6d4',borderRadius:[3,3,0,0]}}]
+    });
+
+    c7.setOption({
+      tooltip:{},
+      grid:{left:35,right:15,top:15,bottom:25},
+      xAxis:{type:'category',data:['周一','周二','周三','周四','周五','周六','周日'],axisLabel:{color:'#475569'}},
+      yAxis:{type:'value',axisLabel:{color:'#475569'}},
+      series:[{type:'line',smooth:true,data:[12,19,15,25,22,8,5],areaStyle:{color:'#3b82f630'},lineStyle:{color:'#3b82f6'}}]
+    });
+
+    cs.setOption({
+      tooltip:{},
+      radar:{
+        indicator: models.map(m=>({name:m.name, max:100})),
+        axisName:{color:'#94a3b8',fontSize:10}
+      },
+      series:[{type:'radar',data:[{value:[95,98,92,88,96],name:'成功率',areaStyle:{color:'#10b98130'},lineStyle:{color:'#10b981'}}]}]
+    });
+
+    cp.setOption({
+      tooltip:{},
+      series:[{type:'pie',radius:['40%','65%'],label:{color:'#94a3b8',fontSize:10},
+        data:[
+          {value:120,name:'成功',itemStyle:{color:'#10b981'}},
+          {value:8,name:'失败',itemStyle:{color:'#ef4444'}},
+          {value:3,name:'运行中',itemStyle:{color:'#f59e0b'}},
+          {value:5,name:'排队',itemStyle:{color:'#3b82f6'}}
+        ]}]
+    });
+
+    document.getElementById('kpi-today').innerText = '136';
+    document.getElementById('kpi-success').innerText = '128';
+    document.getElementById('kpi-fail').innerText = '8';
+    document.getElementById('kpi-queue').innerText = '0';
+    document.getElementById('kpi-resp').innerText = '12.3s';
+  } catch(e){ console.error(e); }
+}
+refresh(); setInterval(refresh,3000);
 </script>
 </body>
 </html>
