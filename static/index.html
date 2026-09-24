@@ -156,7 +156,7 @@ const cp = echarts.init(document.getElementById('chartpie'));
 
 let tData=[], cpuData=[], memData=[], events=[];
 
-function toggleFs(){ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
+function toggleFs(){ try{ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){ alert("请用浏览器窗口打开全屏，当前内嵌页面不支持"); } }
 function updateTime(){ document.getElementById('current-time').innerText = new Date().toLocaleString('zh-CN'); }
 setInterval(updateTime,1000); updateTime();
 

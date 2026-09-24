@@ -563,8 +563,8 @@ async def auth_middleware(request: Request, call_next):
     # 公开路径
     if path.startswith("/login") or path.startswith("/static") or path == "/favicon.ico" or path.startswith("/geo/"):
         return await call_next(request)
-    # API 登录接口
-    if path == "/api/login":
+    # API 登录接口 + 监控大屏免登录接口
+    if path == "/api/login" or path == "/api/models" or path == "/api/resource":
         return await call_next(request)
     # 检查token
     token = request.cookies.get("dashboard_token", "")
