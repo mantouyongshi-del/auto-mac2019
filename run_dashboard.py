@@ -144,6 +144,11 @@ class CreateTaskRequest(BaseModel):
     task_name: str = ""
 
 
+@app.get("/api/resource")
+def api_resource():
+    import psutil
+    return {"cpu_percent": psutil.cpu_percent(), "mem_percent": psutil.virtual_memory().percent}
+
 @app.get("/api/models")
 def get_models():
     """获取所有模型的在线状态。"""

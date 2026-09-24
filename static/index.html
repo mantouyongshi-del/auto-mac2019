@@ -163,7 +163,7 @@ setInterval(updateTime,1000); updateTime();
 async function refresh(){
   try {
     const res = await axios.get('/api/models');
-    const md = res.data;
+    const md = res.data.models || [];
     let online = 0;
     
     document.getElementById('model-cards').innerHTML = models.map(m=>{
