@@ -584,6 +584,16 @@ async def auth_middleware(request: Request, call_next):
 # ---------- 自动健康检查 ----------
 HEALTH_CHECK_INTERVAL_MIN = 900  # 最少10分钟
 HEALTH_CHECK_INTERVAL_MAX = 1800  # 最多20分钟
+PROBE_ENABLED = os.environ.get("PROBE_ENABLED", "1") == "1"  # 探测总开关：0=只HTTP探活，不发真实提问
+
+def batch_runner_running() -> bool:
+    """跑批是独立进程，不在running_tasks里，需单独探测避免健康检查误发提问。"""
+    try:
+        r = subprocess.run(["pgrep", "-f", "minsheng_batch_runner.py"],
+                           capture_output=True, timeout=5)
+        return r.returncode == 0
+    except Exception:
+        return False
 health_history = []
 last_alarm_time = 0  # 健康检查历史
 
@@ -1185,9 +1195,9 @@ async def health_check_loop():
         now = datetime.now()
         hour = now.hour
         is_night = 0 <= hour < 6  # 凌晨0-6点
-        has_tasks = len(running_tasks) > 0  # 是否有批量任务在跑
+        has_tasks = len(running_tasks) > 0 or batch_runner_running()  # 是否有批量任务/跑批在跑
 
-        if has_tasks or is_night:
+        if has_tasks or is_night or not PROBE_ENABLED:
             # 任务运行中或夜间：只做HTTP根路径探活，不发真实提问（避免叠加提问频率触发风控）
             mode = "批量任务运行中" if has_tasks else "凌晨静默时段"
             print(f"[健康检查] {mode}，只做HTTP探活，不发提问", flush=True)
