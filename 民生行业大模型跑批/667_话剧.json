@@ -1,0 +1,82 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 667,
+ "industry": "话剧_加盟投资与门店运营",
+ "cat_code": "R",
+ "cat_name": "文化、体育和娱乐业",
+ "div_name": "文化艺术业",
+ "anchors": [
+  "原创精品舞台话剧演出",
+  "青年先锋话剧小剧场",
+  "高校青年戏剧节话剧承办"
+ ],
+ "prompts": [
+  {
+   "text": "原创精品舞台话剧演出视频",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "原创精品舞台话剧演出在哪里看",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "原创精品舞台话剧演出策划方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "原创精品舞台话剧演出时间",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "原创精品舞台话剧演出方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "青年先锋话剧小剧场视频",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "青年先锋话剧小剧场在线观看",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "青年先锋话剧小剧场作品",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "青年先锋话剧小剧场剧本",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "青年先锋话剧小剧场版",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "高校青年戏剧节话剧承办单位是什么",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "高校青年戏剧节话剧承办部门",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "高校青年戏剧节话剧承办单位",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  }
+ ],
+ "prompt_count": 13,
+ "decision_count": 0
+}

@@ -124,6 +124,14 @@ class BrowserBase:
         return []
 
     # ---------- 子类可覆盖（有默认值） ----------
+    def decorate_question(self, question: str) -> str:
+        """装饰要发送给模型的问题文本。默认原样返回，子类可附加提示词。"""
+        return question
+
+    async def handle_post_send_popups(self):
+        """问题发送后、等待回答前，处理模型特有的弹窗（如元宝的二次确认选择框）。默认空实现。"""
+        return None
+
     def should_capture_url(self, url: str) -> bool:
         """判断是否需要捕获此响应的 body。默认不捕获（DOM 模式）。"""
         return False
@@ -187,6 +195,9 @@ class BrowserBase:
 
         # 0. 先关掉可能弹出的广告/通知弹窗
         await self.dismiss_popups()
+
+        # 0.5 装饰问题（子类可附加提示词，如豆包禁用工具）
+        question = self.decorate_question(question)
 
         # 1. 每题独立会话
         if not await self.new_chat():
@@ -277,6 +288,9 @@ class BrowserBase:
                 await inp.press("Enter")
         else:
             await inp.press("Enter")
+
+        # 7.5 发送后处理模型特有弹窗（如元宝二次确认选择框）
+        await self.handle_post_send_popups()
 
         # 8. 等待回答完成
         await self.wait_for_answer(base_count)

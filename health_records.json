@@ -1,5 +1,10 @@
 [
   {
+    "time": "2026-09-28T19:25:50.222172",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-28T19:05:59.565231",
     "abnormal": [],
     "self_healed": false
@@ -493,11 +498,6 @@
   },
   {
     "time": "2026-09-27T04:11:41.438425",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-27T03:55:16.075200",
     "abnormal": [],
     "self_healed": false
   }

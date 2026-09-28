@@ -25,6 +25,10 @@ class DoubaoBrowser(BrowserBase):
     def should_capture_url(self, url: str) -> bool:
         return '/chat/completion' in url
 
+    def decorate_question(self, question: str) -> str:
+        """豆包会大量调用工具/skills导致回答复杂化，附加提示词要求快速回答不用工具。"""
+        return f"{question}（请快速回答，不要使用任何工具）"
+
     async def is_logged_in(self) -> bool:
         try:
             await self.page.wait_for_selector(self.INPUT_SELECTOR, timeout=5000)

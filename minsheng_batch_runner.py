@@ -1,0 +1,232 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+民生行业大模型跑批引擎
+========================
+读取「民生行业大模型跑批」目录下的行业JSON，逐条prompt调用5个模型服务（/ask），
+抓取：回答正文(answer)、搜索关键词(search_queries)、引用信源(citations)，最重要的引用。
+结果按「行业目录/prompt文件」落盘到「民生行业跑批结果」目录。
+
+防风控策略：
+- 同一问题并发发5个模型（不同平台，不叠加风控）
+- 两个问题之间随机间隔 15-25 秒（可配）
+- 每跑 N 题休息 5-10 分钟（可配）
+- 断点续跑：已落盘的结果自动跳过，不会重复提问
+- 失败标记 error 继续下一个，不中断
+
+用法：
+  python3 minsheng_batch_runner.py                # 全量跑
+  python3 minsheng_batch_runner.py --limit 50     # 只跑前50条（小批量试跑）
+  python3 minsheng_batch_runner.py --industry 1   # 只跑指定行业ID
+  python3 minsheng_batch_runner.py --resume       # 断点续跑（默认自动续跑）
+"""
+import os
+import sys
+import json
+import time
+import random
+import argparse
+import asyncio
+import urllib.request
+from datetime import datetime
+from pathlib import Path
+
+# ---------- 配置 ----------
+ROOT = Path(__file__).parent
+SRC_DIR = ROOT / "民生行业大模型跑批"
+OUT_DIR = ROOT / "民生行业跑批结果"
+
+# 模型服务（deepseek暂停中，跳过）
+MODELS = [
+    {"id": "qianwen", "name": "千问", "port": 8001},
+    {"id": "doubao", "name": "豆包", "port": 8002},
+    {"id": "wenxin", "name": "文心一言", "port": 8003},
+    {"id": "yuanbao", "name": "腾讯元宝", "port": 8004},
+]
+MODEL_API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
+
+# 防风控节奏
+DELAY_MIN = 15      # 题间最小间隔（秒）
+DELAY_MAX = 25      # 题间最大间隔（秒）
+REST_EVERY = 10     # 每跑多少题休息一次
+REST_MIN = 300      # 休息最短时间（秒）= 5分钟
+REST_MAX = 600      # 休息最长时间（秒）= 10分钟
+ASK_TIMEOUT = 300   # 单个模型单次提问超时（秒），5分钟
+
+# ---------- 工具 ----------
+def log(msg):
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[{ts}] {msg}", flush=True)
+
+def call_model(model, question):
+    """调用单个模型 /ask，返回 dict。失败抛异常。"""
+    req = urllib.request.Request(
+        f"http://127.0.0.1:{model['port']}/ask",
+        data=json.dumps({"question": question}).encode(),
+        headers={"Content-Type": "application/json", "X-API-Key": MODEL_API_KEY},
+    )
+    with urllib.request.urlopen(req, timeout=ASK_TIMEOUT) as resp:
+        data = json.loads(resp.read())
+    return {
+        "status": "ok",
+        "answer": data.get("answer", ""),
+        "search_queries": data.get("search_queries", []),
+        "citations": data.get("citations", []),
+        "asked_at": datetime.now().astimezone().isoformat(),
+    }
+
+def make_result_file(industry_file, prompt_text, verdict, depth, prompt_idx, results):
+    """组装单个prompt的结果文件内容。"""
+    return {
+        "schema": "minsheng-geo-batch-result-v1",
+        "industry_id": industry_file.get("industry_id"),
+        "industry": industry_file.get("industry"),
+        "cat_code": industry_file.get("cat_code"),
+        "cat_name": industry_file.get("cat_name"),
+        "div_name": industry_file.get("div_name"),
+        "anchors": industry_file.get("anchors", []),
+        "prompt_index": prompt_idx,
+        "prompt_text": prompt_text,
+        "verdict": verdict,
+        "depth": depth,
+        "collected_at": datetime.now().astimezone().isoformat(),
+        "results": results,
+    }
+
+def is_rest_time():
+    """每周休息日检查：周日不跑，让账号休息（与Dashboard一致）。"""
+    return datetime.now().weekday() == 6  # 0=周一, 6=周日
+
+# ---------- 核心跑批 ----------
+async def ask_one_prompt(question):
+    """同一问题并发发所有模型，等全部回来。返回 {model_id: result_dict}。"""
+    async def _ask(m):
+        try:
+            return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, question)
+        except Exception as e:
+            return m["id"], {
+                "status": "error",
+                "error": str(e)[:200],
+                "answer": "",
+                "search_queries": [],
+                "citations": [],
+                "asked_at": datetime.now().astimezone().isoformat(),
+            }
+    results = await asyncio.gather(*[_ask(m) for m in MODELS])
+    return dict(results)
+
+async def run_batch(industry_files, limit=None, only_industries=None):
+    """遍历行业和prompt执行跑批。"""
+    total_asked = 0
+    total_skipped = 0
+    total_failed = 0
+
+    for i, (industry_id, ind_file) in enumerate(industry_files):
+        if only_industries and industry_id not in only_industries:
+            continue
+
+        # 行业目录：ID_行业名
+        safe_name = str(ind_file.get("industry", str(industry_id))).replace("/", "_").replace("\\", "_")
+        ind_dir = OUT_DIR / f"{industry_id}_{safe_name}"
+        ind_dir.mkdir(parents=True, exist_ok=True)
+
+        prompts = ind_file.get("prompts", [])
+        log(f"=== 行业 {industry_id}/{len(industry_files)}: {ind_file.get('industry')}，{len(prompts)} 条prompt ===")
+
+        for pidx, p in enumerate(prompts, 1):
+            if limit and total_asked >= limit:
+                log(f"达到测试上限 {limit} 条，停止。")
+                return total_asked, total_skipped, total_failed
+
+            text = p.get("text", "").strip()
+            if not text:
+                continue
+
+            # 结果文件名：序号_前30字
+            fn = f"{pidx:04d}_{text[:30]}.json"
+            out_file = ind_dir / fn
+
+            # 断点续跑：已存在且含完整结果则跳过
+            if out_file.exists():
+                try:
+                    with open(out_file, encoding="utf-8") as f:
+                        old = json.load(f)
+                    if old.get("results") and len(old["results"]) > 0:
+                        total_skipped += 1
+                        continue
+                except Exception:
+                    pass
+
+            log(f"[{pidx}/{len(prompts)}] 提问: {text[:50]}...")
+            results = await ask_one_prompt(text)
+
+            # 统计失败
+            failed_models = [mid for mid, r in results.items() if r.get("status") != "ok"]
+            if failed_models:
+                total_failed += 1
+                log(f"  ⚠️ 失败模型: {failed_models}，标记error继续")
+
+            result = make_result_file(ind_file, text, p.get("verdict"), p.get("depth"), pidx, results)
+
+            # 原子写：先写临时文件再改名，避免半截文件
+            tmp_file = out_file.with_suffix(".tmp")
+            with open(tmp_file, "w", encoding="utf-8") as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            os.replace(tmp_file, out_file)
+
+            total_asked += 1
+            log(f"  ✅ 完成，引用数: {sum(len(r.get('citations',[])) for r in results.values())}")
+
+            # 防风控节奏
+            if total_asked % REST_EVERY == 0:
+                rest = random.randint(REST_MIN, REST_MAX)
+                log(f"🛌 已跑 {total_asked} 题，休息 {rest//60} 分钟...")
+                await asyncio.sleep(rest)
+            else:
+                delay = random.uniform(DELAY_MIN, DELAY_MAX)
+                log(f"⏳ 等待 {delay:.1f} 秒...")
+                await asyncio.sleep(delay)
+
+    return total_asked, total_skipped, total_failed
+
+def main():
+    parser = argparse.ArgumentParser(description="民生行业大模型跑批引擎")
+    parser.add_argument("--limit", type=int, default=None, help="只跑前N条（小批量试跑）")
+    parser.add_argument("--industry", type=int, nargs="*", default=None, help="只跑指定行业ID，可多个")
+    parser.add_argument("--no-rest-check", action="store_true", help="跳过周日休息检查")
+    args = parser.parse_args()
+
+    if not SRC_DIR.exists():
+        log(f"❌ 数据目录不存在: {SRC_DIR}")
+        sys.exit(1)
+    if is_rest_time() and not args.no_rest_check:
+        log("今天是周日休息日，系统休息，不跑批。可用 --no-rest-check 强制跑。")
+        sys.exit(0)
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # 加载行业文件
+    industry_files = []
+    for fn in sorted(SRC_DIR.glob("*.json")):
+        if fn.name == "manifest.json":
+            continue
+        try:
+            with open(fn, encoding="utf-8") as f:
+                ind = json.load(f)
+            industry_files.append((ind.get("industry_id"), ind))
+        except Exception as e:
+            log(f"⚠️ 跳过无法解析的文件 {fn.name}: {e}")
+
+    log(f"加载完成：{len(industry_files)} 个行业文件")
+
+    if args.industry:
+        industry_files = [(iid, f) for iid, f in industry_files if iid in args.industry]
+        log(f"只跑指定行业: {args.industry}，共 {len(industry_files)} 个")
+
+    total_asked, total_skipped, total_failed = asyncio.run(
+        run_batch(industry_files, limit=args.limit, only_industries=args.industry)
+    )
+    log(f"🏁 跑批结束：本轮提问 {total_asked}，断点跳过 {total_skipped}，失败 {total_failed}")
+
+if __name__ == "__main__":
+    main()

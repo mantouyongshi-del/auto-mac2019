@@ -85,6 +85,20 @@ class YuanbaoBrowser(BrowserBase):
             print(f"[yuanbao send] 失败: {e}", flush=True)
             return False
 
+    async def handle_post_send_popups(self):
+        """元宝提问后可能弹出"二次确认"选择框（问用户是不是想问XX），点全部跳过避免阻塞。"""
+        try:
+            # 常见按钮文案：全部跳过 / 跳过所有 / 跳过 / 都不是
+            for text in ["全部跳过", "跳过所有", "跳过全部", "都不是", "跳过"]:
+                btn = self.page.get_by_text(text, exact=False).first
+                if await btn.is_visible(timeout=1500):
+                    await btn.click()
+                    await asyncio.sleep(random.uniform(0.3, 0.8))
+                    print(f"[元宝弹窗] 已点击: {text}", flush=True)
+                    return
+        except Exception:
+            pass
+
     # ---------- 停止按钮（等待信号，待精调） ----------
     def stop_button_selector(self) -> str:
         return ("button:has-text('停止'), [aria-label*='停止'], "
