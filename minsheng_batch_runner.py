@@ -37,13 +37,29 @@ SRC_DIR = ROOT / "民生行业大模型跑批"
 OUT_DIR = ROOT / "民生行业跑批结果"
 
 # 模型服务（全部5个）
-MODELS = [
+MODELS_ALL = [
     {"id": "deepseek", "name": "DeepSeek", "port": 8000},
     {"id": "qianwen", "name": "千问", "port": 8001},
     {"id": "doubao", "name": "豆包", "port": 8002},
     {"id": "wenxin", "name": "文心一言", "port": 8003},
     {"id": "yuanbao", "name": "腾讯元宝", "port": 8004},
 ]
+
+def load_paused_models() -> set:
+    """读取暂停模型（与Dashboard共用 paused_models.json，按 model_id）。"""
+    pf = Path(__file__).parent / "paused_models.json"
+    try:
+        if pf.exists():
+            return set(json.load(open(pf, encoding="utf-8")))
+    except Exception:
+        pass
+    return set()
+
+PAUSED_MODELS = load_paused_models()
+MODELS = [m for m in MODELS_ALL if m["id"] not in PAUSED_MODELS]
+if PAUSED_MODELS:
+    # log() 尚未定义（定义在下方），此处用 print
+    print(f"⏸️ 已暂停模型: {sorted(PAUSED_MODELS)}，本轮仅使用 {len(MODELS)} 个模型: {[m['id'] for m in MODELS]}", flush=True)
 MODEL_API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
 
 # 防风控节奏
