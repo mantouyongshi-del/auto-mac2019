@@ -400,6 +400,7 @@ class BrowserBase:
         page = self.page
         
         # 1. 先按常见的×图标关闭按钮选择器找（图标型按钮，没有文字）
+        #    每步加短超时保护，避免慢页面/大量匹配导致挂起
         close_selectors = [
             'div[class*="close"]', 'button[class*="close"]',
             'div[class*="Close"]', 'button[class*="Close"]',
@@ -408,24 +409,33 @@ class BrowserBase:
         for sel in close_selectors:
             try:
                 btn = page.locator(sel).first
-                if await btn.is_visible(timeout=200):
-                    await btn.click()
+                if await asyncio.wait_for(btn.is_visible(timeout=300), timeout=1.5):
+                    await asyncio.wait_for(btn.click(), timeout=2)
                     await asyncio.sleep(random.uniform(0.2, 0.5))
                     print(f"[弹窗] 已通过选择器关闭: {sel}", flush=True)
                     break
             except Exception:
                 continue
         
-        # 2. 再按文字找关闭按钮
+        # 2. 再按文字找关闭按钮。
+        #    【重要】只用按钮/角色按钮元素匹配，绝不用 get_by_text 全文模糊匹配——
+        #    否则"继续/确认/取消/跳过"等常见词会命中上一题回答正文文本，
+        #    点击不可交互文本会一直等 actionability 直到超时（元宝高频502根因）。
+        #    弹窗特征词在前，通用兜底词放最后。
         close_texts = [
-            "暂不", "关闭", "×", "我知道了", "知道了", "不再提示",
-            "取消", "以后再说", "下次再说", "暂不开启", "拒绝", "暂不体验", "继续", "确认", "跳过", "继续提问", "知道了，继续"
+            "暂不", "我知道了", "知道了", "不再提示", "以后再说",
+            "下次再说", "暂不开启", "暂不体验", "知道了，继续", "关闭", "×",
+            # 通用兜底词（可能出现在正文，务必最后且按钮限定）
+            "跳过", "继续", "确认", "取消", "继续提问",
         ]
         for text in close_texts:
             try:
-                btn = page.get_by_text(text, exact=False).first
-                if await btn.is_visible(timeout=200):
-                    await btn.click()
+                # 限定按钮类元素：button / [role=button]，避免匹配正文文本
+                btn = page.locator(
+                    f'button:has-text("{text}"), [role="button"]:has-text("{text}")'
+                ).first
+                if await asyncio.wait_for(btn.is_visible(timeout=300), timeout=1.5):
+                    await asyncio.wait_for(btn.click(), timeout=2)
                     await asyncio.sleep(random.uniform(0.2, 0.5))
                     print(f"[弹窗] 已通过文字关闭: {text}", flush=True)
                     break
