@@ -123,6 +123,14 @@ class BrowserBase:
         """提取本次回答用了哪些搜索关键词。默认返回空（拿不到的模型）。"""
         return []
 
+    def _url_match(self, url: str) -> bool:
+        """判断 URL 是否匹配回答接口模式（ANSWER_URL_PATTERN 的 glob 简化实现）。"""
+        pattern = getattr(self, 'ANSWER_URL_PATTERN', None)
+        if not pattern:
+            return False
+        p = pattern.replace("**", "")
+        return p in url
+
     # ---------- 子类可覆盖（有默认值） ----------
     def decorate_question(self, question: str) -> str:
         """装饰要发送给模型的问题文本。默认原样返回，子类可附加提示词。"""
@@ -265,35 +273,41 @@ class BrowserBase:
         except Exception:
             base_count = 0
 
-        # 7. 回车发送（同时监听回答接口响应）
+        # 7. 回车发送（同时监听回答接口的全部响应，直到回答真正结束）
         self.captured_responses.clear()
-
-        # 如果子类需要网络拦截，用 expect_response 精准捕获
         answer_url_pattern = getattr(self, 'ANSWER_URL_PATTERN', None)
+
         if answer_url_pattern:
-            try:
-                async with page.expect_response(answer_url_pattern, timeout=self.WAIT_TIMEOUT * 1000) as resp_info:
-                    await inp.press("Enter")
-                resp = await resp_info.value
-                body_bytes = await resp.body()
-                # 修复双重编码
+            # 用 page.on("response") 持续监听，收集所有匹配的回答接口响应
+            async def _capture(resp):
                 try:
-                    body = self._fix_double_encoding(body_bytes.decode('utf-8'))
+                    url = resp.url
+                    if self._url_match(url):
+                        body_bytes = await resp.body()
+                        try:
+                            body = self._fix_double_encoding(body_bytes.decode('utf-8'))
+                        except Exception:
+                            body = body_bytes.decode('utf-8', errors='replace')
+                        # 只保留一次，避免重复
+                        if body and url not in self.captured_responses:
+                            self.captured_responses[url] = body
+                            print(f"[网络拦截] 捕获: {len(body)} 字节 {url[-40:]}", flush=True)
                 except Exception:
-                    body = body_bytes.decode('utf-8', errors='replace')
-                self.captured_responses[resp.url] = body
-                print(f"[网络拦截] 成功捕获: {len(body)} 字节", flush=True)
-            except Exception as e:
-                print(f"[网络拦截] 失败: {e}", flush=True)
-                await inp.press("Enter")
-        else:
-            await inp.press("Enter")
+                    pass
+            page.on("response", _capture)
+
+        await inp.press("Enter")
 
         # 7.5 发送后处理模型特有弹窗（如元宝二次确认选择框）
         await self.handle_post_send_popups()
 
-        # 8. 等待回答完成
+        # 8. 等待回答真正完成（停止按钮消失 + 内容稳定），网络拦截只作辅助
         await self.wait_for_answer(base_count)
+
+        # 8.5 网络拦截监听保持到回答结束后短暂窗口（引用流可能在回答末尾到达）
+        if answer_url_pattern:
+            await asyncio.sleep(random.uniform(1.5, 3.0))
+            page.remove_listener("response", _capture)
 
         # 9. 提取
         await asyncio.sleep(1)
@@ -323,11 +337,7 @@ class BrowserBase:
         }
 
     async def wait_for_answer(self, base_count: int = 0):
-        """等待回答完成。如果已通过 expect_response 捕获到回答，直接返回。"""
-        if self.captured_responses:
-            await asyncio.sleep(1)  # 等 SSE 流完全结束
-            return
-
+        """等待回答真正完成：停止按钮消失 + 回答内容长度稳定（不再只依赖网络拦截提前返回）。"""
         page = self.page
         await asyncio.sleep(3)
 
@@ -357,12 +367,16 @@ class BrowserBase:
                 stable_rounds = 0
                 last_len = cur_len
 
+            # 停止按钮消失且内容稳定 → 回答完成
             if not has_stop and last_len > 0 and stable_rounds >= 2:
                 await asyncio.sleep(1.5)
                 break
             if last_len > 0 and stable_rounds >= 5:
                 await asyncio.sleep(1.0)
                 break
+
+        # 无论如何再给引用流/尾部补充一点时间
+        await asyncio.sleep(random.uniform(1.0, 2.0))
 
     async def dismiss_popups(self):
         """自动关闭常见网页弹窗：通知、广告、引导浮层、浏览器提示条。"""
