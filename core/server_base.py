@@ -122,7 +122,16 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             raise HTTPException(status_code=400, detail="问题不能为空")
         async with lock:
             try:
-                result = await browser.ask(req.question)
+                result = await asyncio.wait_for(browser.ask(req.question), timeout=180)
+            except asyncio.TimeoutError:
+                save_log({
+                    "question": req.question,
+                    "error": "请求超时(180s)",
+                    "answer": "",
+                    "citations": [],
+                    "search_queries": [],
+                }, service_name)
+                raise HTTPException(status_code=502, detail=f"{service_name} 请求超时")
             except HTTPException as e:
                 # 失败也记录日志
                 save_log({
@@ -174,7 +183,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     results.append(record)
                     continue
                 try:
-                    r = await browser.ask(q)
+                    r = await asyncio.wait_for(browser.ask(q), timeout=180)
                     record = {
                         "question": q,
                         "answer": r["answer"],

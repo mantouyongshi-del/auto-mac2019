@@ -202,23 +202,29 @@ class BrowserBase:
         page = self.page
 
         # 0. 先关掉可能弹出的广告/通知弹窗
-        await self.dismiss_popups()
+        print("[ask] 步骤0 关闭弹窗", flush=True)
+        await asyncio.wait_for(self.dismiss_popups(), timeout=20)
+        print("[ask] 步骤0 完成", flush=True)
 
         # 0.5 装饰问题（子类可附加提示词，如豆包禁用工具）
         question = self.decorate_question(question)
 
         # 1. 每题独立会话
-        if not await self.new_chat():
+        print("[ask] 步骤1 新会话", flush=True)
+        if not await asyncio.wait_for(self.new_chat(), timeout=30):
             raise RuntimeError("开启新会话失败")
+        print("[ask] 步骤1 完成", flush=True)
 
         # 2. 模拟人类：随机停顿
         await asyncio.sleep(random.uniform(0.5, 2.0))
 
         # 3. 登录检查
-        await self.check_login_url()
+        await asyncio.wait_for(self.check_login_url(), timeout=10)
+        print("[ask] 步骤3 登录检查完成", flush=True)
 
         # 4. 开启联网搜索（模型特有）
-        await self.maybe_enable_search()
+        await asyncio.wait_for(self.maybe_enable_search(), timeout=15)
+        print("[ask] 步骤4 联网搜索完成", flush=True)
 
         # 5. 逐字输入
         inp = page.locator(self.INPUT_SELECTOR).first
@@ -274,40 +280,34 @@ class BrowserBase:
             base_count = 0
 
         # 7. 回车发送（同时监听回答接口的全部响应，直到回答真正结束）
+        print("[ask] 步骤7 发送问题", flush=True)
         self.captured_responses.clear()
         answer_url_pattern = getattr(self, 'ANSWER_URL_PATTERN', None)
 
         if answer_url_pattern:
-            # 用 page.on("response") 持续监听，收集所有匹配的回答接口响应
-            async def _capture(resp):
+            # 用 expect_response 捕获第一个回答接口响应（只等发送后的一段时间）
+            try:
+                async with page.expect_response(answer_url_pattern, timeout=self.WAIT_TIMEOUT * 1000) as resp_info:
+                    await inp.press("Enter")
+                resp = await resp_info.value
+                body_bytes = await resp.body()
                 try:
-                    url = resp.url
-                    if self._url_match(url):
-                        body_bytes = await resp.body()
-                        try:
-                            body = self._fix_double_encoding(body_bytes.decode('utf-8'))
-                        except Exception:
-                            body = body_bytes.decode('utf-8', errors='replace')
-                        # 只保留一次，避免重复
-                        if body and url not in self.captured_responses:
-                            self.captured_responses[url] = body
-                            print(f"[网络拦截] 捕获: {len(body)} 字节 {url[-40:]}", flush=True)
+                    body = self._fix_double_encoding(body_bytes.decode('utf-8'))
                 except Exception:
-                    pass
-            page.on("response", _capture)
-
-        await inp.press("Enter")
+                    body = body_bytes.decode('utf-8', errors='replace')
+                self.captured_responses[resp.url] = body
+                print(f"[网络拦截] 捕获: {len(body)} 字节", flush=True)
+            except Exception as e:
+                print(f"[网络拦截] 失败: {e}", flush=True)
+                await inp.press("Enter")
+        else:
+            await inp.press("Enter")
 
         # 7.5 发送后处理模型特有弹窗（如元宝二次确认选择框）
         await self.handle_post_send_popups()
 
-        # 8. 等待回答真正完成（停止按钮消失 + 内容稳定），网络拦截只作辅助
+        # 8. 等待回答真正完成（停止按钮消失 + 内容稳定）
         await self.wait_for_answer(base_count)
-
-        # 8.5 网络拦截监听保持到回答结束后短暂窗口（引用流可能在回答末尾到达）
-        if answer_url_pattern:
-            await asyncio.sleep(random.uniform(1.5, 3.0))
-            page.remove_listener("response", _capture)
 
         # 9. 提取
         await asyncio.sleep(1)
@@ -337,15 +337,24 @@ class BrowserBase:
         }
 
     async def wait_for_answer(self, base_count: int = 0):
-        """等待回答真正完成：停止按钮消失 + 回答内容长度稳定（不再只依赖网络拦截提前返回）。"""
+        """等待回答真正完成。
+
+        智能判定：
+        - 网络拦截已捕获完整响应（SSE 流结束 = 回答+引用已完整）→ 最多等 12 秒渲染稳定即返回；
+        - 未捕获 → 按“停止按钮消失 + 内容长度稳定”的 DOM 判定，最多等 WAIT_TIMEOUT。
+        避免旧版“捕获即返回”导致的模型未答完就关窗，也避免 DOM 选择器失效时白白空等。
+        """
         page = self.page
         await asyncio.sleep(3)
+
+        has_capture = bool(self.captured_responses)
+        max_rounds = 6 if has_capture else self.WAIT_TIMEOUT // 2  # 有捕获≤12s，无捕获≤120s
 
         last_len = -1
         stable_rounds = 0
         stop_sel = self.stop_button_selector()
 
-        for _ in range(self.WAIT_TIMEOUT // 2):
+        for _ in range(max_rounds):
             await asyncio.sleep(2)
 
             has_stop = False
@@ -357,7 +366,7 @@ class BrowserBase:
 
             try:
                 block = page.locator(self.ANSWER_BLOCK_SELECTOR).last
-                cur_len = len(await block.inner_text())
+                cur_len = len(await asyncio.wait_for(block.inner_text(), timeout=3))
             except Exception:
                 cur_len = last_len
 
@@ -367,12 +376,20 @@ class BrowserBase:
                 stable_rounds = 0
                 last_len = cur_len
 
-            # 停止按钮消失且内容稳定 → 回答完成
+            # 完成条件A：停止按钮消失且内容非空且稳定
             if not has_stop and last_len > 0 and stable_rounds >= 2:
                 await asyncio.sleep(1.5)
                 break
-            if last_len > 0 and stable_rounds >= 5:
+            # 完成条件B：内容稳定多轮（停止按钮选择器误匹配也退出）
+            if last_len > 0 and stable_rounds >= 3:
                 await asyncio.sleep(1.0)
+                break
+            # 完成条件C：已有网络捕获 + DOM 能拿到内容且稳定
+            if has_capture and last_len > 0 and stable_rounds >= 2:
+                await asyncio.sleep(1.0)
+                break
+            # 完成条件D：已有网络捕获但 DOM 拿不到内容（选择器失效），等满短窗口即返回
+            if has_capture and stable_rounds >= 4:
                 break
 
         # 无论如何再给引用流/尾部补充一点时间

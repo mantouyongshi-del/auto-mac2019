@@ -1,5 +1,12 @@
 [
   {
+    "time": "2026-09-28T20:28:52.622178+08:00",
+    "abnormal": [
+      "豆包 异常: Remote end closed connection without response"
+    ],
+    "self_healed": false
+  },
+  {
     "time": "2026-09-28T20:02:28.441112",
     "abnormal": [],
     "self_healed": false
@@ -493,11 +500,6 @@
   },
   {
     "time": "2026-09-27T05:13:18.409247",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-27T04:53:47.989512",
     "abnormal": [],
     "self_healed": false
   }
