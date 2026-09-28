@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Laya AI Farm 数据驾驶舱</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -168,7 +169,7 @@ async function refresh(){
     
     document.getElementById('model-cards').innerHTML = models.map(m=>{
       const s = md.find(x=>x.id===m.id)||{};
-      const ok = s.process==='ok' && s.login==='ok';
+      const ok = s.status==='online';
       const paused = s.paused;
       if(ok&&!paused) online++;
       const dot = paused?'dot-gray':(ok?'dot-green':'dot-red');

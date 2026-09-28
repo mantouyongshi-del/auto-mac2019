@@ -1182,20 +1182,15 @@ async def health_check_loop():
     await asyncio.sleep(60)
 
     while True:
-        # 有批量任务在跑就跳过这次健康检查，避免抢窗口
-        if len(running_tasks) > 0:
-            print(f"[健康检查] 检测到批量任务运行中，跳过本次检查", flush=True)
-            delay = random.uniform(HEALTH_CHECK_INTERVAL_MIN, HEALTH_CHECK_INTERVAL_MAX)
-            await asyncio.sleep(delay)
-            continue
-
         now = datetime.now()
         hour = now.hour
         is_night = 0 <= hour < 6  # 凌晨0-6点
+        has_tasks = len(running_tasks) > 0  # 是否有批量任务在跑
 
-        if is_night:
-            # 夜间只做HTTP根路径探活，不发真实提问，间隔拉长到1小时
-            print(f"[健康检查] 凌晨静默时段，只做HTTP探活，不发提问", flush=True)
+        if has_tasks or is_night:
+            # 任务运行中或夜间：只做HTTP根路径探活，不发真实提问（避免叠加提问频率触发风控）
+            mode = "批量任务运行中" if has_tasks else "凌晨静默时段"
+            print(f"[健康检查] {mode}，只做HTTP探活，不发提问", flush=True)
             abnormal = []
             for m in MODELS:
                 if m["name"] in paused_models:
@@ -1203,11 +1198,11 @@ async def health_check_loop():
                 try:
                     urllib.request.urlopen(f"http://127.0.0.1:{m['port']}/", timeout=5)
                 except Exception as e:
-                    abnormal.append(f"{m['name']} 夜间探活异常: {str(e)[:50]}")
-            delay = 3600  # 夜间1小时检查一次
-            # 夜间不自动重启浏览器，只记录异常，避免凌晨弹窗
+                    abnormal.append(f"{m['name']} 探活异常: {str(e)[:50]}")
+            delay = 3600 if is_night else random.uniform(1800, 3600)  # 夜间1小时，任务期间30-60分钟
+            # 探活模式下不自动重启浏览器，只记录异常，避免重启弹窗干扰任务
             if abnormal:
-                print(f"[健康检查] 夜间探活发现异常: {abnormal}，记录但不自动重启，等白天再处理", flush=True)
+                print(f"[健康检查] {mode}探活发现异常: {abnormal}，记录但不自动重启", flush=True)
                 record = {
                     "time": datetime.now().astimezone().isoformat(),
                     "abnormal": abnormal,
@@ -1215,10 +1210,10 @@ async def health_check_loop():
                 }
                 health_history.append(record)
                 save_health_record(record)
-                abnormal = []  # 夜间不触发重启流程
+                abnormal = []  # 探活模式不触发重启流程
         else:
             print(f"[健康检查] 开始检查 {now.isoformat()}", flush=True)
-            # 白天才发真实提问探测
+            # 白天且无任务才发真实提问探测
             tasks = [check_single_model(m) for m in MODELS]
             results = await asyncio.gather(*tasks)
             abnormal = [r for r in results if r]
