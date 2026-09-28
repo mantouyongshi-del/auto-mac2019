@@ -1,396 +1,407 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 399,
- "industry": "殡葬服务_墓地陵园与殡仪礼厅一条龙",
- "cat_code": "O",
- "cat_name": "居民服务、修理和其他服务业",
- "div_name": "其他服务业",
- "anchors": [
-  "墓地陵园",
-  "殡仪礼厅一条龙"
- ],
- "prompts": [
-  {
-   "text": "墓地陵园工程项目预算明细表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "殡仪馆一条龙服务各项收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "殡仪馆一条龙服务多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "白事一条龙服务葬礼最低收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园工程项目预算明细表格",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "墓地陵园工程项目预算明细表怎么填",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "陵园公墓墓地价格",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "陵园墓地购买价格表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "墓地陵园工程项目预算明细表怎么写",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "墓地陵园工程项目预算明细表模板",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "公墓开发成本明细科目一览表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "公墓建设工程造价明细",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "经营性公墓成本测算报告",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "农村公益性公墓价格成本测算表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "公墓墓穴建设成本预算",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "公墓成本测算报告",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆收费项目繁多",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆收费常见违法行为",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆如何收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一般怎么收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆处理丧事一般怎么收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆收费能免费吗",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆收费明细",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆收费一天多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆运送遗体怎么收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一套龙服务要多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一条龙服务各项收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆殡葬服务收费标准一览表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "各大殡仪馆延伸服务项目收费明细",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡葬一条龙一般多少钱有哪些服务",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆服务项目及收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一条龙服务各项费用",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡葬一条龙服务收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一般多少钱一天",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一天多少钱工资",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一套流程多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆办丧事多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆灵堂多少钱一天",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一个晚上多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一天停尸多少钱一天",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆要多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆接运遗体多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一条龙服务多少钱一台",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一条龙服务多少钱一天",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆一条龙服务多少钱一次",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "襄阳殡仪馆一条龙服务多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡仪馆多少钱一天",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白事一条龙服务葬礼最低收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白事一条龙服务价格表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "丧葬一条龙收费明细",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "2024年老人过世一条龙费用",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "殡葬服务一条龙大概多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "银川墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "长沙墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "北京通州墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "昆明墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "广州墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "重庆墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "顺义墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "哈尔滨市墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "伊春墓地陵园",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园设计",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园网",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园电话",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园该怎么推广",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园可行性研究报告",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园的亭子设计",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "殡仪礼厅一条龙设计",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "殡仪礼厅一条龙服务",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "殡仪礼厅一条龙流程",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "殡仪礼厅一条龙图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "墓地陵园工程策划图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "私人投资墓地陵园项目",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "墓地陵园工作",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "墓地陵园购买",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  }
- ],
- "prompt_count": 76,
- "decision_count": 52
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 399,
+  "industry": "殡葬服务_墓地陵园与殡仪礼厅一条龙",
+  "cat_code": "O",
+  "cat_name": "居民服务、修理和其他服务业",
+  "div_name": "其他服务业",
+  "anchors": [
+    "墓地陵园",
+    "殡仪礼厅一条龙"
+  ],
+  "prompts": [
+    {
+      "text": "墓地陵园工程项目预算包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1,
+      "original_text": "墓地陵园工程项目预算明细表"
+    },
+    {
+      "text": "殡仪馆一条龙服务各项收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "殡仪馆一条龙服务多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "白事一条龙服务葬礼最低收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园工程项目预算包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "墓地陵园工程项目预算明细表格"
+    },
+    {
+      "text": "墓地陵园工程项目预算明细表怎么填",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "陵园公墓墓地价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "陵园墓地购买的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "陵园墓地购买价格表"
+    },
+    {
+      "text": "墓地陵园工程项目预算明细表怎么写",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "墓地陵园工程项目预算明细表的模板格式是怎样的？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "墓地陵园工程项目预算明细表模板"
+    },
+    {
+      "text": "公墓开发成本明细科目包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "公墓开发成本明细科目一览表"
+    },
+    {
+      "text": "公墓建设工程的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "公墓建设工程造价明细"
+    },
+    {
+      "text": "经营性公墓成本测算报告",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "农村公益性公墓价格成本测算表",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "公墓墓穴建设成本预算",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "公墓成本测算报告",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆收费项目繁多",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆收费常见违法行为",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆如何收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一般怎么收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆处理丧事一般怎么收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆收费能免费吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "殡仪馆收费明细"
+    },
+    {
+      "text": "殡仪馆收费一天多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆运送遗体怎么收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一套龙服务要多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一条龙服务各项收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆殡葬服务收费标准包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "殡仪馆殡葬服务收费标准一览表"
+    },
+    {
+      "text": "各大殡仪馆延伸服务项目的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "各大殡仪馆延伸服务项目收费明细"
+    },
+    {
+      "text": "殡葬一条龙一般多少钱有哪些服务",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆服务项目及收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一条龙服务各项费用",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡葬一条龙服务收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一般多少钱一天",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一天多少钱工资",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一套流程多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆办丧事多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆灵堂多少钱一天",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一个晚上多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一天停尸多少钱一天",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆要多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆接运遗体多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一条龙服务多少钱一台",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一条龙服务多少钱一天",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆一条龙服务多少钱一次",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "襄阳殡仪馆一条龙服务多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡仪馆多少钱一天",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白事一条龙服务葬礼最低收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白事一条龙服务的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "白事一条龙服务价格表"
+    },
+    {
+      "text": "丧葬一条龙的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "丧葬一条龙收费明细"
+    },
+    {
+      "text": "2024年老人过世一条龙费用",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "殡葬服务一条龙大概多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "银川墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "长沙墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "北京通州墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "昆明墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "广州墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "重庆墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "顺义墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "哈尔滨市墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "伊春墓地陵园",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园设计",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园网",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园电话",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园该怎么推广",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园可行性研究报告",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园的亭子设计",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "殡仪礼厅一条龙设计",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "殡仪礼厅一条龙服务",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "殡仪礼厅一条龙流程",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "殡仪礼厅一条龙图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "墓地陵园工程策划图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "私人投资墓地陵园项目",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "墓地陵园工作",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "墓地陵园购买",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    }
+  ],
+  "prompt_count": 76,
+  "decision_count": 52
 }

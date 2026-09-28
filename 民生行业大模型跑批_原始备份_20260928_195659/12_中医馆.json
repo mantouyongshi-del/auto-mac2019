@@ -1,0 +1,482 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 12,
+ "industry": "中医馆_机构加盟与经营",
+ "cat_code": "Q",
+ "cat_name": "卫生和社会工作",
+ "div_name": "卫生",
+ "anchors": [
+  "中医馆",
+  "中医门诊部",
+  "国医堂中医诊所"
+ ],
+ "prompts": [
+  {
+   "text": "中医馆和中医诊所有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "中医馆健康信息平台登录入口官网",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部和中医诊所的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所官网",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "国医堂和中医馆的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "中医馆和中医诊所有什么区别?",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和中医诊所有什么区别审批有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和中医诊所的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和中医院有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和门诊部的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆与中医院的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和中医诊所有什么区别哪个好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和中医诊所有什么区别在哪里",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部和中医诊所的区别是什么",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部和中医诊所的区别在哪",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医诊所和中医馆的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医诊所和中医门诊有啥区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊与中医诊所区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医诊所与中医馆区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊和中医门诊部有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部和中医诊所的区别在哪里",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部和中医诊所有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部与中医诊所的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医诊所和中医备案诊所的区别是什么",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和中医门诊的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医诊所和中医馆有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和中医馆的区别是什么",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和中医馆的区别在哪里",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和普通中医门诊的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和门诊的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆与国医馆的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和中医科什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和名医堂区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和中医馆的区别在哪",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和中医馆有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医堂和中医院的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和国医馆有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国家国医堂和中医馆的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和国医堂的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "国医馆和中医馆的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "中医馆设计效果图",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆起名大全",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆开办条件",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆附近",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆在线咨询",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆对联",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆门头",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆装修图片大全",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆名字取名大全集",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆设计",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆文化墙图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆名字大全简单大气",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆健康信息平台入口",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部的申办条件",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部设置标准",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部管理制度",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部审批条件",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部执业范围",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部负责人资格要求",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部装修设计效果图",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部开业送什么礼品",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "群力中医门诊部",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部设置基本标准",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部规章制度",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部基本标准国家中医管理局",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部管理办法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医门诊部设置要求",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所怎么样",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所是连锁的?",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所地址",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所大夫",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京前门国医堂中医诊所",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "陕西国医堂中医诊所",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所电话",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所有限公司",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所管理办法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医门诊部专家介绍一览表",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医诊所简介",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "国医堂中医门诊部挂号",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "苏州工业园区国医堂中医诊所",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "中医馆开办条件最新规定",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医馆和中医诊所哪个效果好",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医馆装修设计效果图",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医馆装修图片效果图",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医馆与中医诊所办理条件一样吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "开中医诊所还是中医馆好",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医馆需要什么手续和证件",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部和中医诊所的面积比较",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部的申办条件主治中医师是中医内科",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医馆与中医门诊部有什么不同",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "中医门诊部和诊所一样吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "国医堂中医门诊部地址路线",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  }
+ ],
+ "prompt_count": 93,
+ "decision_count": 40
+}

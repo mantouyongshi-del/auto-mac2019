@@ -1,227 +1,228 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 478,
- "industry": "煲仔饭_餐饮门店加盟与单店运营",
- "cat_code": "H",
- "cat_name": "住宿和餐饮业",
- "div_name": "餐饮业",
- "anchors": [
-  "正宗广式煲仔饭",
-  "腊味双拼煲仔饭",
-  "传统瓦煲煲仔饭"
- ],
- "prompts": [
-  {
-   "text": "腊味双拼煲仔饭价格多少",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "砂锅饭和煲仔饭的区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭价格多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "湘式腊味双拼800克多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "腊味三拼煲仔饭评价",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "腊味双拼煲仔饭价格多少钱一包",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "腊味双拼煲仔饭价格多少钱一份",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "腊味双拼煲仔饭价格多少钱一盒",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "煲仔饭价格表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "砂锅饭和煲仔饭的区别在哪里",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "砂锅饭和煲仔饭的区别是什么",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "砂锅饭和煲仔饭的区别图片",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "煲仔饭与砂锅饭有区别吗",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "石锅拌饭和煲仔饭有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "煲仔饭砂锅和普通砂锅有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "正宗广式煲仔饭的配方",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭的做法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭的酱汁",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭的酱汁怎么调",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭用什么锅",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭怎么做",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭做法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "正宗广式煲仔饭菜谱",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭里面是什么",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭图片大全",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭图片高清",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭热量",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭做法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭 高铁",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭英文",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭 高铁怎么样",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭的图片和咸鱼五花肉煲仔饭的图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭英文怎么说",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭的做法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "腊味双拼煲仔饭菜谱",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "饭乎广东腊味双拼煲仔饭",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "传统瓦煲煲仔饭的做法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "传统瓦煲煲仔饭图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "传统瓦煲煲仔饭怎么做",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "传统瓦煲煲仔饭菜谱",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  }
- ],
- "prompt_count": 42,
- "decision_count": 15
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 478,
+  "industry": "煲仔饭_餐饮门店加盟与单店运营",
+  "cat_code": "H",
+  "cat_name": "住宿和餐饮业",
+  "div_name": "餐饮业",
+  "anchors": [
+    "正宗广式煲仔饭",
+    "腊味双拼煲仔饭",
+    "传统瓦煲煲仔饭"
+  ],
+  "prompts": [
+    {
+      "text": "腊味双拼煲仔饭价格多少",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "砂锅饭和煲仔饭的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭价格多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "湘式腊味双拼800克多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "腊味三拼煲仔饭评价",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "腊味双拼煲仔饭价格多少钱一包",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "腊味双拼煲仔饭价格多少钱一份",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "腊味双拼煲仔饭价格多少钱一盒",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "煲仔饭的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "煲仔饭价格表"
+    },
+    {
+      "text": "砂锅饭和煲仔饭的区别在哪里",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "砂锅饭和煲仔饭的区别是什么",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "砂锅饭和煲仔饭的区别图片",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "煲仔饭与砂锅饭有区别吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "石锅拌饭和煲仔饭有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "煲仔饭砂锅和普通砂锅有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "正宗广式煲仔饭的配方",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭的做法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭的酱汁",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭的酱汁怎么调",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭用什么锅",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭怎么做",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭做法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "正宗广式煲仔饭菜谱",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭里面是什么",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭图片大全",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭图片高清",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭热量",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭做法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭 高铁",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭英文",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭 高铁怎么样",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭的图片和咸鱼五花肉煲仔饭的图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭英文怎么说",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭的做法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "腊味双拼煲仔饭菜谱",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "饭乎广东腊味双拼煲仔饭",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "传统瓦煲煲仔饭的做法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "传统瓦煲煲仔饭图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "传统瓦煲煲仔饭怎么做",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "传统瓦煲煲仔饭菜谱",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    }
+  ],
+  "prompt_count": 42,
+  "decision_count": 15
 }

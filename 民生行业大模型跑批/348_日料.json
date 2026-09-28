@@ -1,242 +1,243 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 348,
- "industry": "日料_餐饮门店加盟与单店运营",
- "cat_code": "H",
- "cat_name": "住宿和餐饮业",
- "div_name": "餐饮业",
- "anchors": [
-  "日式居酒屋",
-  "寿司日料店",
-  "日式烧肉店"
- ],
- "prompts": [
-  {
-   "text": "日式居酒屋评价",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋评价怎么样",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋评价怎么写",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋评价大全",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋评价评语",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋评价语",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "居酒屋和日料店区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋装修效果图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋有什么菜品",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋最旺的名字",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋文案",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋达人游戏",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋服务员",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋游戏",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋吧台",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋菜单",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋有什么卖点",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋装修",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋室内设计图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋设计",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋门头",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋字体",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "寿司日料店的图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "寿司日料店装修效果图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "寿司日料店产品目录表",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店名字",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店推荐",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店排名",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店应聘要求",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店的暧昧升温",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "炭围日式烧肉店",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店烤盘怎么洗?",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店生意不好怎么办",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店的利润是多少",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店的烤肉炉子炭火",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店菜品图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式烧肉店加盟",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "板前式日式烧肉店",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "日式居酒屋店名不认识",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋名称大全",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋房子",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋常见菜品",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋吧台设计图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "日式居酒屋内装",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  }
- ],
- "prompt_count": 45,
- "decision_count": 7
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 348,
+  "industry": "日料_餐饮门店加盟与单店运营",
+  "cat_code": "H",
+  "cat_name": "住宿和餐饮业",
+  "div_name": "餐饮业",
+  "anchors": [
+    "日式居酒屋",
+    "寿司日料店",
+    "日式烧肉店"
+  ],
+  "prompts": [
+    {
+      "text": "日式居酒屋评价",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋评价怎么样",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋评价怎么写",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋评价大全",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋评价评语",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋评价语",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "居酒屋和日料店区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋装修效果图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋有什么菜品",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋最旺的名字",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋文案",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋达人游戏",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋服务员",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋游戏",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋吧台",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋菜单",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋有什么卖点",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋装修",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋室内设计图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋设计",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋门头",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋字体",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "寿司日料店的图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "寿司日料店装修效果图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "寿司日料店产品包括哪些内容？",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1,
+      "original_text": "寿司日料店产品目录表"
+    },
+    {
+      "text": "日式烧肉店名字",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店推荐",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店排名",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店应聘要求",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店的暧昧升温",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "炭围日式烧肉店",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店烤盘怎么洗?",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店生意不好怎么办",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店的利润是多少",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店的烤肉炉子炭火",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店菜品图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式烧肉店加盟",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "板前式日式烧肉店",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "日式居酒屋店名不认识",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋名称大全",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋房子",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋常见菜品",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋吧台设计图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "日式居酒屋内装",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    }
+  ],
+  "prompt_count": 45,
+  "decision_count": 7
 }

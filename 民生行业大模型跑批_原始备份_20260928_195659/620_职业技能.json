@@ -1,0 +1,216 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 620,
+ "industry": "职业技能_建造师消防安全考证与IT技能培训",
+ "cat_code": "P",
+ "cat_name": "教育",
+ "div_name": "教育",
+ "anchors": [
+  "建造师消防安全考证",
+  "IT技能培训"
+ ],
+ "prompts": [
+  {
+   "text": "消防建造师和消防工程师有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "IT职业技能培训学校哪家好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "it培训大概多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "消防建造师和消防工程师有什么区别呢",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师和消防操作员有什么区别吗",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师和建造师哪个好考",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师和注册消防工程师的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师和消防证的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师与注册消防工程师的区别及联系",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师与消防员的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师跟消防设施操作员的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防建造师和消防工程师有什么区别在哪里",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防建造师和消防工程师有什么区别吗",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防建造师和消防工程师的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防证和消防工程师证有什么区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "注册消防工程师和一级消防工程师的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师证一年挂多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "消防工程师与注册消防工程师的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it职业技能培训学校哪家好一点",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it学校培训学校哪个好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it职业技能培训学校哪家好排名",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it职业技能培训学校哪家好一些",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训机构哪家好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训大概多少钱一个月",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训大概多少钱啊",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "IT培训要花多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训班大概需要多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训费用大概多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训机构一年多少学费正常",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训大概多少钱一小时",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训大概多少钱一次",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it培训大概多少钱一年",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "程序员培训一般多少钱一个月",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "it编程语言培训机构的具体收费",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "建造师消防安全考证有用吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "建造师消防安全考证有什么用",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "建造师消防安全考证时间",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "建造师消防安全考证怎么考",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "建造师消防安全考证要求",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "建造师消防安全考证条件",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  }
+ ],
+ "prompt_count": 40,
+ "decision_count": 34
+}

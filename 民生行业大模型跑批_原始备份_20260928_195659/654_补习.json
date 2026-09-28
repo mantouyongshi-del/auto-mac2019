@@ -1,0 +1,377 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 654,
+ "industry": "补习_服务机构加盟与经营",
+ "cat_code": "P",
+ "cat_name": "教育",
+ "div_name": "教育",
+ "anchors": [
+  "中高考补习",
+  "课外辅导机构",
+  "一对一补习"
+ ],
+ "prompts": [
+  {
+   "text": "高考补课辅导价格",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构哪家好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构收费规定",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "一对一补课一般多少钱一小时",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "一对一补课10大坑害",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "高考补课辅导价格多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高考补课机构多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高考补课与不补课差距真相",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高考补课辅导价格一览表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高考补课辅导价格多少",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高考补课辅导价格表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高三一对一补课价格一般多少",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高中一对一辅导价格表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高中一对一补课一般多少钱一小时",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高中补课费用怎么收费标准",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高三一对一补课价格",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高中补课一对一多少钱一小时",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构哪家好一点",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构收费标准表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构哪家好有哪些",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构哪家好推荐",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构哪家好排名",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京初中课外辅导机构哪家好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高中课外辅导机构哪家好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "网上辅导机构哪家好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京高中课外辅导机构哪家好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构收费规定文件",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构收费规定最新",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构收费规定标准",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导预收费",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导一对一收费多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构收费规定有哪些",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外培训机构收费退费政策",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "教育部关于校外培训机构收费管理办法",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "教育部关于培训机构收费的规定",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课一般多少钱一小时高中",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课一般多少钱一小时小学",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课2小时收费标准",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课一上午多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课老师能收到多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课机构拿多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课费用一般是多少",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课收费多少",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课一般多少钱一小时人民币",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课一般多少钱一小时价格",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课一般多少钱一小时合适",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课的费用",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "初三一对一补课一个小时大约多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "小学补课一对一怎么收费",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "一对一补课的优缺点",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "补课和不补课的差距真的很大吗",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "网上一对一补课多少钱一节课",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "学校老师一对一补课多少钱一小时",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构违法吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构投诉电话",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构还能开吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构有哪些",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构0",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构不退费怎么办",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "石家庄初中课外辅导机构",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构里一些三本生甚至专科生被包装成名师",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构归教育局管吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构排名",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构加盟",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构创业计划书",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构需要哪些证件",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构排名 前十名",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构主管部门",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "课外辅导机构需要什么资质",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "最好的课外辅导机构",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构不给退费",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "课外辅导机构一次性缴费",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  }
+ ],
+ "prompt_count": 72,
+ "decision_count": 53
+}

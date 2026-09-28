@@ -1,267 +1,279 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 441,
- "industry": "消杀_服务机构加盟与经营",
- "cat_code": "L",
- "cat_name": "租赁和商务服务业",
- "div_name": "商务服务业",
- "anchors": [
-  "四害消杀灭鼠除蟑服务",
-  "室内空气消毒除甲醛",
-  "学校幼儿园定期卫生消杀"
- ],
- "prompts": [
-  {
-   "text": "四害消杀服务报价范本",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "四害消杀灭鼠除蟑服务收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "四害消杀灭鼠除蟑服务多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "2024四害消杀收费标准一览表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "全国四害消杀收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "蚊虫第三方消杀公司收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "四害消杀报价清单",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀报价方案",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀报价表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀公司收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀价格表2023",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀服务报价范本公司",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "除四害消杀报价单范本",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀报价单模板",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "除四害消杀的报价明细表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "除四害消杀报价表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "消杀服务报价单",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀服务报价范文",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀收费标准是多少",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠蟑服务收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠服务收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠除蟑收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀服务收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "广州市除四害有偿服务收费标准表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "政府定价的消杀除四害收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀一次多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀多少钱一平方",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠除蟑服务多少钱一小时",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠除蟑服务多少钱一包",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠除蟑服务多少钱一天",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠蟑服务多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀一平米多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "除蟑螂服务公司一次多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "2024四害消杀收费标准一览表最新版",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "2024住宅小区四害消杀如何收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀费用",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "2024四害消杀收费标准是多少",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "除四害价格收费标准",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "全国四害消杀收费标准一览表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "全国四害消杀收费标准文件",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "全国四害消杀收费标准最新",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "全国四害消杀收费标准表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀费用怎么收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "四害消杀灭鼠除蟑服务方案",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "室内空气消毒除甲醛方法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "室内空气消毒除甲醛有用吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "室内空气消毒除甲醛多久",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "室内空气消毒除甲醛的方法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "室内空气消毒除甲醛的最佳方法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "学校幼儿园定期卫生消杀制度内容",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  }
- ],
- "prompt_count": 50,
- "decision_count": 43
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 441,
+  "industry": "消杀_服务机构加盟与经营",
+  "cat_code": "L",
+  "cat_name": "租赁和商务服务业",
+  "div_name": "商务服务业",
+  "anchors": [
+    "四害消杀灭鼠除蟑服务",
+    "室内空气消毒除甲醛",
+    "学校幼儿园定期卫生消杀"
+  ],
+  "prompts": [
+    {
+      "text": "四害消杀服务报价的模板格式是怎样的？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1,
+      "original_text": "四害消杀服务报价范本"
+    },
+    {
+      "text": "四害消杀灭鼠除蟑服务收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "四害消杀灭鼠除蟑服务多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "2024四害消杀收费标准包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1,
+      "original_text": "2024四害消杀收费标准一览表"
+    },
+    {
+      "text": "全国四害消杀收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "蚊虫第三方消杀公司收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "四害消杀的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "四害消杀报价清单"
+    },
+    {
+      "text": "四害消杀报价方案",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "四害消杀报价表"
+    },
+    {
+      "text": "四害消杀公司收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "四害消杀价格表2023"
+    },
+    {
+      "text": "四害消杀服务报价的模板格式是怎样的？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "四害消杀服务报价范本公司"
+    },
+    {
+      "text": "除四害消杀报价单的模板格式是怎样的？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "除四害消杀报价单范本"
+    },
+    {
+      "text": "四害消杀报价单的模板格式是怎样的？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "四害消杀报价单模板"
+    },
+    {
+      "text": "除四害消杀的报价包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "除四害消杀的报价明细表"
+    },
+    {
+      "text": "除四害消杀的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "除四害消杀报价表"
+    },
+    {
+      "text": "消杀服务报价单",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀服务报价范文",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀收费标准是多少",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠蟑服务收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠服务收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠除蟑收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀服务收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "广州市除四害有偿服务收费标准表",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "政府定价的消杀除四害收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀一次多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀多少钱一平方",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠除蟑服务多少钱一小时",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠除蟑服务多少钱一包",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠除蟑服务多少钱一天",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠蟑服务多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀一平米多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "除蟑螂服务公司一次多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "2024四害消杀收费标准包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "2024四害消杀收费标准一览表最新版"
+    },
+    {
+      "text": "2024住宅小区四害消杀如何收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀费用",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "2024四害消杀收费标准是多少",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "除四害价格收费标准",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "全国四害消杀收费标准包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "全国四害消杀收费标准一览表"
+    },
+    {
+      "text": "全国四害消杀收费标准文件",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "全国四害消杀收费标准最新",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "全国四害消杀收费标准表",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀费用怎么收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "四害消杀灭鼠除蟑服务方案",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "室内空气消毒除甲醛方法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "室内空气消毒除甲醛有用吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "室内空气消毒除甲醛多久",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "室内空气消毒除甲醛的方法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "室内空气消毒除甲醛的最佳方法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "学校幼儿园定期卫生消杀制度内容",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    }
+  ],
+  "prompt_count": 50,
+  "decision_count": 43
 }

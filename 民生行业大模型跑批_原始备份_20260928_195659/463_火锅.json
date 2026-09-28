@@ -1,0 +1,182 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 463,
+ "industry": "火锅_餐饮门店加盟与单店运营",
+ "cat_code": "H",
+ "cat_name": "住宿和餐饮业",
+ "div_name": "餐饮业",
+ "anchors": [
+  "川渝麻辣火锅",
+  "潮汕鲜牛肉火锅",
+  "北京铜锅涮羊肉"
+ ],
+ "prompts": [
+  {
+   "text": "北京铜锅涮羊肉哪家好吃",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "老北京铜锅涮羊肉火锅加盟官网",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉哪家好吃啊",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京铜锅涮肉店哪家好吃",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京铜锅涮羊肉多少钱一份",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京铜锅涮羊肉哪家好吃推荐",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京铜锅涮羊肉哪家好吃一点",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京铜锅涮羊肉哪家好吃口碑",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "北京铜锅涮羊肉哪家好吃排名",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "川渝麻辣火锅图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "川渝麻辣火锅特色有哪些",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "川渝麻辣火锅视频大全",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "川渝麻辣火锅中长香果和肉豆蔻哪个木质感最重",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "川渝麻辣火锅杯荒野求生真实吗?",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "川渝麻辣火锅的做法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "川渝麻辣火锅加盟",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "川渝麻辣火锅简介",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉老字号排名",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉品牌",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉做法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "乌鲁木齐老北京铜锅涮羊肉",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "汉中北京铜锅涮羊肉",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉老店",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉老字号连锁店",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉的来历和传说",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "老北京铜锅涮羊肉哪家最正宗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉的做法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉介绍",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉简介",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "老北京铜锅涮羊肉简介",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京铜锅涮羊肉怎么样",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "正宗北京铜锅涮羊肉锅底做法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  }
+ ],
+ "prompt_count": 33,
+ "decision_count": 9
+}

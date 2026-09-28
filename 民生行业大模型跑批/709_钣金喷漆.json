@@ -1,417 +1,419 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 709,
- "industry": "钣金喷漆_服务与门店经营",
- "cat_code": "O",
- "cat_name": "居民服务、修理和其他服务业",
- "div_name": "机动车、电子产品和日用产品修理业",
- "anchors": [
-  "汽车钣金喷漆快修",
-  "原厂车漆局部微创修复",
-  "全车原厂工艺烤漆"
- ],
- "prompts": [
-  {
-   "text": "汽车钣金喷漆快修店多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修店哪个好",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修店打车费用",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "4s店钣金喷漆和修理厂有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金加喷漆一面多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "车漆修复原厂多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "原厂车漆局部微创修复多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "全车原厂工艺烤漆多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "全车烤漆需要多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "全车烤漆大约多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "汽车原厂漆和后喷漆的区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "原厂车漆和后期喷漆有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "汽车喷漆和烤漆有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "汽车烤漆和喷漆的区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修店多少钱一次",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆店要投资多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆修复一般多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修理多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆店多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆多少钱一个",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆一般多少钱一个面",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车全车钣金喷漆一般多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "修理厂汽车喷漆多少钱一个面",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆一般多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店哪个好一点",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆培训哪个好",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店哪家好",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆店哪家好",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店打车费用多少",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店打车费用高吗",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店打车费用谁出",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店打车费用是多少",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店打车费用多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车喷漆收费价目表一览表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车维修收费价目表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店钣金喷漆和修理厂有什么区别吗",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店喷漆跟修理厂有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店和外面修理厂喷漆有区别吗",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "喷漆钣金4s店和外边的区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店喷漆和原厂漆寿命一样吗",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店做漆和外面修理厂做漆有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店钣金喷漆和修理厂的区别在哪里",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "喷漆4s店和外面维修店有什么区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店喷漆和外面修理店喷漆的区别",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店钣金喷漆和修理厂的区别在哪",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店喷漆和修理店喷漆区别在哪里",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "普通修理厂和4s店补漆有区别吗",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "4s店钣金喷漆多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "喷漆加钣金一个面多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆一般按什么算费用呢",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆怎么收费",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金加喷漆一面多少钱一平米",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金加喷漆一面多少钱一平方",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金加喷漆一面多少钱大概",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金加喷漆一面多少钱合适",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "钣金加喷漆一个面一般多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆价格表2022",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车喷漆一个面大概多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "一扇车门钣金喷漆需要多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修店附近的公交车",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修要多久",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修方法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修流程详解",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修理吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修理视频",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修理方法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修理",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "原厂车漆局部微创修复工艺",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "原厂车漆局部微创修复视频",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "原厂车漆局部微创修复图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "全车原厂工艺烤漆好吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "全车原厂工艺烤漆怎么样",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "全车原厂工艺烤漆是什么",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "全车原厂工艺烤漆图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "全车原厂工艺烤漆是什么意思",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "汽车钣金喷漆快修店地址",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店电话",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修理店",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "汽车钣金喷漆快修店排名",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  }
- ],
- "prompt_count": 80,
- "decision_count": 59
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 709,
+  "industry": "钣金喷漆_服务与门店经营",
+  "cat_code": "O",
+  "cat_name": "居民服务、修理和其他服务业",
+  "div_name": "机动车、电子产品和日用产品修理业",
+  "anchors": [
+    "汽车钣金喷漆快修",
+    "原厂车漆局部微创修复",
+    "全车原厂工艺烤漆"
+  ],
+  "prompts": [
+    {
+      "text": "汽车钣金喷漆快修店多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修店哪个好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修店打车费用",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "4s店钣金喷漆和修理厂有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金加喷漆一面多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "车漆修复原厂多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "原厂车漆局部微创修复多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "全车原厂工艺烤漆多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "全车烤漆需要多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "全车烤漆大约多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "汽车原厂漆和后喷漆的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "原厂车漆和后期喷漆有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "汽车喷漆和烤漆有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "汽车烤漆和喷漆的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修店多少钱一次",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆店要投资多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆修复一般多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修理多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆店多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆多少钱一个",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆一般多少钱一个面",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车全车钣金喷漆一般多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "修理厂汽车喷漆多少钱一个面",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆一般多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店哪个好一点",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆培训哪个好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店哪家好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆店哪家好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店打车费用多少",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店打车费用高吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店打车费用谁出",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店打车费用是多少",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店打车费用多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车喷漆收费价目表包括哪些内容？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "汽车喷漆收费价目表一览表"
+    },
+    {
+      "text": "汽车维修收费价目表",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店钣金喷漆和修理厂有什么区别吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店喷漆跟修理厂有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店和外面修理厂喷漆有区别吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "喷漆钣金4s店和外边的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店喷漆和原厂漆寿命一样吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店做漆和外面修理厂做漆有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店钣金喷漆和修理厂的区别在哪里",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "喷漆4s店和外面维修店有什么区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店喷漆和外面修理店喷漆的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店钣金喷漆和修理厂的区别在哪",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店喷漆和修理店喷漆区别在哪里",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "普通修理厂和4s店补漆有区别吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "4s店钣金喷漆多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "喷漆加钣金一个面多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆一般按什么算费用呢",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆怎么收费",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金加喷漆一面多少钱一平米",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金加喷漆一面多少钱一平方",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金加喷漆一面多少钱大概",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金加喷漆一面多少钱合适",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "钣金加喷漆一个面一般多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "汽车钣金喷漆价格表2022"
+    },
+    {
+      "text": "汽车喷漆一个面大概多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "一扇车门钣金喷漆需要多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修店附近的公交车",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修要多久",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修方法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修流程详解",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修理吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修理视频",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修理方法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修理",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "原厂车漆局部微创修复工艺",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "原厂车漆局部微创修复视频",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "原厂车漆局部微创修复图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "全车原厂工艺烤漆好吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "全车原厂工艺烤漆怎么样",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "全车原厂工艺烤漆是什么",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "全车原厂工艺烤漆图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "全车原厂工艺烤漆是什么意思",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "汽车钣金喷漆快修店地址",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店电话",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修理店",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "汽车钣金喷漆快修店排名",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    }
+  ],
+  "prompt_count": 80,
+  "decision_count": 59
 }

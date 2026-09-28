@@ -8,6 +8,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+import anyio
 from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -71,7 +72,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         allow_headers=["*"],
     )
 
-    lock = asyncio.Lock()
+    lock = anyio.Lock()
     browser_ref = {"b": None}  # startup 后填入
     runtime_state = {"last_success_at": None}
 

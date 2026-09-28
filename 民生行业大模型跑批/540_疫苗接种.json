@@ -1,197 +1,199 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 540,
- "industry": "疫苗接种_机构加盟与经营",
- "cat_code": "Q",
- "cat_name": "卫生和社会工作",
- "div_name": "卫生",
- "anchors": [
-  "成人疫苗接种门诊",
-  "特需疫苗门诊",
-  "狂犬疫苗接种门诊"
- ],
- "prompts": [
-  {
-   "text": "成人疫苗接种门诊资质要求",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊审批手续",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊未来发展趋势",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊能报销吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊可以打吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊能打吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "深圳成人疫苗接种门诊",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊一览表",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊有哪些",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊电话",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊查询",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊装修",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "特需疫苗门诊能报销吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "特需疫苗门诊可以打吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "特需疫苗门诊有哪些",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "特需疫苗门诊管理制度",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "特需疫苗门诊可以报销吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "特需疫苗门诊需要预约吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成人疫苗接种门诊",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊规范",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊电话",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊一览表",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊示范单位",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊病历书写",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊上班时间",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "沈阳市和平区狂犬疫苗接种门诊",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "沧州狂犬疫苗接种门诊",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "襄阳市狂犬疫苗接种门诊",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "武汉狂犬疫苗接种门诊",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊设置标准",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊病历",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊申请",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊介绍",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "设立狂犬疫苗接种门诊申请书",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊场所功能布局图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "狂犬疫苗接种门诊标准",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  }
- ],
- "prompt_count": 36,
- "decision_count": 0
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 540,
+  "industry": "疫苗接种_机构加盟与经营",
+  "cat_code": "Q",
+  "cat_name": "卫生和社会工作",
+  "div_name": "卫生",
+  "anchors": [
+    "成人疫苗接种门诊",
+    "特需疫苗门诊",
+    "狂犬疫苗接种门诊"
+  ],
+  "prompts": [
+    {
+      "text": "成人疫苗接种门诊资质要求",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊审批手续",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊未来发展趋势",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊能报销吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊可以打吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊能打吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "深圳成人疫苗接种门诊",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊包括哪些内容？",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1,
+      "original_text": "成人疫苗接种门诊一览表"
+    },
+    {
+      "text": "成人疫苗接种门诊有哪些",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊电话",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊查询",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊装修",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "特需疫苗门诊能报销吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "特需疫苗门诊可以打吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "特需疫苗门诊有哪些",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "特需疫苗门诊管理制度",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "特需疫苗门诊可以报销吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "特需疫苗门诊需要预约吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成人疫苗接种门诊",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊规范",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊电话",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊包括哪些内容？",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1,
+      "original_text": "狂犬疫苗接种门诊一览表"
+    },
+    {
+      "text": "狂犬疫苗接种门诊示范单位",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊病历书写",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊上班时间",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "沈阳市和平区狂犬疫苗接种门诊",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "沧州狂犬疫苗接种门诊",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "襄阳市狂犬疫苗接种门诊",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "武汉狂犬疫苗接种门诊",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊设置标准",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊病历",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊申请",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊介绍",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "设立狂犬疫苗接种门诊申请书",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊场所功能布局图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "狂犬疫苗接种门诊标准",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    }
+  ],
+  "prompt_count": 36,
+  "decision_count": 0
 }

@@ -1,0 +1,297 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 142,
+ "industry": "卤味_餐饮门店加盟与单店运营",
+ "cat_code": "H",
+ "cat_name": "住宿和餐饮业",
+ "div_name": "餐饮业",
+ "anchors": [
+  "卤味熟食店",
+  "现捞热卤店",
+  "鸭货休闲卤味"
+ ],
+ "prompts": [
+  {
+   "text": "开一家卤味熟食店需要多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "鸭货卤味价格表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "鸭货卤味配方明细",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "开一家卤味熟食店需要多少钱呢",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "卤味熟食店加盟多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味小店要多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味店大概要多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "卤味熟食店产品价格",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味熟食店需要多少钱十五平",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味熟食店需要多少钱人民币",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味熟食店需要多少钱一个月",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味熟食店需要多少钱投资",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味熟食店需要多少钱费用",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "开一家卤味店需要多少钱",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味价格表图片",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味价格表大全",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "卤味鸭货正常价格",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "卤味鸭货多少钱一斤",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味价格表最新",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味价格表一览表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货价格表图片大全",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "卤味摆摊价格表一览表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "卤味价格表图片",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货价格表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味配方明细大全",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味配方明细图片",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味配方明细表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "鸭货卤味配方明细图",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "卤味熟食店装修效果图",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店灯箱图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店加盟",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店名字大全",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店文案怎么写",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "沈阳卤味熟食店",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "王记卤味熟食店",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店适合开在什么地方",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店开业简短祝福语",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店朋友圈广告语",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店起名大全",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店需要多大空间",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店存在的食品风险有哪些",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店名取名字大全",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店名称",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卤味熟食店名字",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现捞热卤店有哪些",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现捞热卤店加盟",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现捞热卤店简介",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现捞热卤店图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "鸭货休闲卤味的做法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "鸭货休闲卤味图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "鸭货休闲卤味道",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "开个卤味熟食店起名字",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "卤味熟食店成功经营模式",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "卤味熟食店的招工信息怎么写",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  },
+  {
+   "text": "卤味熟食店能做吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 2
+  }
+ ],
+ "prompt_count": 56,
+ "decision_count": 28
+}

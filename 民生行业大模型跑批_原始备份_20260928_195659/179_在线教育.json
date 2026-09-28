@@ -1,0 +1,91 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 179,
+ "industry": "在线教育_职业网校平台与录播直播系统",
+ "cat_code": "I",
+ "cat_name": "信息传输、软件和信息技术服务业",
+ "div_name": "互联网和相关服务",
+ "anchors": [
+  "职业网校平台",
+  "录播直播系统"
+ ],
+ "prompts": [
+  {
+   "text": "职业网校平台官网",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统官网",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "职业网校平台有哪些",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "职业网校平台app",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "职业网校平台登录",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "职业网校平台入口",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统有哪些",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统怎么做",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统怎么操作",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统是什么",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统直播间",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统升级改造方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "高清录播直播系统在线观看",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "录播直播系统软件",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "高清录播直播系统视频",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  }
+ ],
+ "prompt_count": 15,
+ "decision_count": 2
+}

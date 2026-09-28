@@ -1,162 +1,166 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 541,
- "industry": "白切鸡_餐饮门店加盟与单店运营",
- "cat_code": "H",
- "cat_name": "住宿和餐饮业",
- "div_name": "餐饮业",
- "anchors": [
-  "广式正宗白切鸡",
-  "粤式熟食斩料店",
-  "清平白切鸡店"
- ],
- "prompts": [
-  {
-   "text": "粤式点心在哪里批发便宜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "白切鸡店内价格",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "粤式点心在哪里批发便宜又好吃",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "粤式点心在哪里批发便宜些",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "粤式点心10大品牌排行榜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "粤式点心在哪里批发便宜一些",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "粤式点心在哪里批发便宜一点",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "粤式点心在哪里批发便宜点",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡的价格一般在多少元",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡价格一览表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡的价格",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡多少钱一斤市场",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡卖多少钱一斤合适",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡一般卖多少钱一斤",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡店内价格多少钱",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡店内价格一览表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡店内价格明细",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡店内价格表",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "白切鸡价格",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "鸡肉价格今日价一斤市场价",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "广式正宗白切鸡肉",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "粤式熟食斩料店怎么样",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "粤式熟食斩料店有卖吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "粤式熟食斩料店名字",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "粤式熟食斩料店加盟",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "清平白切鸡店在哪里",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "清平白切鸡店简介",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "清平白切鸡店图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "清平白切鸡店地址",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  }
- ],
- "prompt_count": 29,
- "decision_count": 20
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 541,
+  "industry": "白切鸡_餐饮门店加盟与单店运营",
+  "cat_code": "H",
+  "cat_name": "住宿和餐饮业",
+  "div_name": "餐饮业",
+  "anchors": [
+    "广式正宗白切鸡",
+    "粤式熟食斩料店",
+    "清平白切鸡店"
+  ],
+  "prompts": [
+    {
+      "text": "粤式点心在哪里批发便宜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "白切鸡店内价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "粤式点心在哪里批发便宜又好吃",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "粤式点心在哪里批发便宜些",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "粤式点心10大品牌排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "粤式点心在哪里批发便宜一些",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "粤式点心在哪里批发便宜一点",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "粤式点心在哪里批发便宜点",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白切鸡的价格一般在多少元",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白切鸡的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "白切鸡价格一览表"
+    },
+    {
+      "text": "白切鸡的价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白切鸡多少钱一斤市场",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白切鸡卖多少钱一斤合适",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白切鸡一般卖多少钱一斤",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白切鸡店内价格多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "白切鸡店内的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "白切鸡店内价格一览表"
+    },
+    {
+      "text": "白切鸡店内的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "白切鸡店内价格明细"
+    },
+    {
+      "text": "白切鸡店内的价格是多少？",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2,
+      "original_text": "白切鸡店内价格表"
+    },
+    {
+      "text": "白切鸡价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "鸡肉价格今日价一斤市场价",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "广式正宗白切鸡肉",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "粤式熟食斩料店怎么样",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "粤式熟食斩料店有卖吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "粤式熟食斩料店名字",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "粤式熟食斩料店加盟",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "清平白切鸡店在哪里",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "清平白切鸡店简介",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "清平白切鸡店图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "清平白切鸡店地址",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    }
+  ],
+  "prompt_count": 29,
+  "decision_count": 20
 }

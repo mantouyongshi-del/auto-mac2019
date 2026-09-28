@@ -1,327 +1,328 @@
 {
- "schema": "minsheng-geo-batch-v1",
- "industry_id": 514,
- "industry": "理疗中心_机构加盟与经营",
- "cat_code": "Q",
- "cat_name": "卫生和社会工作",
- "div_name": "卫生",
- "anchors": [
-  "康复理疗中心",
-  "中医理疗馆",
-  "颈肩腰腿痛理疗"
- ],
- "prompts": [
-  {
-   "text": "康复理疗中心官网",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆加盟哪家好",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗加盟排行榜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆加盟哪家好一点",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "中医理疗培训机构哪家好",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "中医理疗馆加盟哪家好排行榜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "中医理疗馆加盟哪家好推荐",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "中医理疗馆加盟哪家好排名",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "中医养生馆加盟十大品牌排行榜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "颈肩腰腿痛理疗加盟排行榜最新",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "颈肩腰腿痛理疗加盟排行榜前十",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "颈肩腰腿痛理疗加盟店排行榜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "疼痛理疗加盟店排行榜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "2024疼痛理疗小店排行榜",
-   "verdict": "ACCEPT_BUYER_DECISION",
-   "depth": 2
-  },
-  {
-   "text": "康复理疗中心简介",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心怎么盈利",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心设置标准",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心可以正骨吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心是干什么的",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心加盟",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心需要办什么手续",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "成都市钛赫磁康复理疗中心",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "白山市浑江区德康康复理疗中心",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心主要是做什么的",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心门头",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心需要什么资质",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心基本标准",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心设备清单",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心英文",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "康复理疗中心空间",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆开办条件",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆经营范围",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆装修效果图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆可以针灸吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆需要什么手续和证件",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆名字",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆取名字大全",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆需要什么资质",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆装修图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆的运营方案",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆客户健康档案表",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆员工守则",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆施工图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗店名",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗加盟店",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗馆宣传语",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗店怎么样",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗设备",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗广告图",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗科宣传图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗馆",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗贴",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗宣传文案",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗方法",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "颈肩腰腿痛理疗视频",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 1
-  },
-  {
-   "text": "中医理疗馆都有什么服务",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "开一家中医理疗馆需要什么条件",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "开中医理疗馆需要什么条件",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "颈肩腰腿痛理疗点赞图片",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "开个颈肩腰腿痛理疗店需要什么证件",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  },
-  {
-   "text": "颈肩腰腿痛理疗好吗",
-   "verdict": "ACCEPT_AWARENESS",
-   "depth": 2
-  }
- ],
- "prompt_count": 62,
- "decision_count": 14
+  "schema": "minsheng-geo-batch-v1",
+  "industry_id": 514,
+  "industry": "理疗中心_机构加盟与经营",
+  "cat_code": "Q",
+  "cat_name": "卫生和社会工作",
+  "div_name": "卫生",
+  "anchors": [
+    "康复理疗中心",
+    "中医理疗馆",
+    "颈肩腰腿痛理疗"
+  ],
+  "prompts": [
+    {
+      "text": "康复理疗中心官网",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆加盟哪家好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗加盟排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆加盟哪家好一点",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "中医理疗培训机构哪家好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "中医理疗馆加盟哪家好排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "中医理疗馆加盟哪家好推荐",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "中医理疗馆加盟哪家好排名",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "中医养生馆加盟十大品牌排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "颈肩腰腿痛理疗加盟排行榜最新",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "颈肩腰腿痛理疗加盟排行榜前十",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "颈肩腰腿痛理疗加盟店排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "疼痛理疗加盟店排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "2024疼痛理疗小店排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 2
+    },
+    {
+      "text": "康复理疗中心简介",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心怎么盈利",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心设置标准",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心可以正骨吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心是干什么的",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心加盟",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心需要办什么手续",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "成都市钛赫磁康复理疗中心",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "白山市浑江区德康康复理疗中心",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心主要是做什么的",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心门头",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心需要什么资质",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心基本标准",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心设备包括哪些内容？",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1,
+      "original_text": "康复理疗中心设备清单"
+    },
+    {
+      "text": "康复理疗中心英文",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "康复理疗中心空间",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆开办条件",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆经营范围",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆装修效果图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆可以针灸吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆需要什么手续和证件",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆名字",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆取名字大全",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆需要什么资质",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆装修图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆的运营方案",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆客户健康档案表",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆员工守则",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆施工图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗店名",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗加盟店",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗馆宣传语",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗店怎么样",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗设备",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗广告图",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗科宣传图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗馆",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗贴",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗宣传文案",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗方法",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "颈肩腰腿痛理疗视频",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "中医理疗馆都有什么服务",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "开一家中医理疗馆需要什么条件",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "开中医理疗馆需要什么条件",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "颈肩腰腿痛理疗点赞图片",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "开个颈肩腰腿痛理疗店需要什么证件",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    },
+    {
+      "text": "颈肩腰腿痛理疗好吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 2
+    }
+  ],
+  "prompt_count": 62,
+  "decision_count": 14
 }

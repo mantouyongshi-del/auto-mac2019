@@ -1,0 +1,112 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 614,
+ "industry": "美术馆_加盟投资与门店运营",
+ "cat_code": "R",
+ "cat_name": "文化、体育和娱乐业",
+ "div_name": "文化艺术业",
+ "anchors": [
+  "现代艺术美术馆",
+  "当代美术馆展厅",
+  "民营当代美术馆"
+ ],
+ "prompts": [
+  {
+   "text": "现代艺术美术馆官网",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "民营当代美术馆官网",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "现代艺术美术馆在哪里",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现代艺术美术馆开放时间",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "西方现代艺术美术馆",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "法国现代艺术美术馆",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现代艺术美术馆排名前十",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现代艺术美术馆图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现代艺术美术馆简介",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "现代艺术美术馆地址",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "北京保利深圳现代艺术美术馆",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "卢森堡国家现代艺术美术馆",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "当代美术馆展厅图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "当代美术馆展厅设计",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "当代美术馆展厅介绍",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "当代美术馆展厅效果图",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "当代美术馆展厅布置",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "民营当代美术馆有哪些",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "民营当代美术馆排名",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  }
+ ],
+ "prompt_count": 19,
+ "decision_count": 2
+}

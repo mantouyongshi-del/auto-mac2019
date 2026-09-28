@@ -36,8 +36,9 @@ ROOT = Path(__file__).parent
 SRC_DIR = ROOT / "民生行业大模型跑批"
 OUT_DIR = ROOT / "民生行业跑批结果"
 
-# 模型服务（deepseek暂停中，跳过）
+# 模型服务（全部5个）
 MODELS = [
+    {"id": "deepseek", "name": "DeepSeek", "port": 8000},
     {"id": "qianwen", "name": "千问", "port": 8001},
     {"id": "doubao", "name": "豆包", "port": 8002},
     {"id": "wenxin", "name": "文心一言", "port": 8003},
@@ -146,25 +147,61 @@ async def run_batch(industry_files, limit=None, only_industries=None):
             fn = f"{pidx:04d}_{text[:30]}.json"
             out_file = ind_dir / fn
 
-            # 断点续跑：已存在且含完整结果则跳过
+            # 断点续跑：按序号匹配已落盘文件（不依赖文件名中的问题文本，prompt修改后仍可跳过）
+            matched = list(ind_dir.glob(f"{pidx:04d}_*.json"))
+            resume_file = matched[0] if matched else None
+            # 已有新命名文件则优先，否则用旧文件名
             if out_file.exists():
+                resume_file = out_file
+
+            # 断点续跑：已存在且含完整结果则跳过；部分模型失败则只重跑失败的模型
+            existing_results = {}
+            need_retry = False
+            if resume_file is not None:
                 try:
-                    with open(out_file, encoding="utf-8") as f:
+                    with open(resume_file, encoding="utf-8") as f:
                         old = json.load(f)
-                    if old.get("results") and len(old["results"]) > 0:
+                    old_results = old.get("results") or {}
+                    # 找出异常/失败的模型
+                    for mid, r in old_results.items():
+                        if r.get("status") != "ok":
+                            need_retry = True
+                        else:
+                            existing_results[mid] = r
+                    if old_results and not need_retry:
                         total_skipped += 1
                         continue
                 except Exception:
                     pass
 
             log(f"[{pidx}/{len(prompts)}] 提问: {text[:50]}...")
-            results = await ask_one_prompt(text)
+            if need_retry:
+                # 只重跑失败的模型，成功的复用
+                failed_ids = [mid for mid, r in (old.get("results") or {}).items() if r.get("status") != "ok"]
+                log(f"  🔄 部分重试: {failed_ids}，复用 {list(existing_results.keys())}")
+                retry_results = {}
+                async def _ask_one(m):
+                    try:
+                        return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, text)
+                    except Exception as e:
+                        return m["id"], {
+                            "status": "error", "error": str(e)[:200],
+                            "answer": "", "search_queries": [], "citations": [],
+                            "asked_at": datetime.now().astimezone().isoformat(),
+                        }
+                retry_list = [m for m in MODELS if m["id"] in failed_ids]
+                retried = await asyncio.gather(*[_ask_one(m) for m in retry_list])
+                for mid, r in retried:
+                    retry_results[mid] = r
+                results = {**existing_results, **retry_results}
+            else:
+                results = await ask_one_prompt(text)
 
             # 统计失败
             failed_models = [mid for mid, r in results.items() if r.get("status") != "ok"]
             if failed_models:
                 total_failed += 1
-                log(f"  ⚠️ 失败模型: {failed_models}，标记error继续")
+                log(f"  ⚠️ 失败模型: {failed_models}，标记error继续（下次运行将自动重试）")
 
             result = make_result_file(ind_file, text, p.get("verdict"), p.get("depth"), pidx, results)
 

@@ -1,0 +1,102 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 761,
+ "industry": "魔术_加盟投资与门店运营",
+ "cat_code": "R",
+ "cat_name": "文化、体育和娱乐业",
+ "div_name": "文化艺术业",
+ "anchors": [
+  "近景魔术商业近景表演",
+  "大型舞台幻术魔术晚会制作",
+  "少儿益智魔术手法手彩培训"
+ ],
+ "prompts": [
+  {
+   "text": "近景魔术和舞台魔术区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "近景魔术和舞台魔术区别在哪",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "近景魔术和舞台魔术区别是什么",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "近景魔术和舞台魔术区别大吗",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "近景魔术和舞台魔术区别在哪里",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "近景魔术和舞台魔术的区别在哪里",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "近景魔术和舞台魔术的区别",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "近景魔术商业近景表演视频",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "近景魔术商业近景表演图片",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "近景魔术商业近景表演是什么",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "大型舞台幻术魔术晚会制作方法",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "大型舞台幻术魔术晚会制作视频",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "大型舞台幻术魔术晚会制作过程",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "大型舞台幻术魔术晚会制作方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "少儿益智魔术手法手彩培训心得体会",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "少儿益智魔术手法手彩培训内容",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "少儿益智魔术手法手彩培训视频",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  }
+ ],
+ "prompt_count": 17,
+ "decision_count": 7
+}

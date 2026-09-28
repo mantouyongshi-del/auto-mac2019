@@ -14,7 +14,7 @@
   "prompt_text": "汽车经销商集团排名",
   "verdict": "ACCEPT_BUYER_DECISION",
   "depth": 1,
-  "collected_at": "2026-09-28T19:39:22.490699+08:00",
+  "collected_at": "2026-09-28T19:58:09.782827+08:00",
   "results": {
     "qianwen": {
       "status": "ok",
@@ -47,14 +47,6 @@
         }
       ],
       "asked_at": "2026-09-28T19:39:00.477448+08:00"
-    },
-    "doubao": {
-      "status": "error",
-      "error": "HTTP Error 500: Internal Server Error",
-      "answer": "",
-      "search_queries": [],
-      "citations": [],
-      "asked_at": "2026-09-28T19:38:34.160294+08:00"
     },
     "wenxin": {
       "status": "ok",
@@ -206,6 +198,14 @@
       "search_queries": [],
       "citations": [],
       "asked_at": "2026-09-28T19:39:22.490177+08:00"
+    },
+    "doubao": {
+      "status": "error",
+      "error": "HTTP Error 500: Internal Server Error",
+      "answer": "",
+      "search_queries": [],
+      "citations": [],
+      "asked_at": "2026-09-28T19:58:09.782587+08:00"
     }
   }
 }

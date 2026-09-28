@@ -1,0 +1,2528 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "exported_at": "2026-09-28 19:25:51",
+ "total_industries": 360,
+ "note": "民生相关大行业，真实AI模型跑批；其余408个非民生行业不动",
+ "industries": [
+  {
+   "industry_id": 1,
+   "industry": "4S店_汽车4S店经销与售后维修",
+   "file": "1_4S店.json",
+   "prompt_count": 90,
+   "decision_count": 90
+  },
+  {
+   "industry_id": 2,
+   "industry": "K12_服务机构加盟与经营",
+   "file": "2_K12.json",
+   "prompt_count": 35,
+   "decision_count": 6
+  },
+  {
+   "industry_id": 3,
+   "industry": "SPA_服务与门店经营",
+   "file": "3_SPA.json",
+   "prompt_count": 18,
+   "decision_count": 15
+  },
+  {
+   "industry_id": 9,
+   "industry": "专科医疗_辅助生殖试管婴儿与第三代产前诊断",
+   "file": "9_专科医疗.json",
+   "prompt_count": 63,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 10,
+   "industry": "东北菜_餐饮门店加盟与单店运营",
+   "file": "10_东北菜.json",
+   "prompt_count": 81,
+   "decision_count": 36
+  },
+  {
+   "industry_id": 11,
+   "industry": "东南亚菜_餐饮门店加盟与单店运营",
+   "file": "11_东南亚菜.json",
+   "prompt_count": 32,
+   "decision_count": 12
+  },
+  {
+   "industry_id": 12,
+   "industry": "中医馆_机构加盟与经营",
+   "file": "12_中医馆.json",
+   "prompt_count": 93,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 13,
+   "industry": "中央厨房_预制菜中央厨房与净菜加工",
+   "file": "13_中央厨房.json",
+   "prompt_count": 85,
+   "decision_count": 25
+  },
+  {
+   "industry_id": 14,
+   "industry": "中档酒店_加盟投资与门店运营",
+   "file": "14_中档酒店.json",
+   "prompt_count": 87,
+   "decision_count": 63
+  },
+  {
+   "industry_id": 16,
+   "industry": "串串_餐饮门店加盟与单店运营",
+   "file": "16_串串.json",
+   "prompt_count": 109,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 17,
+   "industry": "主题公园_加盟投资与门店运营",
+   "file": "17_主题公园.json",
+   "prompt_count": 34,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 18,
+   "industry": "主题酒店_加盟投资与门店运营",
+   "file": "18_主题酒店.json",
+   "prompt_count": 69,
+   "decision_count": 31
+  },
+  {
+   "industry_id": 20,
+   "industry": "乐器行_乐器销售与音乐培训配套",
+   "file": "20_乐器行.json",
+   "prompt_count": 68,
+   "decision_count": 12
+  },
+  {
+   "industry_id": 21,
+   "industry": "乒乓球_加盟投资与门店运营",
+   "file": "21_乒乓球.json",
+   "prompt_count": 56,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 22,
+   "industry": "书店_实体书店与复合文化空间",
+   "file": "22_书店.json",
+   "prompt_count": 37,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 23,
+   "industry": "书法_服务机构加盟与经营",
+   "file": "23_书法.json",
+   "prompt_count": 107,
+   "decision_count": 47
+  },
+  {
+   "industry_id": 24,
+   "industry": "书法培训_加盟投资与门店运营",
+   "file": "24_书法培训.json",
+   "prompt_count": 46,
+   "decision_count": 43
+  },
+  {
+   "industry_id": 26,
+   "industry": "云南菜_餐饮门店加盟与单店运营",
+   "file": "26_云南菜.json",
+   "prompt_count": 56,
+   "decision_count": 13
+  },
+  {
+   "industry_id": 27,
+   "industry": "互动文娱_沉浸式剧场密室与全息数字互动展",
+   "file": "27_互动文娱.json",
+   "prompt_count": 17,
+   "decision_count": 7
+  },
+  {
+   "industry_id": 29,
+   "industry": "五金水暖_社区五金店日杂劳保与水暖管件门市",
+   "file": "29_五金水暖.json",
+   "prompt_count": 98,
+   "decision_count": 67
+  },
+  {
+   "industry_id": 32,
+   "industry": "亲子酒店_加盟投资与门店运营",
+   "file": "32_亲子酒店.json",
+   "prompt_count": 75,
+   "decision_count": 39
+  },
+  {
+   "industry_id": 36,
+   "industry": "代驾_服务与门店经营",
+   "file": "36_代驾.json",
+   "prompt_count": 73,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 37,
+   "industry": "代驾服务_服务机构加盟与经营",
+   "file": "37_代驾服务.json",
+   "prompt_count": 78,
+   "decision_count": 75
+  },
+  {
+   "industry_id": 39,
+   "industry": "企业内训_销售管理领导力培训与团建拓展",
+   "file": "39_企业内训.json",
+   "prompt_count": 39,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 42,
+   "industry": "休闲轻食_沙拉轻食与减脂早午餐单店",
+   "file": "42_休闲轻食.json",
+   "prompt_count": 40,
+   "decision_count": 22
+  },
+  {
+   "industry_id": 45,
+   "industry": "会议酒店_加盟投资与门店运营",
+   "file": "45_会议酒店.json",
+   "prompt_count": 51,
+   "decision_count": 27
+  },
+  {
+   "industry_id": 54,
+   "industry": "体育场馆_智慧体育场馆建设与运营",
+   "file": "54_体育场馆.json",
+   "prompt_count": 66,
+   "decision_count": 30
+  },
+  {
+   "industry_id": 55,
+   "industry": "体育用品_体育用品零售与运动器材",
+   "file": "55_体育用品.json",
+   "prompt_count": 125,
+   "decision_count": 55
+  },
+  {
+   "industry_id": 56,
+   "industry": "体育经纪_加盟投资与门店运营",
+   "file": "56_体育经纪.json",
+   "prompt_count": 48,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 57,
+   "industry": "体育设施_环保塑胶跑道与装配式气膜运动馆",
+   "file": "57_体育设施.json",
+   "prompt_count": 85,
+   "decision_count": 69
+  },
+  {
+   "industry_id": 58,
+   "industry": "体育赛事运营_加盟投资与门店运营",
+   "file": "58_体育赛事运营.json",
+   "prompt_count": 12,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 62,
+   "industry": "保姆_服务与门店经营",
+   "file": "62_保姆.json",
+   "prompt_count": 86,
+   "decision_count": 64
+  },
+  {
+   "industry_id": 63,
+   "industry": "保姆中介_服务与门店经营",
+   "file": "63_保姆中介.json",
+   "prompt_count": 72,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 65,
+   "industry": "保洁服务_服务机构加盟与经营",
+   "file": "65_保洁服务.json",
+   "prompt_count": 27,
+   "decision_count": 13
+  },
+  {
+   "industry_id": 67,
+   "industry": "保龄球_加盟投资与门店运营",
+   "file": "67_保龄球.json",
+   "prompt_count": 49,
+   "decision_count": 46
+  },
+  {
+   "industry_id": 69,
+   "industry": "修伞_服务与门店经营",
+   "file": "69_修伞.json",
+   "prompt_count": 33,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 70,
+   "industry": "修包_服务与门店经营",
+   "file": "70_修包.json",
+   "prompt_count": 56,
+   "decision_count": 43
+  },
+  {
+   "industry_id": 71,
+   "industry": "修表_服务与门店经营",
+   "file": "71_修表.json",
+   "prompt_count": 88,
+   "decision_count": 58
+  },
+  {
+   "industry_id": 72,
+   "industry": "修鞋_服务与门店经营",
+   "file": "72_修鞋.json",
+   "prompt_count": 41,
+   "decision_count": 28
+  },
+  {
+   "industry_id": 73,
+   "industry": "健康服务_高价值体检中心与早筛癌症早诊",
+   "file": "73_健康服务.json",
+   "prompt_count": 16,
+   "decision_count": 7
+  },
+  {
+   "industry_id": 75,
+   "industry": "健身连锁_健身房加盟与私教工作室",
+   "file": "75_健身连锁.json",
+   "prompt_count": 89,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 77,
+   "industry": "儿科诊所_机构加盟与经营",
+   "file": "77_儿科诊所.json",
+   "prompt_count": 42,
+   "decision_count": 4
+  },
+  {
+   "industry_id": 78,
+   "industry": "儿童乐园_商场室内儿童淘气堡乐园与亲子活动室",
+   "file": "78_儿童乐园.json",
+   "prompt_count": 30,
+   "decision_count": 16
+  },
+  {
+   "industry_id": 79,
+   "industry": "儿童摄影_服务与门店经营",
+   "file": "79_儿童摄影.json",
+   "prompt_count": 4,
+   "decision_count": 1
+  },
+  {
+   "industry_id": 80,
+   "industry": "儿童运动馆_加盟投资与门店运营",
+   "file": "80_儿童运动馆.json",
+   "prompt_count": 18,
+   "decision_count": 15
+  },
+  {
+   "industry_id": 94,
+   "industry": "公寓运营_服务机构加盟与经营",
+   "file": "94_公寓运营.json",
+   "prompt_count": 49,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 95,
+   "industry": "兰州拉面_餐饮门店加盟与单店运营",
+   "file": "95_兰州拉面.json",
+   "prompt_count": 57,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 97,
+   "industry": "养老机构_高端养老社区与医养结合",
+   "file": "97_养老机构.json",
+   "prompt_count": 82,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 99,
+   "industry": "内衣_内衣零售与家居服",
+   "file": "99_内衣.json",
+   "prompt_count": 123,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 101,
+   "industry": "冒菜_餐饮门店加盟与单店运营",
+   "file": "101_冒菜.json",
+   "prompt_count": 69,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 102,
+   "industry": "军品_军迷装备与户外战术用品零售",
+   "file": "102_军品.json",
+   "prompt_count": 85,
+   "decision_count": 37
+  },
+  {
+   "industry_id": 104,
+   "industry": "农家乐_乡村休闲餐饮与农家乐运营",
+   "file": "104_农家乐.json",
+   "prompt_count": 10,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 107,
+   "industry": "冰淇淋_餐饮门店加盟与单店运营",
+   "file": "107_冰淇淋.json",
+   "prompt_count": 31,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 112,
+   "industry": "凉茶_餐饮门店加盟与单店运营",
+   "file": "112_凉茶.json",
+   "prompt_count": 30,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 113,
+   "industry": "击剑_加盟投资与门店运营",
+   "file": "113_击剑.json",
+   "prompt_count": 58,
+   "decision_count": 51
+  },
+  {
+   "industry_id": 116,
+   "industry": "刮痧_服务与门店经营",
+   "file": "116_刮痧.json",
+   "prompt_count": 12,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 118,
+   "industry": "剧院_加盟投资与门店运营",
+   "file": "118_剧院.json",
+   "prompt_count": 63,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 123,
+   "industry": "动物园_加盟投资与门店运营",
+   "file": "123_动物园.json",
+   "prompt_count": 26,
+   "decision_count": 23
+  },
+  {
+   "industry_id": 127,
+   "industry": "化妆品_美妆零售与化妆品集合店",
+   "file": "127_化妆品.json",
+   "prompt_count": 106,
+   "decision_count": 67
+  },
+  {
+   "industry_id": 130,
+   "industry": "医养结合_护理院与失能照护",
+   "file": "130_医养结合.json",
+   "prompt_count": 99,
+   "decision_count": 59
+  },
+  {
+   "industry_id": 134,
+   "industry": "医疗健康_民营专科",
+   "file": "134_医疗健康.json",
+   "prompt_count": 41,
+   "decision_count": 8
+  },
+  {
+   "industry_id": 142,
+   "industry": "卤味_餐饮门店加盟与单店运营",
+   "file": "142_卤味.json",
+   "prompt_count": 56,
+   "decision_count": 28
+  },
+  {
+   "industry_id": 143,
+   "industry": "卤味熟食_卤味熟食零售与鸭脖连锁",
+   "file": "143_卤味熟食.json",
+   "prompt_count": 33,
+   "decision_count": 3
+  },
+  {
+   "industry_id": 151,
+   "industry": "口腔诊所_机构加盟与经营",
+   "file": "151_口腔诊所.json",
+   "prompt_count": 66,
+   "decision_count": 24
+  },
+  {
+   "industry_id": 152,
+   "industry": "口腔齿科_即刻微创种植牙与隐形矫正专科",
+   "file": "152_口腔齿科.json",
+   "prompt_count": 49,
+   "decision_count": 42
+  },
+  {
+   "industry_id": 153,
+   "industry": "古筝_加盟投资与门店运营",
+   "file": "153_古筝.json",
+   "prompt_count": 55,
+   "decision_count": 52
+  },
+  {
+   "industry_id": 154,
+   "industry": "台球娱乐_台球厅桌球俱乐部与室内射箭潮玩馆",
+   "file": "154_台球娱乐.json",
+   "prompt_count": 59,
+   "decision_count": 52
+  },
+  {
+   "industry_id": 156,
+   "industry": "吉他_加盟投资与门店运营",
+   "file": "156_吉他.json",
+   "prompt_count": 55,
+   "decision_count": 45
+  },
+  {
+   "industry_id": 157,
+   "industry": "同城配送_即时配送与同城货运",
+   "file": "157_同城配送.json",
+   "prompt_count": 106,
+   "decision_count": 67
+  },
+  {
+   "industry_id": 169,
+   "industry": "团餐承包_企业学校食堂承包与营养配餐",
+   "file": "169_团餐承包.json",
+   "prompt_count": 40,
+   "decision_count": 8
+  },
+  {
+   "industry_id": 171,
+   "industry": "围棋_服务机构加盟与经营",
+   "file": "171_围棋.json",
+   "prompt_count": 68,
+   "decision_count": 38
+  },
+  {
+   "industry_id": 175,
+   "industry": "国画培训_加盟投资与门店运营",
+   "file": "175_国画培训.json",
+   "prompt_count": 24,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 179,
+   "industry": "在线教育_职业网校平台与录播直播系统",
+   "file": "179_在线教育.json",
+   "prompt_count": 15,
+   "decision_count": 2
+  },
+  {
+   "industry_id": 182,
+   "industry": "地毯_地毯零售与工程铺装",
+   "file": "182_地毯.json",
+   "prompt_count": 90,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 185,
+   "industry": "坚果_坚果炒货零售与现炒",
+   "file": "185_坚果.json",
+   "prompt_count": 109,
+   "decision_count": 63
+  },
+  {
+   "industry_id": 187,
+   "industry": "城市书房_加盟投资与门店运营",
+   "file": "187_城市书房.json",
+   "prompt_count": 17,
+   "decision_count": 6
+  },
+  {
+   "industry_id": 190,
+   "industry": "声乐培训_加盟投资与门店运营",
+   "file": "190_声乐培训.json",
+   "prompt_count": 72,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 193,
+   "industry": "外卖_餐饮门店加盟与单店运营",
+   "file": "193_外卖.json",
+   "prompt_count": 60,
+   "decision_count": 42
+  },
+  {
+   "industry_id": 195,
+   "industry": "夜宵_餐饮门店加盟与单店运营",
+   "file": "195_夜宵.json",
+   "prompt_count": 37,
+   "decision_count": 16
+  },
+  {
+   "industry_id": 196,
+   "industry": "夜总会_加盟投资与门店运营",
+   "file": "196_夜总会.json",
+   "prompt_count": 90,
+   "decision_count": 66
+  },
+  {
+   "industry_id": 201,
+   "industry": "大排档_餐饮门店加盟与单店运营",
+   "file": "201_大排档.json",
+   "prompt_count": 59,
+   "decision_count": 39
+  },
+  {
+   "industry_id": 203,
+   "industry": "奥数_服务机构加盟与经营",
+   "file": "203_奥数.json",
+   "prompt_count": 99,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 204,
+   "industry": "女装_女装零售与买手店",
+   "file": "204_女装.json",
+   "prompt_count": 111,
+   "decision_count": 53
+  },
+  {
+   "industry_id": 205,
+   "industry": "奶茶_餐饮门店加盟与单店运营",
+   "file": "205_奶茶.json",
+   "prompt_count": 113,
+   "decision_count": 68
+  },
+  {
+   "industry_id": 206,
+   "industry": "妇科诊所_机构加盟与经营",
+   "file": "206_妇科诊所.json",
+   "prompt_count": 80,
+   "decision_count": 44
+  },
+  {
+   "industry_id": 207,
+   "industry": "婚介_服务机构加盟与经营",
+   "file": "207_婚介.json",
+   "prompt_count": 61,
+   "decision_count": 53
+  },
+  {
+   "industry_id": 208,
+   "industry": "婚庆_服务与门店经营",
+   "file": "208_婚庆.json",
+   "prompt_count": 61,
+   "decision_count": 43
+  },
+  {
+   "industry_id": 209,
+   "industry": "婚纱摄影_服务与门店经营",
+   "file": "209_婚纱摄影.json",
+   "prompt_count": 51,
+   "decision_count": 41
+  },
+  {
+   "industry_id": 210,
+   "industry": "婚纱礼服_婚纱零售租赁与定制",
+   "file": "210_婚纱礼服.json",
+   "prompt_count": 75,
+   "decision_count": 50
+  },
+  {
+   "industry_id": 215,
+   "industry": "宠物医院_服务与门店经营",
+   "file": "215_宠物医院.json",
+   "prompt_count": 62,
+   "decision_count": 50
+  },
+  {
+   "industry_id": 216,
+   "industry": "宠物托运_服务与门店经营",
+   "file": "216_宠物托运.json",
+   "prompt_count": 65,
+   "decision_count": 55
+  },
+  {
+   "industry_id": 217,
+   "industry": "宠物殡葬_宠物火化纪念与宠物寄养托运",
+   "file": "217_宠物殡葬.json",
+   "prompt_count": 93,
+   "decision_count": 83
+  },
+  {
+   "industry_id": 218,
+   "industry": "宠物洗护_零售与门店经营",
+   "file": "218_宠物洗护.json",
+   "prompt_count": 59,
+   "decision_count": 51
+  },
+  {
+   "industry_id": 219,
+   "industry": "宠物活体销售_零售与门店经营",
+   "file": "219_宠物活体销售.json",
+   "prompt_count": 72,
+   "decision_count": 60
+  },
+  {
+   "industry_id": 220,
+   "industry": "宠物用品零售_零售与门店经营",
+   "file": "220_宠物用品零售.json",
+   "prompt_count": 36,
+   "decision_count": 24
+  },
+  {
+   "industry_id": 221,
+   "industry": "宠物经济_宠物高端诊疗与生骨肉",
+   "file": "221_宠物经济.json",
+   "prompt_count": 32,
+   "decision_count": 9
+  },
+  {
+   "industry_id": 222,
+   "industry": "宠物美容_服务与门店经营",
+   "file": "222_宠物美容.json",
+   "prompt_count": 107,
+   "decision_count": 51
+  },
+  {
+   "industry_id": 223,
+   "industry": "宠物训练_服务与门店经营",
+   "file": "223_宠物训练.json",
+   "prompt_count": 110,
+   "decision_count": 64
+  },
+  {
+   "industry_id": 224,
+   "industry": "宠物门店_社区宠物店洗护寄养与活体用品零售",
+   "file": "224_宠物门店.json",
+   "prompt_count": 70,
+   "decision_count": 60
+  },
+  {
+   "industry_id": 226,
+   "industry": "客栈_加盟投资与门店运营",
+   "file": "226_客栈.json",
+   "prompt_count": 69,
+   "decision_count": 22
+  },
+  {
+   "industry_id": 227,
+   "industry": "家具卖场_家具连锁卖场与全屋家具",
+   "file": "227_家具卖场.json",
+   "prompt_count": 102,
+   "decision_count": 74
+  },
+  {
+   "industry_id": 228,
+   "industry": "家政平台_互联网家政平台与阿姨直聘",
+   "file": "228_家政平台.json",
+   "prompt_count": 64,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 229,
+   "industry": "家电卖场_家电连锁卖场与电器零售",
+   "file": "229_家电卖场.json",
+   "prompt_count": 116,
+   "decision_count": 63
+  },
+  {
+   "industry_id": 231,
+   "industry": "家电清洗_中央空调油烟机深度清洗消毒",
+   "file": "231_家电清洗.json",
+   "prompt_count": 136,
+   "decision_count": 81
+  },
+  {
+   "industry_id": 232,
+   "industry": "家电维修_服务与门店经营",
+   "file": "232_家电维修.json",
+   "prompt_count": 91,
+   "decision_count": 76
+  },
+  {
+   "industry_id": 233,
+   "industry": "家纺_家纺零售与四件套定制",
+   "file": "233_家纺.json",
+   "prompt_count": 115,
+   "decision_count": 59
+  },
+  {
+   "industry_id": 236,
+   "industry": "小提琴_加盟投资与门店运营",
+   "file": "236_小提琴.json",
+   "prompt_count": 90,
+   "decision_count": 46
+  },
+  {
+   "industry_id": 237,
+   "industry": "小语种_服务机构加盟与经营",
+   "file": "237_小语种.json",
+   "prompt_count": 77,
+   "decision_count": 34
+  },
+  {
+   "industry_id": 238,
+   "industry": "小龙虾_餐饮门店加盟与单店运营",
+   "file": "238_小龙虾.json",
+   "prompt_count": 61,
+   "decision_count": 16
+  },
+  {
+   "industry_id": 240,
+   "industry": "川菜_餐饮门店加盟与单店运营",
+   "file": "240_川菜.json",
+   "prompt_count": 38,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 268,
+   "industry": "布艺_布艺软装零售与定制",
+   "file": "268_布艺.json",
+   "prompt_count": 104,
+   "decision_count": 64
+  },
+  {
+   "industry_id": 270,
+   "industry": "干洗_服务与门店经营",
+   "file": "270_干洗.json",
+   "prompt_count": 121,
+   "decision_count": 82
+  },
+  {
+   "industry_id": 271,
+   "industry": "干货_南北干货零售与批发",
+   "file": "271_干货.json",
+   "prompt_count": 81,
+   "decision_count": 27
+  },
+  {
+   "industry_id": 272,
+   "industry": "幼儿园_服务机构加盟与经营",
+   "file": "272_幼儿园.json",
+   "prompt_count": 119,
+   "decision_count": 75
+  },
+  {
+   "industry_id": 274,
+   "industry": "庆典_服务与门店经营",
+   "file": "274_庆典.json",
+   "prompt_count": 31,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 275,
+   "industry": "床上用品_家纺零售与卧室软装",
+   "file": "275_床上用品.json",
+   "prompt_count": 92,
+   "decision_count": 51
+  },
+  {
+   "industry_id": 280,
+   "industry": "度假酒店_加盟投资与门店运营",
+   "file": "280_度假酒店.json",
+   "prompt_count": 73,
+   "decision_count": 26
+  },
+  {
+   "industry_id": 281,
+   "industry": "康复医疗_康复医院与运动康复中心",
+   "file": "281_康复医疗.json",
+   "prompt_count": 109,
+   "decision_count": 70
+  },
+  {
+   "industry_id": 287,
+   "industry": "影像中心_机构加盟与经营",
+   "file": "287_影像中心.json",
+   "prompt_count": 79,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 297,
+   "industry": "徽菜_餐饮门店加盟与单店运营",
+   "file": "297_徽菜.json",
+   "prompt_count": 32,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 298,
+   "industry": "心理咨询_心理咨询与 EAP 员工帮助计划",
+   "file": "298_心理咨询.json",
+   "prompt_count": 17,
+   "decision_count": 1
+  },
+  {
+   "industry_id": 299,
+   "industry": "心理诊所_机构加盟与经营",
+   "file": "299_心理诊所.json",
+   "prompt_count": 113,
+   "decision_count": 63
+  },
+  {
+   "industry_id": 300,
+   "industry": "快递快运_加盟制快递快运与末端共配",
+   "file": "300_快递快运.json",
+   "prompt_count": 53,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 301,
+   "industry": "快餐盒饭_餐饮门店加盟与单店运营",
+   "file": "301_快餐盒饭.json",
+   "prompt_count": 66,
+   "decision_count": 27
+  },
+  {
+   "industry_id": 302,
+   "industry": "慢摇吧_加盟投资与门店运营",
+   "file": "302_慢摇吧.json",
+   "prompt_count": 73,
+   "decision_count": 34
+  },
+  {
+   "industry_id": 303,
+   "industry": "戏曲_加盟投资与门店运营",
+   "file": "303_戏曲.json",
+   "prompt_count": 49,
+   "decision_count": 20
+  },
+  {
+   "industry_id": 304,
+   "industry": "成人学历_在职专升本成人高考与自考助学",
+   "file": "304_成人学历.json",
+   "prompt_count": 75,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 305,
+   "industry": "户外用品_户外装备零售与露营用品",
+   "file": "305_户外用品.json",
+   "prompt_count": 118,
+   "decision_count": 59
+  },
+  {
+   "industry_id": 306,
+   "industry": "房产托管_服务机构加盟与经营",
+   "file": "306_房产托管.json",
+   "prompt_count": 38,
+   "decision_count": 28
+  },
+  {
+   "industry_id": 307,
+   "industry": "房产经纪_二手房买卖与新房渠道分销",
+   "file": "307_房产经纪.json",
+   "prompt_count": 56,
+   "decision_count": 32
+  },
+  {
+   "industry_id": 308,
+   "industry": "房产评估_服务机构加盟与经营",
+   "file": "308_房产评估.json",
+   "prompt_count": 59,
+   "decision_count": 51
+  },
+  {
+   "industry_id": 309,
+   "industry": "房屋租赁_服务机构加盟与经营",
+   "file": "309_房屋租赁.json",
+   "prompt_count": 19,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 310,
+   "industry": "房车营地_加盟投资与门店运营",
+   "file": "310_房车营地.json",
+   "prompt_count": 95,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 311,
+   "industry": "手作烘焙_社区手作面包烘焙房与生日蛋糕定制店",
+   "file": "311_手作烘焙.json",
+   "prompt_count": 42,
+   "decision_count": 32
+  },
+  {
+   "industry_id": 314,
+   "industry": "手机店_手机零售与授权经销",
+   "file": "314_手机店.json",
+   "prompt_count": 86,
+   "decision_count": 32
+  },
+  {
+   "industry_id": 315,
+   "industry": "手机维修_服务与门店经营",
+   "file": "315_手机维修.json",
+   "prompt_count": 134,
+   "decision_count": 87
+  },
+  {
+   "industry_id": 318,
+   "industry": "护肤品_护肤品零售与体验店",
+   "file": "318_护肤品.json",
+   "prompt_count": 135,
+   "decision_count": 88
+  },
+  {
+   "industry_id": 319,
+   "industry": "披萨_餐饮门店加盟与单店运营",
+   "file": "319_披萨.json",
+   "prompt_count": 45,
+   "decision_count": 13
+  },
+  {
+   "industry_id": 320,
+   "industry": "拍卖行_加盟投资与门店运营",
+   "file": "320_拍卖行.json",
+   "prompt_count": 58,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 321,
+   "industry": "拓展训练_加盟投资与门店运营",
+   "file": "321_拓展训练.json",
+   "prompt_count": 107,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 322,
+   "industry": "拔罐_服务与门店经营",
+   "file": "322_拔罐.json",
+   "prompt_count": 55,
+   "decision_count": 13
+  },
+  {
+   "industry_id": 324,
+   "industry": "拳击_加盟投资与门店运营",
+   "file": "324_拳击.json",
+   "prompt_count": 77,
+   "decision_count": 52
+  },
+  {
+   "industry_id": 325,
+   "industry": "按摩_服务与门店经营",
+   "file": "325_按摩.json",
+   "prompt_count": 67,
+   "decision_count": 25
+  },
+  {
+   "industry_id": 326,
+   "industry": "搬家服务_跨城搬家与办公室搬迁",
+   "file": "326_搬家服务.json",
+   "prompt_count": 99,
+   "decision_count": 66
+  },
+  {
+   "industry_id": 327,
+   "industry": "摩托车_摩托车经销与机车装备零售",
+   "file": "327_摩托车.json",
+   "prompt_count": 113,
+   "decision_count": 69
+  },
+  {
+   "industry_id": 328,
+   "industry": "攀岩_加盟投资与门店运营",
+   "file": "328_攀岩.json",
+   "prompt_count": 84,
+   "decision_count": 45
+  },
+  {
+   "industry_id": 329,
+   "industry": "收纳整理_服务与门店经营",
+   "file": "329_收纳整理.json",
+   "prompt_count": 99,
+   "decision_count": 39
+  },
+  {
+   "industry_id": 331,
+   "industry": "改衣_服务与门店经营",
+   "file": "331_改衣.json",
+   "prompt_count": 62,
+   "decision_count": 28
+  },
+  {
+   "industry_id": 332,
+   "industry": "教育培训_高端出国留学",
+   "file": "332_教育培训.json",
+   "prompt_count": 111,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 333,
+   "industry": "散打_加盟投资与门店运营",
+   "file": "333_散打.json",
+   "prompt_count": 49,
+   "decision_count": 24
+  },
+  {
+   "industry_id": 337,
+   "industry": "数码店_数码产品零售与维修",
+   "file": "337_数码店.json",
+   "prompt_count": 128,
+   "decision_count": 79
+  },
+  {
+   "industry_id": 338,
+   "industry": "整形_机构加盟与经营",
+   "file": "338_整形.json",
+   "prompt_count": 68,
+   "decision_count": 22
+  },
+  {
+   "industry_id": 339,
+   "industry": "文具图文_中小学校边文具店与数码图文快印店",
+   "file": "339_文具图文.json",
+   "prompt_count": 109,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 343,
+   "industry": "新疆菜_餐饮门店加盟与单店运营",
+   "file": "343_新疆菜.json",
+   "prompt_count": 49,
+   "decision_count": 1
+  },
+  {
+   "industry_id": 348,
+   "industry": "日料_餐饮门店加盟与单店运营",
+   "file": "348_日料.json",
+   "prompt_count": 45,
+   "decision_count": 7
+  },
+  {
+   "industry_id": 349,
+   "industry": "日用百货_日用百货零售与生活超市",
+   "file": "349_日用百货.json",
+   "prompt_count": 109,
+   "decision_count": 58
+  },
+  {
+   "industry_id": 350,
+   "industry": "日语培训_服务机构加盟与经营",
+   "file": "350_日语培训.json",
+   "prompt_count": 99,
+   "decision_count": 53
+  },
+  {
+   "industry_id": 351,
+   "industry": "早幼托育_社区托育早教机构与蒙氏幼儿教育",
+   "file": "351_早幼托育.json",
+   "prompt_count": 45,
+   "decision_count": 37
+  },
+  {
+   "industry_id": 352,
+   "industry": "早茶_餐饮门店加盟与单店运营",
+   "file": "352_早茶.json",
+   "prompt_count": 45,
+   "decision_count": 29
+  },
+  {
+   "industry_id": 354,
+   "industry": "普拉提_加盟投资与门店运营",
+   "file": "354_普拉提.json",
+   "prompt_count": 77,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 365,
+   "industry": "智能康养_适老化改造与健康硬件",
+   "file": "365_智能康养.json",
+   "prompt_count": 24,
+   "decision_count": 2
+  },
+  {
+   "industry_id": 369,
+   "industry": "智能锁服务_智能门锁安装与开锁换锁",
+   "file": "369_智能锁服务.json",
+   "prompt_count": 91,
+   "decision_count": 59
+  },
+  {
+   "industry_id": 370,
+   "industry": "智能零售_无人零售柜与折扣零食量贩连锁",
+   "file": "370_智能零售.json",
+   "prompt_count": 113,
+   "decision_count": 59
+  },
+  {
+   "industry_id": 372,
+   "industry": "月嫂服务_服务与门店经营",
+   "file": "372_月嫂服务.json",
+   "prompt_count": 131,
+   "decision_count": 75
+  },
+  {
+   "industry_id": 373,
+   "industry": "月嫂育婴_月嫂育婴师外派与入户服务",
+   "file": "373_月嫂育婴.json",
+   "prompt_count": 78,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 375,
+   "industry": "服装店_服装零售与品牌集合店",
+   "file": "375_服装店.json",
+   "prompt_count": 84,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 378,
+   "industry": "本帮菜_餐饮门店加盟与单店运营",
+   "file": "378_本帮菜.json",
+   "prompt_count": 35,
+   "decision_count": 4
+  },
+  {
+   "industry_id": 384,
+   "industry": "架子鼓_加盟投资与门店运营",
+   "file": "384_架子鼓.json",
+   "prompt_count": 69,
+   "decision_count": 42
+  },
+  {
+   "industry_id": 385,
+   "industry": "染发_服务与门店经营",
+   "file": "385_染发.json",
+   "prompt_count": 92,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 386,
+   "industry": "桌游_加盟投资与门店运营",
+   "file": "386_桌游.json",
+   "prompt_count": 48,
+   "decision_count": 44
+  },
+  {
+   "industry_id": 387,
+   "industry": "桑拿_服务与门店经营",
+   "file": "387_桑拿.json",
+   "prompt_count": 55,
+   "decision_count": 21
+  },
+  {
+   "industry_id": 389,
+   "industry": "检验中心_机构加盟与经营",
+   "file": "389_检验中心.json",
+   "prompt_count": 50,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 391,
+   "industry": "棋牌茶楼_共享自助棋牌室与传统茶艺茶馆",
+   "file": "391_棋牌茶楼.json",
+   "prompt_count": 31,
+   "decision_count": 20
+  },
+  {
+   "industry_id": 393,
+   "industry": "植发_机构加盟与经营",
+   "file": "393_植发.json",
+   "prompt_count": 80,
+   "decision_count": 47
+  },
+  {
+   "industry_id": 394,
+   "industry": "植物园_加盟投资与门店运营",
+   "file": "394_植物园.json",
+   "prompt_count": 68,
+   "decision_count": 39
+  },
+  {
+   "industry_id": 397,
+   "industry": "正餐服务_中式正餐炒菜馆与特色餐饮单店运营",
+   "file": "397_正餐服务.json",
+   "prompt_count": 20,
+   "decision_count": 11
+  },
+  {
+   "industry_id": 398,
+   "industry": "武术_加盟投资与门店运营",
+   "file": "398_武术.json",
+   "prompt_count": 69,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 399,
+   "industry": "殡葬服务_墓地陵园与殡仪礼厅一条龙",
+   "file": "399_殡葬服务.json",
+   "prompt_count": 76,
+   "decision_count": 52
+  },
+  {
+   "industry_id": 400,
+   "industry": "殡葬服务_服务与门店经营",
+   "file": "400_殡葬服务.json",
+   "prompt_count": 64,
+   "decision_count": 31
+  },
+  {
+   "industry_id": 401,
+   "industry": "母婴健康_高端月子会所与产后康复",
+   "file": "401_母婴健康.json",
+   "prompt_count": 74,
+   "decision_count": 39
+  },
+  {
+   "industry_id": 402,
+   "industry": "母婴用品_母婴零售与奶粉纸尿裤",
+   "file": "402_母婴用品.json",
+   "prompt_count": 102,
+   "decision_count": 70
+  },
+  {
+   "industry_id": 405,
+   "industry": "水上乐园_加盟投资与门店运营",
+   "file": "405_水上乐园.json",
+   "prompt_count": 88,
+   "decision_count": 46
+  },
+  {
+   "industry_id": 409,
+   "industry": "水电维修_服务与门店经营",
+   "file": "409_水电维修.json",
+   "prompt_count": 132,
+   "decision_count": 64
+  },
+  {
+   "industry_id": 410,
+   "industry": "汉服_汉服零售与国风体验",
+   "file": "410_汉服.json",
+   "prompt_count": 33,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 411,
+   "industry": "汗蒸_服务与门店经营",
+   "file": "411_汗蒸.json",
+   "prompt_count": 81,
+   "decision_count": 35
+  },
+  {
+   "industry_id": 415,
+   "industry": "汽车保养_服务与门店经营",
+   "file": "415_汽车保养.json",
+   "prompt_count": 134,
+   "decision_count": 67
+  },
+  {
+   "industry_id": 416,
+   "industry": "汽车后市场_新能源二手车改装",
+   "file": "416_汽车后市场.json",
+   "prompt_count": 30,
+   "decision_count": 8
+  },
+  {
+   "industry_id": 417,
+   "industry": "汽车快修_社区洗车店汽车美容贴膜与快修保养",
+   "file": "417_汽车快修.json",
+   "prompt_count": 27,
+   "decision_count": 12
+  },
+  {
+   "industry_id": 418,
+   "industry": "汽车改装_服务与门店经营",
+   "file": "418_汽车改装.json",
+   "prompt_count": 76,
+   "decision_count": 23
+  },
+  {
+   "industry_id": 419,
+   "industry": "汽车救援_服务与门店经营",
+   "file": "419_汽车救援.json",
+   "prompt_count": 137,
+   "decision_count": 92
+  },
+  {
+   "industry_id": 420,
+   "industry": "汽车检测_服务与门店经营",
+   "file": "420_汽车检测.json",
+   "prompt_count": 133,
+   "decision_count": 82
+  },
+  {
+   "industry_id": 423,
+   "industry": "沉浸式娱乐_剧本杀密室与沉浸式体验",
+   "file": "423_沉浸式娱乐.json",
+   "prompt_count": 52,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 425,
+   "industry": "沙县小吃_餐饮门店加盟与单店运营",
+   "file": "425_沙县小吃.json",
+   "prompt_count": 60,
+   "decision_count": 22
+  },
+  {
+   "industry_id": 427,
+   "industry": "油漆_油漆涂料零售与墙面材料",
+   "file": "427_油漆.json",
+   "prompt_count": 147,
+   "decision_count": 87
+  },
+  {
+   "industry_id": 428,
+   "industry": "油画培训_加盟投资与门店运营",
+   "file": "428_油画培训.json",
+   "prompt_count": 69,
+   "decision_count": 53
+  },
+  {
+   "industry_id": 429,
+   "industry": "泰拳_加盟投资与门店运营",
+   "file": "429_泰拳.json",
+   "prompt_count": 30,
+   "decision_count": 19
+  },
+  {
+   "industry_id": 430,
+   "industry": "洗染养护_高端衣物洗护与奢侈品皮具护理",
+   "file": "430_洗染养护.json",
+   "prompt_count": 58,
+   "decision_count": 22
+  },
+  {
+   "industry_id": 431,
+   "industry": "洗浴足疗_大众足浴推拿与社区养生艾灸馆",
+   "file": "431_洗浴足疗.json",
+   "prompt_count": 38,
+   "decision_count": 28
+  },
+  {
+   "industry_id": 435,
+   "industry": "浙菜_餐饮门店加盟与单店运营",
+   "file": "435_浙菜.json",
+   "prompt_count": 45,
+   "decision_count": 31
+  },
+  {
+   "industry_id": 438,
+   "industry": "海洋馆_加盟投资与门店运营",
+   "file": "438_海洋馆.json",
+   "prompt_count": 65,
+   "decision_count": 30
+  },
+  {
+   "industry_id": 441,
+   "industry": "消杀_服务机构加盟与经营",
+   "file": "441_消杀.json",
+   "prompt_count": 50,
+   "decision_count": 43
+  },
+  {
+   "industry_id": 443,
+   "industry": "淮扬菜_餐饮门店加盟与单店运营",
+   "file": "443_淮扬菜.json",
+   "prompt_count": 62,
+   "decision_count": 36
+  },
+  {
+   "industry_id": 447,
+   "industry": "清真餐厅_餐饮门店加盟与单店运营",
+   "file": "447_清真餐厅.json",
+   "prompt_count": 27,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 448,
+   "industry": "渔具_渔具零售与钓鱼装备",
+   "file": "448_渔具.json",
+   "prompt_count": 127,
+   "decision_count": 74
+  },
+  {
+   "industry_id": 449,
+   "industry": "温泉酒店_加盟投资与门店运营",
+   "file": "449_温泉酒店.json",
+   "prompt_count": 69,
+   "decision_count": 37
+  },
+  {
+   "industry_id": 450,
+   "industry": "游乐运营_游艺游乐场与主题乐园运营",
+   "file": "450_游乐运营.json",
+   "prompt_count": 37,
+   "decision_count": 13
+  },
+  {
+   "industry_id": 451,
+   "industry": "游戏厅_加盟投资与门店运营",
+   "file": "451_游戏厅.json",
+   "prompt_count": 60,
+   "decision_count": 45
+  },
+  {
+   "industry_id": 452,
+   "industry": "游泳馆_加盟投资与门店运营",
+   "file": "452_游泳馆.json",
+   "prompt_count": 75,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 453,
+   "industry": "湘菜_餐饮门店加盟与单店运营",
+   "file": "453_湘菜.json",
+   "prompt_count": 60,
+   "decision_count": 29
+  },
+  {
+   "industry_id": 454,
+   "industry": "滑冰_加盟投资与门店运营",
+   "file": "454_滑冰.json",
+   "prompt_count": 67,
+   "decision_count": 56
+  },
+  {
+   "industry_id": 455,
+   "industry": "滑雪_加盟投资与门店运营",
+   "file": "455_滑雪.json",
+   "prompt_count": 49,
+   "decision_count": 35
+  },
+  {
+   "industry_id": 456,
+   "industry": "演出经纪_演出票务与艺人经纪",
+   "file": "456_演出经纪.json",
+   "prompt_count": 61,
+   "decision_count": 19
+  },
+  {
+   "industry_id": 457,
+   "industry": "演艺厅_加盟投资与门店运营",
+   "file": "457_演艺厅.json",
+   "prompt_count": 32,
+   "decision_count": 16
+  },
+  {
+   "industry_id": 460,
+   "industry": "潮汕牛肉火锅_餐饮门店加盟与单店运营",
+   "file": "460_潮汕牛肉火锅.json",
+   "prompt_count": 38,
+   "decision_count": 6
+  },
+  {
+   "industry_id": 463,
+   "industry": "火锅_餐饮门店加盟与单店运营",
+   "file": "463_火锅.json",
+   "prompt_count": 33,
+   "decision_count": 9
+  },
+  {
+   "industry_id": 464,
+   "industry": "灭虫_服务机构加盟与经营",
+   "file": "464_灭虫.json",
+   "prompt_count": 39,
+   "decision_count": 26
+  },
+  {
+   "industry_id": 465,
+   "industry": "灯具_灯饰零售与照明工程",
+   "file": "465_灯具.json",
+   "prompt_count": 100,
+   "decision_count": 68
+  },
+  {
+   "industry_id": 466,
+   "industry": "炸鸡_餐饮门店加盟与单店运营",
+   "file": "466_炸鸡.json",
+   "prompt_count": 54,
+   "decision_count": 36
+  },
+  {
+   "industry_id": 467,
+   "industry": "烘焙连锁_面包烘焙连锁与烘焙供应链",
+   "file": "467_烘焙连锁.json",
+   "prompt_count": 54,
+   "decision_count": 26
+  },
+  {
+   "industry_id": 468,
+   "industry": "烤鱼_餐饮门店加盟与单店运营",
+   "file": "468_烤鱼.json",
+   "prompt_count": 53,
+   "decision_count": 41
+  },
+  {
+   "industry_id": 469,
+   "industry": "烤鸭_餐饮门店加盟与单店运营",
+   "file": "469_烤鸭.json",
+   "prompt_count": 67,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 470,
+   "industry": "烧烤烤肉_炭火烧烤与烤肉居酒屋单店运营",
+   "file": "470_烧烤烤肉.json",
+   "prompt_count": 34,
+   "decision_count": 13
+  },
+  {
+   "industry_id": 471,
+   "industry": "烧腊_餐饮门店加盟与单店运营",
+   "file": "471_烧腊.json",
+   "prompt_count": 19,
+   "decision_count": 9
+  },
+  {
+   "industry_id": 472,
+   "industry": "烧饼_餐饮门店加盟与单店运营",
+   "file": "472_烧饼.json",
+   "prompt_count": 15,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 475,
+   "industry": "煎饼_餐饮门店加盟与单店运营",
+   "file": "475_煎饼.json",
+   "prompt_count": 61,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 477,
+   "industry": "照相摄影_证件照照相馆与儿童写真摄影工作室",
+   "file": "477_照相摄影.json",
+   "prompt_count": 25,
+   "decision_count": 10
+  },
+  {
+   "industry_id": 478,
+   "industry": "煲仔饭_餐饮门店加盟与单店运营",
+   "file": "478_煲仔饭.json",
+   "prompt_count": 42,
+   "decision_count": 15
+  },
+  {
+   "industry_id": 479,
+   "industry": "熟食_熟食零售与现卤现拌",
+   "file": "479_熟食.json",
+   "prompt_count": 59,
+   "decision_count": 15
+  },
+  {
+   "industry_id": 480,
+   "industry": "熨烫_服务与门店经营",
+   "file": "480_熨烫.json",
+   "prompt_count": 53,
+   "decision_count": 10
+  },
+  {
+   "industry_id": 486,
+   "industry": "特种作业_电工焊工叉车特种作业考证培训",
+   "file": "486_特种作业.json",
+   "prompt_count": 64,
+   "decision_count": 24
+  },
+  {
+   "industry_id": 513,
+   "industry": "理发美发_美发沙龙理发店与烫染造型单店",
+   "file": "513_理发美发.json",
+   "prompt_count": 38,
+   "decision_count": 20
+  },
+  {
+   "industry_id": 514,
+   "industry": "理疗中心_机构加盟与经营",
+   "file": "514_理疗中心.json",
+   "prompt_count": 62,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 515,
+   "industry": "瑜伽_加盟投资与门店运营",
+   "file": "515_瑜伽.json",
+   "prompt_count": 45,
+   "decision_count": 43
+  },
+  {
+   "industry_id": 516,
+   "industry": "甜品_餐饮门店加盟与单店运营",
+   "file": "516_甜品.json",
+   "prompt_count": 62,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 518,
+   "industry": "生活服务_高端家政保洁与家庭深度空气治理",
+   "file": "518_生活服务.json",
+   "prompt_count": 62,
+   "decision_count": 42
+  },
+  {
+   "industry_id": 521,
+   "industry": "生鲜超市_零售门店加盟与单店运营",
+   "file": "521_生鲜超市.json",
+   "prompt_count": 28,
+   "decision_count": 9
+  },
+  {
+   "industry_id": 523,
+   "industry": "电动两轮_电动车专卖店与两轮电瓶车维修换电",
+   "file": "523_电动两轮.json",
+   "prompt_count": 131,
+   "decision_count": 73
+  },
+  {
+   "industry_id": 529,
+   "industry": "电影院_加盟投资与门店运营",
+   "file": "529_电影院.json",
+   "prompt_count": 64,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 533,
+   "industry": "电玩城_加盟投资与门店运营",
+   "file": "533_电玩城.json",
+   "prompt_count": 31,
+   "decision_count": 27
+  },
+  {
+   "industry_id": 534,
+   "industry": "电竞产业_电竞馆电竞酒店与赛事运营",
+   "file": "534_电竞产业.json",
+   "prompt_count": 67,
+   "decision_count": 51
+  },
+  {
+   "industry_id": 535,
+   "industry": "电脑店_电脑组装与数码零售",
+   "file": "535_电脑店.json",
+   "prompt_count": 124,
+   "decision_count": 76
+  },
+  {
+   "industry_id": 536,
+   "industry": "电脑维修_服务与门店经营",
+   "file": "536_电脑维修.json",
+   "prompt_count": 84,
+   "decision_count": 74
+  },
+  {
+   "industry_id": 537,
+   "industry": "男装_男装零售与定制",
+   "file": "537_男装.json",
+   "prompt_count": 132,
+   "decision_count": 63
+  },
+  {
+   "industry_id": 538,
+   "industry": "画廊_加盟投资与门店运营",
+   "file": "538_画廊.json",
+   "prompt_count": 19,
+   "decision_count": 10
+  },
+  {
+   "industry_id": 539,
+   "industry": "留学中介_服务机构加盟与经营",
+   "file": "539_留学中介.json",
+   "prompt_count": 79,
+   "decision_count": 75
+  },
+  {
+   "industry_id": 540,
+   "industry": "疫苗接种_机构加盟与经营",
+   "file": "540_疫苗接种.json",
+   "prompt_count": 36,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 541,
+   "industry": "白切鸡_餐饮门店加盟与单店运营",
+   "file": "541_白切鸡.json",
+   "prompt_count": 29,
+   "decision_count": 20
+  },
+  {
+   "industry_id": 542,
+   "industry": "皮肤科_机构加盟与经营",
+   "file": "542_皮肤科.json",
+   "prompt_count": 75,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 543,
+   "industry": "皮革护理_服务与门店经营",
+   "file": "543_皮革护理.json",
+   "prompt_count": 110,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 545,
+   "industry": "相声_加盟投资与门店运营",
+   "file": "545_相声.json",
+   "prompt_count": 13,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 546,
+   "industry": "眼科专科_近视激光矫正ICL晶体与角膜塑形镜",
+   "file": "546_眼科专科.json",
+   "prompt_count": 61,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 548,
+   "industry": "眼科诊所_机构加盟与经营",
+   "file": "548_眼科诊所.json",
+   "prompt_count": 73,
+   "decision_count": 55
+  },
+  {
+   "industry_id": 549,
+   "industry": "眼镜店_验光配镜与眼镜零售",
+   "file": "549_眼镜店.json",
+   "prompt_count": 108,
+   "decision_count": 68
+  },
+  {
+   "industry_id": 556,
+   "industry": "研学营地_中小学生研学旅行与劳动教育基地",
+   "file": "556_研学营地.json",
+   "prompt_count": 26,
+   "decision_count": 1
+  },
+  {
+   "industry_id": 559,
+   "industry": "磨刀_服务与门店经营",
+   "file": "559_磨刀.json",
+   "prompt_count": 22,
+   "decision_count": 12
+  },
+  {
+   "industry_id": 560,
+   "industry": "礼仪_服务与门店经营",
+   "file": "560_礼仪.json",
+   "prompt_count": 31,
+   "decision_count": 17
+  },
+  {
+   "industry_id": 561,
+   "industry": "社区便利_便利店小超市与24小时烟酒杂货铺",
+   "file": "561_社区便利.json",
+   "prompt_count": 103,
+   "decision_count": 58
+  },
+  {
+   "industry_id": 562,
+   "industry": "社区早餐_特色面馆粉店与传统早点铺",
+   "file": "562_社区早餐.json",
+   "prompt_count": 43,
+   "decision_count": 38
+  },
+  {
+   "industry_id": 563,
+   "industry": "社区诊所_中医诊所中药调剂与全科西医门诊",
+   "file": "563_社区诊所.json",
+   "prompt_count": 22,
+   "decision_count": 9
+  },
+  {
+   "industry_id": 565,
+   "industry": "私人影院_加盟投资与门店运营",
+   "file": "565_私人影院.json",
+   "prompt_count": 24,
+   "decision_count": 21
+  },
+  {
+   "industry_id": 566,
+   "industry": "私房菜_私房菜馆与家宴定制服务",
+   "file": "566_私房菜.json",
+   "prompt_count": 35,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 569,
+   "industry": "租车_服务机构加盟与经营",
+   "file": "569_租车.json",
+   "prompt_count": 81,
+   "decision_count": 78
+  },
+  {
+   "industry_id": 570,
+   "industry": "移民中介_服务机构加盟与经营",
+   "file": "570_移民中介.json",
+   "prompt_count": 49,
+   "decision_count": 42
+  },
+  {
+   "industry_id": 574,
+   "industry": "窗帘_窗帘布艺定制与软装",
+   "file": "574_窗帘.json",
+   "prompt_count": 109,
+   "decision_count": 74
+  },
+  {
+   "industry_id": 575,
+   "industry": "童装_童装零售与品牌集合",
+   "file": "575_童装.json",
+   "prompt_count": 132,
+   "decision_count": 80
+  },
+  {
+   "industry_id": 576,
+   "industry": "童鞋_童鞋零售与机能鞋",
+   "file": "576_童鞋.json",
+   "prompt_count": 74,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 577,
+   "industry": "签证代办_服务机构加盟与经营",
+   "file": "577_签证代办.json",
+   "prompt_count": 60,
+   "decision_count": 53
+  },
+  {
+   "industry_id": 581,
+   "industry": "管道疏通_服务与门店经营",
+   "file": "581_管道疏通.json",
+   "prompt_count": 86,
+   "decision_count": 55
+  },
+  {
+   "industry_id": 583,
+   "industry": "篮球馆_加盟投资与门店运营",
+   "file": "583_篮球馆.json",
+   "prompt_count": 42,
+   "decision_count": 32
+  },
+  {
+   "industry_id": 584,
+   "industry": "米线_餐饮门店加盟与单店运营",
+   "file": "584_米线.json",
+   "prompt_count": 83,
+   "decision_count": 45
+  },
+  {
+   "industry_id": 586,
+   "industry": "粤菜_餐饮门店加盟与单店运营",
+   "file": "586_粤菜.json",
+   "prompt_count": 31,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 587,
+   "industry": "粥铺_餐饮门店加盟与单店运营",
+   "file": "587_粥铺.json",
+   "prompt_count": 30,
+   "decision_count": 17
+  },
+  {
+   "industry_id": 592,
+   "industry": "精品住宿_中高端商旅酒店与度假文旅酒店",
+   "file": "592_精品住宿.json",
+   "prompt_count": 32,
+   "decision_count": 23
+  },
+  {
+   "industry_id": 598,
+   "industry": "糖水_餐饮门店加盟与单店运营",
+   "file": "598_糖水.json",
+   "prompt_count": 28,
+   "decision_count": 19
+  },
+  {
+   "industry_id": 599,
+   "industry": "素质教育_少儿编程机器人考级与 STEAM 教具",
+   "file": "599_素质教育.json",
+   "prompt_count": 10,
+   "decision_count": 8
+  },
+  {
+   "industry_id": 600,
+   "industry": "素食_餐饮门店加盟与单店运营",
+   "file": "600_素食.json",
+   "prompt_count": 41,
+   "decision_count": 25
+  },
+  {
+   "industry_id": 604,
+   "industry": "织补_服务与门店经营",
+   "file": "604_织补.json",
+   "prompt_count": 39,
+   "decision_count": 27
+  },
+  {
+   "industry_id": 605,
+   "industry": "经济型酒店_加盟投资与门店运营",
+   "file": "605_经济型酒店.json",
+   "prompt_count": 71,
+   "decision_count": 58
+  },
+  {
+   "industry_id": 609,
+   "industry": "缝纫_服务与门店经营",
+   "file": "609_缝纫.json",
+   "prompt_count": 37,
+   "decision_count": 26
+  },
+  {
+   "industry_id": 610,
+   "industry": "网吧_加盟投资与门店运营",
+   "file": "610_网吧.json",
+   "prompt_count": 84,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 611,
+   "industry": "网咖_加盟投资与门店运营",
+   "file": "611_网咖.json",
+   "prompt_count": 72,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 612,
+   "industry": "网球_加盟投资与门店运营",
+   "file": "612_网球.json",
+   "prompt_count": 66,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 614,
+   "industry": "美术馆_加盟投资与门店运营",
+   "file": "614_美术馆.json",
+   "prompt_count": 19,
+   "decision_count": 2
+  },
+  {
+   "industry_id": 615,
+   "industry": "美甲美睫_美甲美睫纹绣与半永久皮肤管理工作室",
+   "file": "615_美甲美睫.json",
+   "prompt_count": 20,
+   "decision_count": 1
+  },
+  {
+   "industry_id": 616,
+   "industry": "羽毛球_加盟投资与门店运营",
+   "file": "616_羽毛球.json",
+   "prompt_count": 72,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 617,
+   "industry": "羽绒服_羽绒服零售与冬季保暖",
+   "file": "617_羽绒服.json",
+   "prompt_count": 65,
+   "decision_count": 34
+  },
+  {
+   "industry_id": 620,
+   "industry": "职业技能_建造师消防安全考证与IT技能培训",
+   "file": "620_职业技能.json",
+   "prompt_count": 40,
+   "decision_count": 34
+  },
+  {
+   "industry_id": 621,
+   "industry": "肉铺_生鲜肉零售与猪肉牛羊肉店",
+   "file": "621_肉铺.json",
+   "prompt_count": 113,
+   "decision_count": 64
+  },
+  {
+   "industry_id": 624,
+   "industry": "脱口秀_加盟投资与门店运营",
+   "file": "624_脱口秀.json",
+   "prompt_count": 45,
+   "decision_count": 38
+  },
+  {
+   "industry_id": 625,
+   "industry": "自助餐_餐饮门店加盟与单店运营",
+   "file": "625_自助餐.json",
+   "prompt_count": 78,
+   "decision_count": 64
+  },
+  {
+   "industry_id": 626,
+   "industry": "自行车店_自行车零售与骑行装备",
+   "file": "626_自行车店.json",
+   "prompt_count": 115,
+   "decision_count": 60
+  },
+  {
+   "industry_id": 628,
+   "industry": "舞蹈培训_加盟投资与门店运营",
+   "file": "628_舞蹈培训.json",
+   "prompt_count": 75,
+   "decision_count": 69
+  },
+  {
+   "industry_id": 629,
+   "industry": "舞蹈考级_服务机构加盟与经营",
+   "file": "629_舞蹈考级.json",
+   "prompt_count": 73,
+   "decision_count": 24
+  },
+  {
+   "industry_id": 638,
+   "industry": "艺考培训_美术音乐舞蹈艺考集训与作品集辅导",
+   "file": "638_艺考培训.json",
+   "prompt_count": 65,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 641,
+   "industry": "花艺培训_加盟投资与门店运营",
+   "file": "641_花艺培训.json",
+   "prompt_count": 49,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 642,
+   "industry": "茶叶专卖_品牌茶叶专卖店与茶具礼品礼盒行",
+   "file": "642_茶叶专卖.json",
+   "prompt_count": 109,
+   "decision_count": 63
+  },
+  {
+   "industry_id": 643,
+   "industry": "茶楼_餐饮门店加盟与单店运营",
+   "file": "643_茶楼.json",
+   "prompt_count": 10,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 644,
+   "industry": "茶饮冰品_新中式茶馆茶室与现制冰品单店",
+   "file": "644_茶饮冰品.json",
+   "prompt_count": 18,
+   "decision_count": 11
+  },
+  {
+   "industry_id": 645,
+   "industry": "菜场_社区菜市场摊位与农贸市场运营管理",
+   "file": "645_菜场.json",
+   "prompt_count": 72,
+   "decision_count": 20
+  },
+  {
+   "industry_id": 654,
+   "industry": "补习_服务机构加盟与经营",
+   "file": "654_补习.json",
+   "prompt_count": 72,
+   "decision_count": 53
+  },
+  {
+   "industry_id": 657,
+   "industry": "装修监理_服务机构加盟与经营",
+   "file": "657_装修监理.json",
+   "prompt_count": 47,
+   "decision_count": 34
+  },
+  {
+   "industry_id": 659,
+   "industry": "西北菜_餐饮门店加盟与单店运营",
+   "file": "659_西北菜.json",
+   "prompt_count": 45,
+   "decision_count": 34
+  },
+  {
+   "industry_id": 660,
+   "industry": "西餐_餐饮门店加盟与单店运营",
+   "file": "660_西餐.json",
+   "prompt_count": 34,
+   "decision_count": 30
+  },
+  {
+   "industry_id": 661,
+   "industry": "视光_机构加盟与经营",
+   "file": "661_视光.json",
+   "prompt_count": 47,
+   "decision_count": 16
+  },
+  {
+   "industry_id": 667,
+   "industry": "话剧_加盟投资与门店运营",
+   "file": "667_话剧.json",
+   "prompt_count": 13,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 668,
+   "industry": "语言培训_雅思托福出国语培与商务英语",
+   "file": "668_语言培训.json",
+   "prompt_count": 73,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 669,
+   "industry": "调味品_调味品零售与佐餐调料",
+   "file": "669_调味品.json",
+   "prompt_count": 108,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 670,
+   "industry": "象棋_服务机构加盟与经营",
+   "file": "670_象棋.json",
+   "prompt_count": 41,
+   "decision_count": 18
+  },
+  {
+   "industry_id": 678,
+   "industry": "足球场_加盟投资与门店运营",
+   "file": "678_足球场.json",
+   "prompt_count": 47,
+   "decision_count": 45
+  },
+  {
+   "industry_id": 679,
+   "industry": "跆拳道_加盟投资与门店运营",
+   "file": "679_跆拳道.json",
+   "prompt_count": 37,
+   "decision_count": 30
+  },
+  {
+   "industry_id": 680,
+   "industry": "跑腿_服务与门店经营",
+   "file": "680_跑腿.json",
+   "prompt_count": 60,
+   "decision_count": 52
+  },
+  {
+   "industry_id": 684,
+   "industry": "蹦床_加盟投资与门店运营",
+   "file": "684_蹦床.json",
+   "prompt_count": 21,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 685,
+   "industry": "轮滑_加盟投资与门店运营",
+   "file": "685_轮滑.json",
+   "prompt_count": 48,
+   "decision_count": 44
+  },
+  {
+   "industry_id": 686,
+   "industry": "轮胎店_服务与门店经营",
+   "file": "686_轮胎店.json",
+   "prompt_count": 60,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 687,
+   "industry": "轻医美抗衰_重组胶原蛋白与光电",
+   "file": "687_轻医美抗衰.json",
+   "prompt_count": 44,
+   "decision_count": 12
+  },
+  {
+   "industry_id": 688,
+   "industry": "运动装_运动服饰零售与品牌集合",
+   "file": "688_运动装.json",
+   "prompt_count": 127,
+   "decision_count": 67
+  },
+  {
+   "industry_id": 690,
+   "industry": "连锁药房_临街社区大药房与单体中西药店",
+   "file": "690_连锁药房.json",
+   "prompt_count": 38,
+   "decision_count": 3
+  },
+  {
+   "industry_id": 691,
+   "industry": "迪厅_加盟投资与门店运营",
+   "file": "691_迪厅.json",
+   "prompt_count": 14,
+   "decision_count": 14
+  },
+  {
+   "industry_id": 694,
+   "industry": "遛狗服务_服务与门店经营",
+   "file": "694_遛狗服务.json",
+   "prompt_count": 61,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 695,
+   "industry": "配钥匙_服务与门店经营",
+   "file": "695_配钥匙.json",
+   "prompt_count": 63,
+   "decision_count": 51
+  },
+  {
+   "industry_id": 696,
+   "industry": "酒吧服务_清吧精酿酒馆与Livehouse音乐餐吧",
+   "file": "696_酒吧服务.json",
+   "prompt_count": 54,
+   "decision_count": 34
+  },
+  {
+   "industry_id": 698,
+   "industry": "酒类流通_白酒红酒经销与名酒渠道",
+   "file": "698_酒类流通.json",
+   "prompt_count": 94,
+   "decision_count": 56
+  },
+  {
+   "industry_id": 701,
+   "industry": "量贩KTV_量贩式KTV连锁与运营",
+   "file": "701_量贩KTV.json",
+   "prompt_count": 85,
+   "decision_count": 67
+  },
+  {
+   "industry_id": 703,
+   "industry": "针灸_机构加盟与经营",
+   "file": "703_针灸.json",
+   "prompt_count": 41,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 705,
+   "industry": "钟点工_服务与门店经营",
+   "file": "705_钟点工.json",
+   "prompt_count": 89,
+   "decision_count": 79
+  },
+  {
+   "industry_id": 706,
+   "industry": "钟表店_名表零售与维修保养",
+   "file": "706_钟表店.json",
+   "prompt_count": 104,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 708,
+   "industry": "钢琴培训_加盟投资与门店运营",
+   "file": "708_钢琴培训.json",
+   "prompt_count": 56,
+   "decision_count": 53
+  },
+  {
+   "industry_id": 709,
+   "industry": "钣金喷漆_服务与门店经营",
+   "file": "709_钣金喷漆.json",
+   "prompt_count": 80,
+   "decision_count": 59
+  },
+  {
+   "industry_id": 710,
+   "industry": "铁板烧_餐饮门店加盟与单店运营",
+   "file": "710_铁板烧.json",
+   "prompt_count": 60,
+   "decision_count": 54
+  },
+  {
+   "industry_id": 714,
+   "industry": "银发教育_老年大学与社区适老兴趣课堂",
+   "file": "714_银发教育.json",
+   "prompt_count": 86,
+   "decision_count": 61
+  },
+  {
+   "industry_id": 715,
+   "industry": "银饰_银饰零售与手工首饰",
+   "file": "715_银饰.json",
+   "prompt_count": 119,
+   "decision_count": 78
+  },
+  {
+   "industry_id": 717,
+   "industry": "长租公寓_加盟投资与门店运营",
+   "file": "717_长租公寓.json",
+   "prompt_count": 66,
+   "decision_count": 48
+  },
+  {
+   "industry_id": 718,
+   "industry": "门窗维修_服务与门店经营",
+   "file": "718_门窗维修.json",
+   "prompt_count": 81,
+   "decision_count": 70
+  },
+  {
+   "industry_id": 721,
+   "industry": "陪诊_服务与门店经营",
+   "file": "721_陪诊.json",
+   "prompt_count": 74,
+   "decision_count": 66
+  },
+  {
+   "industry_id": 722,
+   "industry": "陪驾_服务机构加盟与经营",
+   "file": "722_陪驾.json",
+   "prompt_count": 53,
+   "decision_count": 45
+  },
+  {
+   "industry_id": 724,
+   "industry": "陶艺_加盟投资与门店运营",
+   "file": "724_陶艺.json",
+   "prompt_count": 7,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 725,
+   "industry": "青年旅社_加盟投资与门店运营",
+   "file": "725_青年旅社.json",
+   "prompt_count": 51,
+   "decision_count": 38
+  },
+  {
+   "industry_id": 726,
+   "industry": "鞋店_鞋类零售与品牌集合",
+   "file": "726_鞋店.json",
+   "prompt_count": 70,
+   "decision_count": 26
+  },
+  {
+   "industry_id": 728,
+   "industry": "韩语培训_服务机构加盟与经营",
+   "file": "728_韩语培训.json",
+   "prompt_count": 51,
+   "decision_count": 38
+  },
+  {
+   "industry_id": 729,
+   "industry": "韩餐_餐饮门店加盟与单店运营",
+   "file": "729_韩餐.json",
+   "prompt_count": 42,
+   "decision_count": 31
+  },
+  {
+   "industry_id": 730,
+   "industry": "音乐培训_加盟投资与门店运营",
+   "file": "730_音乐培训.json",
+   "prompt_count": 47,
+   "decision_count": 39
+  },
+  {
+   "industry_id": 731,
+   "industry": "音乐考级_服务机构加盟与经营",
+   "file": "731_音乐考级.json",
+   "prompt_count": 58,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 732,
+   "industry": "音像店_音像制品与黑胶唱片零售",
+   "file": "732_音像店.json",
+   "prompt_count": 100,
+   "decision_count": 66
+  },
+  {
+   "industry_id": 733,
+   "industry": "音响改装_服务与门店经营",
+   "file": "733_音响改装.json",
+   "prompt_count": 50,
+   "decision_count": 43
+  },
+  {
+   "industry_id": 742,
+   "industry": "餐具_餐具零售与餐饮配套",
+   "file": "742_餐具.json",
+   "prompt_count": 124,
+   "decision_count": 57
+  },
+  {
+   "industry_id": 743,
+   "industry": "餐饮连锁_快餐小吃加盟与中央大厨房配送",
+   "file": "743_餐饮连锁.json",
+   "prompt_count": 53,
+   "decision_count": 41
+  },
+  {
+   "industry_id": 744,
+   "industry": "餐饮连锁_茶饮咖啡供应链与商用设备",
+   "file": "744_餐饮连锁.json",
+   "prompt_count": 23,
+   "decision_count": 0
+  },
+  {
+   "industry_id": 746,
+   "industry": "饺子_餐饮门店加盟与单店运营",
+   "file": "746_饺子.json",
+   "prompt_count": 53,
+   "decision_count": 30
+  },
+  {
+   "industry_id": 747,
+   "industry": "马术_加盟投资与门店运营",
+   "file": "747_马术.json",
+   "prompt_count": 52,
+   "decision_count": 49
+  },
+  {
+   "industry_id": 748,
+   "industry": "驾培驾考_智能驾校建设与科目训练场",
+   "file": "748_驾培驾考.json",
+   "prompt_count": 59,
+   "decision_count": 40
+  },
+  {
+   "industry_id": 749,
+   "industry": "验房_服务机构加盟与经营",
+   "file": "749_验房.json",
+   "prompt_count": 73,
+   "decision_count": 66
+  },
+  {
+   "industry_id": 750,
+   "industry": "高尔夫_加盟投资与门店运营",
+   "file": "750_高尔夫.json",
+   "prompt_count": 39,
+   "decision_count": 39
+  },
+  {
+   "industry_id": 756,
+   "industry": "高端餐厅_餐饮门店加盟与单店运营",
+   "file": "756_高端餐厅.json",
+   "prompt_count": 43,
+   "decision_count": 25
+  },
+  {
+   "industry_id": 761,
+   "industry": "魔术_加盟投资与门店运营",
+   "file": "761_魔术.json",
+   "prompt_count": 17,
+   "decision_count": 7
+  },
+  {
+   "industry_id": 762,
+   "industry": "鲁菜_餐饮门店加盟与单店运营",
+   "file": "762_鲁菜.json",
+   "prompt_count": 20,
+   "decision_count": 9
+  },
+  {
+   "industry_id": 763,
+   "industry": "鲜果生鲜_社区精品水果店与生鲜社区肉菜店",
+   "file": "763_鲜果生鲜.json",
+   "prompt_count": 67,
+   "decision_count": 27
+  },
+  {
+   "industry_id": 764,
+   "industry": "鲜花花艺_街头花店花艺定制与绿植开业花篮",
+   "file": "764_鲜花花艺.json",
+   "prompt_count": 96,
+   "decision_count": 38
+  },
+  {
+   "industry_id": 765,
+   "industry": "麻将馆_加盟投资与门店运营",
+   "file": "765_麻将馆.json",
+   "prompt_count": 50,
+   "decision_count": 43
+  },
+  {
+   "industry_id": 766,
+   "industry": "麻辣烫_餐饮门店加盟与单店运营",
+   "file": "766_麻辣烫.json",
+   "prompt_count": 71,
+   "decision_count": 62
+  },
+  {
+   "industry_id": 767,
+   "industry": "黄焖鸡米饭_餐饮门店加盟与单店运营",
+   "file": "767_黄焖鸡米饭.json",
+   "prompt_count": 49,
+   "decision_count": 25
+  }
+ ]
+}

@@ -1,0 +1,77 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 58,
+ "industry": "体育赛事运营_加盟投资与门店运营",
+ "cat_code": "R",
+ "cat_name": "文化、体育和娱乐业",
+ "div_name": "体育业",
+ "anchors": [
+  "全民马拉松赛事策划运营",
+  "城市篮球联赛策划组织",
+  "企业职工运动会承办运营"
+ ],
+ "prompts": [
+  {
+   "text": "全民马拉松赛事策划运营方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "全民马拉松赛事策划运营模式分析",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "全民马拉松赛事策划运营管理方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "全民马拉松赛事策划运营管理",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "城市篮球联赛策划组织实施方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "城市篮球联赛策划组织工作方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "城市篮球联赛策划组织方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "城市篮球联赛策划组织工作",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "企业职工运动会承办运营管理方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "企业职工运动会承办运营单位是什么",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "企业职工运动会承办运营方案",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "企业职工运动会承办运营单位",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  }
+ ],
+ "prompt_count": 12,
+ "decision_count": 0
+}

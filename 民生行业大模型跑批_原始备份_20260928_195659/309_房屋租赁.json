@@ -1,0 +1,112 @@
+{
+ "schema": "minsheng-geo-batch-v1",
+ "industry_id": 309,
+ "industry": "房屋租赁_服务机构加盟与经营",
+ "cat_code": "K",
+ "cat_name": "房地产业",
+ "div_name": "房地产业",
+ "anchors": [
+  "同城优质整租合租房屋租赁",
+  "无中介直租个人房源租赁",
+  "高端涉外精装公寓租赁"
+ ],
+ "prompts": [
+  {
+   "text": "同城租房中介和直租哪个好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "高端涉外精装公寓租赁价格",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 1
+  },
+  {
+   "text": "同城租房中介和直租哪个好一点",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "同城租房中介和直租哪个好做",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "同城租房哪个区域便宜",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "同城租房中介和直租哪个好的地方",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "同城租房中介和直租哪个好一些",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "同城租房中介和直租哪个好的好",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高端涉外精装公寓租赁价格多少",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高端涉外精装公寓租赁价格怎么算",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高端涉外精装公寓租赁价格多少钱一个月",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高端涉外精装公寓租赁价格一览表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "高端涉外精装公寓租赁价格表",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "公寓价格为什么比住宅便宜",
+   "verdict": "ACCEPT_BUYER_DECISION",
+   "depth": 2
+  },
+  {
+   "text": "无中介直租个人房源租赁合法吗",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "无中介直租个人房源租赁费怎么算",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "无中介直租个人房源租赁合同",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "无中介直租个人房源租赁平台",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  },
+  {
+   "text": "高端涉外精装公寓租赁合同",
+   "verdict": "ACCEPT_AWARENESS",
+   "depth": 1
+  }
+ ],
+ "prompt_count": 19,
+ "decision_count": 14
+}
