@@ -111,8 +111,10 @@ class BrowserBase:
     CAPTCHA_URL_KEYWORDS = ("captcha", "verify", "security", "nvc", "safecheck", "slider")
     CAPTCHA_TEXT_KEYWORDS = ("请完成验证", "安全验证", "人机验证", "拖动滑块", "向右滑动", "验证码")
 
-    async def _check_captcha(self) -> bool:
-        """检测当前页面是否出现人工验证（验证码/滑块/安全验证）。"""
+    async def _check_captcha(self, strict: bool = False) -> bool:
+        """检测当前页面是否出现人工验证（验证码/滑块/安全验证）。
+        strict=True（回答完成后二次检测）：只查 URL 与验证 DOM 元素，
+        不扫全文正文——正常回答页常含"安全验证/验证码"等文字，全文匹配会误报。"""
         try:
             url = self.page.url.lower()
             if any(k in url for k in self.CAPTCHA_URL_KEYWORDS):
@@ -121,9 +123,10 @@ class BrowserBase:
                         "[class*='verify']", "[class*='slider']", "[class*='nvc']"):
                 if await self.page.locator(sel).count() > 0:
                     return True
-            text = await self.page.locator("body").inner_text(timeout=2000)
-            if any(k in text for k in self.CAPTCHA_TEXT_KEYWORDS):
-                return True
+            if not strict:
+                text = await self.page.locator("body").inner_text(timeout=2000)
+                if any(k in text for k in self.CAPTCHA_TEXT_KEYWORDS):
+                    return True
         except Exception:
             pass
         return False
@@ -342,7 +345,8 @@ class BrowserBase:
         await self.wait_for_answer(base_count)
 
         # 8.5 回答完成后若页面出现验证也判定（部分验证在回答后才弹出）
-        if await self._check_captcha():
+        # strict=True：只认 URL/DOM 验证元素，避免正文含"验证码"字样误报
+        if await self._check_captcha(strict=True):
             print("[ask] ⚠️ 回答完成后检测到人工验证", flush=True)
             raise CaptchaDetected("人工验证")
 
