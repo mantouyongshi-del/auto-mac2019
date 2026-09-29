@@ -55,7 +55,14 @@ class WenxinBrowser(BrowserBase):
                         return True
                 except:
                     continue
-            # 没找到就直接用当前页面
+            # 兜底：找不到新对话按钮或点击后无输入框（如页面处于图片生成模式），
+            # 刷新页面强制回到对话首页，清除图片生成等非对话状态
+            await self.page.reload()
+            await asyncio.sleep(2)
+            try:
+                await self.page.wait_for_selector(self.INPUT_SELECTOR, timeout=10000)
+            except Exception:
+                pass
             await asyncio.sleep(0.5)
             return True
         except Exception as e:

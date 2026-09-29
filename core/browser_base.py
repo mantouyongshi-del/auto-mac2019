@@ -258,8 +258,10 @@ class BrowserBase:
         await asyncio.wait_for(self.maybe_enable_search(), timeout=15)
         print("[ask] 步骤4 联网搜索完成", flush=True)
 
-        # 5. 逐字输入（优先匹配可见输入框，避免页面含多个 textarea 时命中视口外的隐藏元素）
+        # 5. 逐字输入（优先可见；回退排除 tabindex=-1 的隐藏辅助输入框——文心页面存在此类元素）
         inp = page.locator(self.INPUT_SELECTOR + ":visible").first
+        if await inp.count() == 0:
+            inp = page.locator(self.INPUT_SELECTOR + ":not([tabindex='-1'])").first
         if await inp.count() == 0:
             inp = page.locator(self.INPUT_SELECTOR).first
         
