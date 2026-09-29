@@ -235,7 +235,7 @@
 
   <!-- 最近10题 -->
   <div class="panel p-4">
-    <div class="panel-title">🕐 最近提问（10条）</div>
+    <div class="panel-title">🕐 最近提问（50条）</div>
     <div class="scroll-list" id="bs-recent" style="max-height:300px"></div>
   </div>
 </div>
@@ -446,7 +446,7 @@ async function refreshBatch(){
       </div>`;
     }).join('');
 
-    // 最近10题
+    // 最近50题
     const recent = (s.recent||[]).map(r=>{
       const fail = (r.failed||[]).length ? `<span class="text-red-400">[失败:${r.failed.join(',')}]</span>` : '<span class="text-emerald-400">✓</span>';
       return `<div class="py-1.5 border-b border-slate-800/60 flex gap-2">

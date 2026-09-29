@@ -151,7 +151,7 @@ _batch_status = {
     "current_no": 0, "current_question": "",
     "total_asked": 0, "total_failed": 0, "total_skipped": 0,
     "models": {},
-    "recent": [],  # 最近10题
+    "recent": [],  # 最近50题
 }
 _batch_model_stats = {}  # {model_id: {"ok": n, "err": n}}
 
@@ -179,7 +179,7 @@ def _note_question(no: int, text: str, failed: list, total: int):
         "no": no, "question": text[:40],
         "failed": failed,
     })
-    _batch_status["recent"] = _batch_status["recent"][:10]
+    _batch_status["recent"] = _batch_status["recent"][:50]
 
 def _set_industry(industry_id, name, total):
     _batch_status["industry_id"] = industry_id
@@ -261,7 +261,8 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                 # 只重跑失败/缺失的模型，成功的复用
                 failed_ids = [mid for mid, r in (old.get("results") or {}).items() if r.get("status") != "ok"]
                 failed_ids += [mid for mid in active_ids if mid not in (old.get("results") or {})]
-                log(f"  🔄 部分重试: {failed_ids}，复用 {list(existing_results.keys())}")
+                retry_list = [m for m in active_models() if m["id"] in failed_ids]
+                log(f"  🔄 部分重试: {[m['id'] for m in retry_list]}，复用 {list(existing_results.keys())}")
                 retry_results = {}
                 async def _ask_one(m):
                     try:
@@ -274,7 +275,6 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                             "answer": "", "search_queries": [], "citations": [],
                             "asked_at": datetime.now().astimezone().isoformat(),
                         }
-                retry_list = [m for m in active_models() if m["id"] in failed_ids]
                 retried = await asyncio.gather(*[_ask_one(m) for m in retry_list])
                 for mid, r in retried:
                     retry_results[mid] = r
