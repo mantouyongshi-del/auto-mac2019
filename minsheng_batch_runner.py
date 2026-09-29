@@ -143,6 +143,51 @@ async def ask_one_prompt(question):
     results = await asyncio.gather(*[_ask(m) for m in models])
     return dict(results)
 
+# ---------- 跑批状态（供驾驶舱读取） ----------
+STATUS_FILE = Path(__file__).parent / "batch_status.json"
+_batch_status = {
+    "updated_at": "", "status": "starting",
+    "industry_id": "", "industry_name": "", "industry_total": 0,
+    "current_no": 0, "current_question": "",
+    "total_asked": 0, "total_failed": 0, "total_skipped": 0,
+    "models": {},
+    "recent": [],  # 最近10题
+}
+_batch_model_stats = {}  # {model_id: {"ok": n, "err": n}}
+
+def save_batch_status():
+    """把当前跑批状态写入 batch_status.json（驾驶舱读取）。"""
+    try:
+        _batch_status["updated_at"] = datetime.now().astimezone().isoformat()
+        with open(STATUS_FILE, "w", encoding="utf-8") as f:
+            json.dump(_batch_status, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+def _note_model_result(mid: str, ok: bool):
+    st = _batch_model_stats.setdefault(mid, {"ok": 0, "err": 0})
+    st["ok" if ok else "err"] += 1
+    _batch_status["models"][mid] = {
+        "last_ask": datetime.now().astimezone().isoformat(),
+        "last_result": "ok" if ok else "error",
+        "run_ok": st["ok"], "run_err": st["err"],
+    }
+
+def _note_question(no: int, text: str, failed: list, total: int):
+    _batch_status["recent"].insert(0, {
+        "time": datetime.now().strftime("%H:%M:%S"),
+        "no": no, "question": text[:40],
+        "failed": failed,
+    })
+    _batch_status["recent"] = _batch_status["recent"][:10]
+
+def _set_industry(industry_id, name, total):
+    _batch_status["industry_id"] = industry_id
+    _batch_status["industry_name"] = name
+    _batch_status["industry_total"] = total
+    _batch_status["current_no"] = 0
+    _batch_status["status"] = "running"
+
 async def run_batch(industry_files, limit=None, only_industries=None):
     """遍历行业和prompt执行跑批。"""
     total_asked = 0
@@ -160,6 +205,8 @@ async def run_batch(industry_files, limit=None, only_industries=None):
 
         prompts = ind_file.get("prompts", [])
         log(f"=== 行业 {industry_id}/{len(industry_files)}: {ind_file.get('industry')}，{len(prompts)} 条prompt ===")
+        _set_industry(str(industry_id), str(ind_file.get("industry", industry_id)), len(prompts))
+        save_batch_status()
 
         for pidx, p in enumerate(prompts, 1):
             if limit and total_asked >= limit:
@@ -202,6 +249,9 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                     pass
 
             log(f"[{pidx}/{len(prompts)}] 提问: {text[:50]}...")
+            _batch_status["current_no"] = pidx
+            _batch_status["current_question"] = text[:40]
+            save_batch_status()
             if need_retry:
                 # 只重跑失败的模型，成功的复用
                 failed_ids = [mid for mid, r in (old.get("results") or {}).items() if r.get("status") != "ok"]
@@ -222,11 +272,15 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                 retried = await asyncio.gather(*[_ask_one(m) for m in retry_list])
                 for mid, r in retried:
                     retry_results[mid] = r
+                    _note_model_result(mid, r.get("status") == "ok")
                 results = {**existing_results, **retry_results}
             else:
                 results = await ask_one_prompt(text)
 
             # 统计失败
+            # 统计各模型结果（供状态文件）
+            for mid, r in results.items():
+                _note_model_result(mid, r.get("status") == "ok")
             failed_models = [mid for mid, r in results.items() if r.get("status") != "ok"]
             if failed_models:
                 total_failed += 1
@@ -242,11 +296,19 @@ async def run_batch(industry_files, limit=None, only_industries=None):
 
             total_asked += 1
             log(f"  ✅ 完成，引用数: {sum(len(r.get('citations',[])) for r in results.values())}")
+            _batch_status["total_asked"] = total_asked
+            _batch_status["total_failed"] = total_failed
+            _batch_status["total_skipped"] = total_skipped
+            _note_question(pidx, text, failed_models, len(prompts))
+            _batch_status["status"] = "resting" if total_asked % REST_EVERY == 0 else "running"
+            save_batch_status()
 
             # 防风控节奏
             if total_asked % REST_EVERY == 0:
                 rest = random.randint(REST_MIN, REST_MAX)
                 log(f"🛌 已跑 {total_asked} 题，休息 {rest//60} 分钟...")
+                _batch_status["status"] = "resting"
+                save_batch_status()
                 await asyncio.sleep(rest)
             else:
                 delay = random.uniform(DELAY_MIN, DELAY_MAX)

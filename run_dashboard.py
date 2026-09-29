@@ -653,6 +653,23 @@ async def auth_middleware(request: Request, call_next):
     return await call_next(request)
 
 
+# ---------- 跑批状态（驾驶舱跑批监控页） ----------
+BATCH_STATUS_FILE = Path(__file__).parent / "batch_status.json"
+
+@app.get("/api/batch_status")
+def get_batch_status():
+    """读取跑批进程实时状态。"""
+    try:
+        if BATCH_STATUS_FILE.exists():
+            with open(BATCH_STATUS_FILE, encoding="utf-8") as f:
+                st = json.load(f)
+            st["runner_alive"] = batch_runner_running()
+            return st
+    except Exception:
+        pass
+    return {"runner_alive": batch_runner_running(), "status": "not_running"}
+
+
 # ---------- 自动健康检查 ----------
 HEALTH_CHECK_INTERVAL_MIN = 900  # 最少10分钟
 HEALTH_CHECK_INTERVAL_MAX = 1800  # 最多20分钟

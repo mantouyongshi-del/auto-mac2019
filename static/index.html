@@ -69,10 +69,15 @@
       </h1>
       <div class="text-xs text-slate-500 mt-1" id="current-time"></div>
     </div>
-    <div class="flex gap-2">
+    <div class="flex gap-2 items-center">
+      <button onclick="switchPage('overview')" id="tab-overview" class="px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-lg text-sm border border-blue-500/30 hover:bg-blue-600/30">📊 总览</button>
+      <button onclick="switchPage('batch')" id="tab-batch" class="px-3 py-1.5 bg-slate-700/30 text-slate-400 rounded-lg text-sm border border-slate-600/30 hover:bg-slate-600/40">🚀 跑批监控</button>
       <button onclick="toggleFs()" class="px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-lg text-sm border border-blue-500/30 hover:bg-blue-600/30">⛶ 全屏</button>
     </div>
   </div>
+
+  <!-- 总览页 -->
+  <div id="page-overview">
 
   <!-- KPI 行 -->
   <div class="grid grid-cols-6 gap-3 mb-4">
@@ -177,6 +182,61 @@
       <input id="ac-note" placeholder="备注" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs flex-1 min-w-40">
       <button onclick="addAccount()" class="px-3 py-1 bg-blue-600/30 text-blue-300 rounded text-xs border border-blue-500/40 hover:bg-blue-600/40">+ 新增记录</button>
     </div>
+  </div>
+</div>
+
+<!-- 跑批监控页 -->
+<div id="page-batch" style="display:none">
+  <!-- 状态行 -->
+  <div class="grid grid-cols-6 gap-3 mb-4">
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">跑批状态</div>
+      <div class="num-big" id="bs-status">--</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">累计完成</div>
+      <div class="num-big text-green-400" id="bs-total">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">累计失败</div>
+      <div class="num-big text-red-400" id="bs-fail">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">累计跳过</div>
+      <div class="num-big text-slate-400" id="bs-skip">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">当前行业题数</div>
+      <div class="num-big text-yellow-400" id="bs-indtotal">0</div>
+    </div>
+    <div class="panel p-4">
+      <div class="text-xs text-slate-500">状态更新</div>
+      <div class="text-sm text-slate-300 mt-2" id="bs-updated">--</div>
+    </div>
+  </div>
+
+  <!-- 当前行业 + 进度条 -->
+  <div class="panel p-4 mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <div class="panel-title mb-0">🏭 当前行业</div>
+      <div class="text-sm text-slate-300" id="bs-industry">--</div>
+    </div>
+    <div class="flex items-center gap-3 mb-1">
+      <div class="text-xs text-slate-400">第 <span id="bs-no" class="text-blue-400 font-bold text-base">0</span> / <span id="bs-totalno">0</span> 题</div>
+    </div>
+    <div class="w-full bg-slate-800 rounded-full h-3">
+      <div id="bs-progress" class="h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all" style="width:0%"></div>
+    </div>
+    <div class="text-xs text-slate-400 mt-2 truncate">当前问题：<span id="bs-question" class="text-slate-200">--</span></div>
+  </div>
+
+  <!-- 5模型状态卡 -->
+  <div class="grid grid-cols-5 gap-3 mb-4" id="bs-model-cards"></div>
+
+  <!-- 最近10题 -->
+  <div class="panel p-4">
+    <div class="panel-title">🕐 最近提问（10条）</div>
+    <div class="scroll-list" id="bs-recent" style="max-height:300px"></div>
   </div>
 </div>
 
@@ -332,8 +392,77 @@ async function delAccount(idx){
   loadAccounts();
 }
 
+// ---------- 页面切换 ----------
+function switchPage(p){
+  document.getElementById('page-overview').style.display = p==='overview'?'':'none';
+  document.getElementById('page-batch').style.display = p==='batch'?'':'none';
+  document.getElementById('tab-overview').className = p==='overview' ? 'px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-lg text-sm border border-blue-500/30' : 'px-3 py-1.5 bg-slate-700/30 text-slate-400 rounded-lg text-sm border border-slate-600/30';
+  document.getElementById('tab-batch').className = p==='batch' ? 'px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-lg text-sm border border-blue-500/30' : 'px-3 py-1.5 bg-slate-700/30 text-slate-400 rounded-lg text-sm border border-slate-600/30';
+  if(p==='batch') refreshBatch();
+}
+
+// ---------- 跑批监控 ----------
+function fmtRel(iso){
+  if(!iso) return '--';
+  const d = new Date(iso);
+  const s = (Date.now()-d.getTime())/1000;
+  if(s<0) return '刚刚';
+  if(s<60) return Math.floor(s)+'秒前';
+  if(s<3600) return Math.floor(s/60)+'分钟前';
+  return Math.floor(s/3600)+'小时前';
+}
+
+async function refreshBatch(){
+  try {
+    const res = await axios.get('/api/batch_status');
+    const s = res.data;
+    const alive = s.runner_alive;
+    document.getElementById('bs-status').innerText = !alive ? '未运行' : (s.status==='resting' ? '休息中' : (s.status==='done' ? '完成' : '运行中'));
+    document.getElementById('bs-status').className = 'num-big ' + (!alive ? 'text-red-400' : (s.status==='resting' ? 'text-yellow-400' : 'text-green-400'));
+    document.getElementById('bs-total').innerText = s.total_asked||0;
+    document.getElementById('bs-fail').innerText = s.total_failed||0;
+    document.getElementById('bs-skip').innerText = s.total_skipped||0;
+    document.getElementById('bs-indtotal').innerText = s.industry_total||0;
+    document.getElementById('bs-updated').innerText = s.updated_at ? fmtRel(s.updated_at) : '--';
+    document.getElementById('bs-industry').innerText = s.industry_name ? `行业${s.industry_id||''} ${s.industry_name}` : '--';
+    document.getElementById('bs-no').innerText = s.current_no||0;
+    document.getElementById('bs-totalno').innerText = s.industry_total||0;
+    const pct = s.industry_total ? Math.round((s.current_no||0)/s.industry_total*100) : 0;
+    document.getElementById('bs-progress').style.width = pct+'%';
+    document.getElementById('bs-question').innerText = s.current_question||'--';
+
+    // 模型状态卡
+    const models = ['deepseek','qianwen','doubao','wenxin','yuanbao'];
+    document.getElementById('bs-model-cards').innerHTML = models.map(id=>{
+      const m = {deepseek:['DeepSeek','#6366f1'],qianwen:['通义千问','#0ea5e9'],doubao:['豆包','#10b981'],wenxin:['文心一言','#f59e0b'],yuanbao:['腾讯元宝','#ec4899']}[id];
+      const st = (s.models||{})[id]||{};
+      const last = st.last_result==='ok' ? '成功' : (st.last_result==='error' ? '失败' : '待命');
+      const dot = st.last_result==='ok' ? 'dot-green' : (st.last_result==='error' ? 'dot-red' : 'dot-gray');
+      return `<div class="panel p-3 text-center">
+        <div class="text-base font-semibold mb-1" style="color:${m[1]}">${m[0]}</div>
+        <div class="text-sm"><span class="dot ${dot}"></span> ${last}</div>
+        <div class="text-xs text-slate-500 mt-1">${st.last_ask?fmtRel(st.last_ask):'本轮未参与'}</div>
+        <div class="text-xs mt-1"><span class="text-emerald-400">✓${st.run_ok||0}</span> <span class="text-red-400">✗${st.run_err||0}</span></div>
+      </div>`;
+    }).join('');
+
+    // 最近10题
+    const recent = (s.recent||[]).map(r=>{
+      const fail = (r.failed||[]).length ? `<span class="text-red-400">[失败:${r.failed.join(',')}]</span>` : '<span class="text-emerald-400">✓</span>';
+      return `<div class="py-1.5 border-b border-slate-800/60 flex gap-2">
+        <span class="text-slate-500 w-16 shrink-0">${r.time||''}</span>
+        <span class="text-slate-300 w-12 shrink-0">#${r.no||''}</span>
+        <span class="truncate flex-1" title="${r.question||''}">${r.question||''}</span>
+        ${fail}
+      </div>`;
+    }).join('') || '<div class="py-2 text-slate-500">暂无记录</div>';
+    document.getElementById('bs-recent').innerHTML = recent;
+  } catch(e){ console.error(e); }
+}
+
 refresh(); setInterval(refresh,3000);
 loadAccounts();
+setInterval(refreshBatch,3000);
 </script>
 </body>
 </html>
