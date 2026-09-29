@@ -55,6 +55,7 @@ class BrowserBase:
             user_data_dir=str(self.PROFILE_DIR),
             channel="chrome",
             headless=self.HEADLESS,
+            chromium_sandbox=True,  # 禁止playwright自动加--no-sandbox（消除顶部横幅+自动化特征）
             viewport={"width": self.WINDOW_SIZE[0], "height": self.WINDOW_SIZE[1]},
             args=[
                 "--disable-blink-features=AutomationControlled",
