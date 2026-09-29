@@ -255,8 +255,10 @@ class BrowserBase:
         await asyncio.wait_for(self.maybe_enable_search(), timeout=15)
         print("[ask] 步骤4 联网搜索完成", flush=True)
 
-        # 5. 逐字输入
-        inp = page.locator(self.INPUT_SELECTOR).first
+        # 5. 逐字输入（优先匹配可见输入框，避免页面含多个 textarea 时命中视口外的隐藏元素）
+        inp = page.locator(self.INPUT_SELECTOR + ":visible").first
+        if await inp.count() == 0:
+            inp = page.locator(self.INPUT_SELECTOR).first
         
         # 5.1 模拟真人鼠标移动：先随机移到页面某点，再慢慢移到输入框
         await page.mouse.move(
@@ -265,9 +267,25 @@ class BrowserBase:
             steps=random.randint(10, 30)
         )
         await asyncio.sleep(random.uniform(0.1, 0.3))
-        await inp.hover(force=True)
+        # 滚动到视口内，避免 "Element is outside of the viewport"
+        try:
+            await inp.scroll_into_view_if_needed(timeout=3000)
+        except Exception:
+            pass
+        try:
+            await inp.hover(force=True)
+        except Exception:
+            # 降级：直接鼠标移到输入框中心（hover 目标不可用/视口外时）
+            box = await inp.bounding_box()
+            if box:
+                await page.mouse.move(
+                    int(box["x"] + box["width"] / 2),
+                    int(box["y"] + box["height"] / 2),
+                    steps=5,
+                )
+                await asyncio.sleep(0.2)
         await asyncio.sleep(random.uniform(0.2, 0.5))
-        await inp.click()
+        await inp.click(force=True)
         await asyncio.sleep(random.uniform(0.3, 0.8))
         
         # 5.2 逐字输入，10%概率模拟打错字再删掉
