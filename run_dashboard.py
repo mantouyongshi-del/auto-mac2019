@@ -163,6 +163,78 @@ def get_models():
     return {"models": results}
 
 
+# ---------- 账号记录管理 ----------
+ACCOUNT_FILE = Path(__file__).parent / "accounts.json"
+
+def load_accounts() -> list:
+    """读取账号记录列表。"""
+    try:
+        if ACCOUNT_FILE.exists():
+            return json.load(open(ACCOUNT_FILE, encoding="utf-8"))
+    except Exception:
+        pass
+    return []
+
+def save_accounts(accounts: list):
+    with open(ACCOUNT_FILE, "w", encoding="utf-8") as f:
+        json.dump(accounts, f, ensure_ascii=False, indent=2)
+
+class AccountCreate(BaseModel):
+    model: str
+    phone: str
+    status: str = "active"      # active / banned / paused
+    ban_until: Optional[str] = None
+    note: str = ""
+
+class AccountUpdate(BaseModel):
+    status: Optional[str] = None
+    ban_until: Optional[str] = None
+    note: Optional[str] = None
+    phone: Optional[str] = None
+
+@app.get("/api/accounts")
+def list_accounts():
+    """所有账号记录。"""
+    return {"accounts": load_accounts()}
+
+@app.post("/api/accounts")
+def create_account(req: AccountCreate):
+    accounts = load_accounts()
+    accounts.append({
+        "model": req.model,
+        "phone": req.phone,
+        "status": req.status,
+        "ban_until": req.ban_until,
+        "note": req.note,
+        "updated_at": datetime.now().astimezone().isoformat(),
+    })
+    save_accounts(accounts)
+    return {"ok": True, "accounts": accounts}
+
+@app.put("/api/accounts/{idx}")
+def update_account(idx: int, req: AccountUpdate):
+    accounts = load_accounts()
+    if idx < 0 or idx >= len(accounts):
+        raise HTTPException(status_code=404, detail="记录不存在")
+    item = accounts[idx]
+    if req.status is not None: item["status"] = req.status
+    if req.ban_until is not None: item["ban_until"] = req.ban_until
+    if req.note is not None: item["note"] = req.note
+    if req.phone is not None: item["phone"] = req.phone
+    item["updated_at"] = datetime.now().astimezone().isoformat()
+    save_accounts(accounts)
+    return {"ok": True, "accounts": accounts}
+
+@app.delete("/api/accounts/{idx}")
+def delete_account(idx: int):
+    accounts = load_accounts()
+    if idx < 0 or idx >= len(accounts):
+        raise HTTPException(status_code=404, detail="记录不存在")
+    removed = accounts.pop(idx)
+    save_accounts(accounts)
+    return {"ok": True, "removed": removed, "accounts": accounts}
+
+
 def call_model(model_id: str, question: str) -> dict:
     """同步调用单个模型的 /ask 接口。"""
     m = MODEL_MAP[model_id]

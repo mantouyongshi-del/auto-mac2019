@@ -1,0 +1,18 @@
+[
+  {
+    "model": "deepseek",
+    "phone": "19918589877",
+    "status": "banned",
+    "ban_until": "2026-09-07",
+    "note": "曾因高频提问被封，申诉恢复后再次触发风控，已弃用",
+    "updated_at": "2026-09-29T09:40:00+08:00"
+  },
+  {
+    "model": "deepseek",
+    "phone": "19974525997",
+    "status": "active",
+    "ban_until": null,
+    "note": "当前在用，降速运行（60-120秒/题）",
+    "updated_at": "2026-09-29T09:40:00+08:00"
+  }
+]

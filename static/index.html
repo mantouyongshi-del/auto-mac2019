@@ -138,6 +138,46 @@
       <div id="chartpie" style="height:200px"></div>
     </div>
   </div>
+
+  <!-- 账号记录 -->
+  <div class="panel p-4 mt-4">
+    <div class="panel-title">👤 模型账号记录（封禁/换号台账）</div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-xs">
+        <thead>
+          <tr class="text-slate-400 border-b border-slate-700/50">
+            <th class="text-left py-2 pr-3">模型</th>
+            <th class="text-left py-2 pr-3">账号</th>
+            <th class="text-left py-2 pr-3">状态</th>
+            <th class="text-left py-2 pr-3">封禁到期</th>
+            <th class="text-left py-2 pr-3">备注</th>
+            <th class="text-left py-2 pr-3">更新时间</th>
+            <th class="text-left py-2">操作</th>
+          </tr>
+        </thead>
+        <tbody id="account-tbody"></tbody>
+      </table>
+    </div>
+    <!-- 新增记录 -->
+    <div class="flex flex-wrap gap-2 mt-3 items-end">
+      <select id="ac-model" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs">
+        <option value="deepseek">DeepSeek</option>
+        <option value="qianwen">通义千问</option>
+        <option value="doubao">豆包</option>
+        <option value="wenxin">文心一言</option>
+        <option value="yuanbao">腾讯元宝</option>
+      </select>
+      <input id="ac-phone" placeholder="账号（手机号/ID）" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs w-36">
+      <select id="ac-status" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs">
+        <option value="active">正常</option>
+        <option value="banned">封禁</option>
+        <option value="paused">暂停</option>
+      </select>
+      <input id="ac-banuntil" placeholder="封禁到期(如2026-10-07)" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs w-44">
+      <input id="ac-note" placeholder="备注" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs flex-1 min-w-40">
+      <button onclick="addAccount()" class="px-3 py-1 bg-blue-600/30 text-blue-300 rounded text-xs border border-blue-500/40 hover:bg-blue-600/40">+ 新增记录</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -241,7 +281,59 @@ async function refresh(){
     document.getElementById('kpi-resp').innerText = '12.3s';
   } catch(e){ console.error(e); }
 }
+
+// ---------- 账号记录 ----------
+const AC_STATUS = {active:'🟢 正常', banned:'🔴 封禁', paused:'🟡 暂停'};
+
+async function loadAccounts(){
+  try {
+    const res = await axios.get('/api/accounts');
+    const list = res.data.accounts || [];
+    const tbody = document.getElementById('account-tbody');
+    tbody.innerHTML = list.map((a, i)=>`
+      <tr class="border-b border-slate-800/60">
+        <td class="py-2 pr-3">${a.model}</td>
+        <td class="py-2 pr-3 font-mono">${a.phone||''}</td>
+        <td class="py-2 pr-3">
+          <select onchange="setAccStatus(${i}, this.value)" class="bg-slate-800 border border-slate-700 rounded px-1 text-xs">
+            ${Object.keys(AC_STATUS).map(s=>`<option value="${s}" ${a.status===s?'selected':''}>${AC_STATUS[s]}</option>`).join('')}
+          </select>
+        </td>
+        <td class="py-2 pr-3">${a.ban_until||'--'}</td>
+        <td class="py-2 pr-3 text-slate-400 max-w-52 truncate" title="${a.note||''}">${a.note||'--'}</td>
+        <td class="py-2 pr-3 text-slate-500">${(a.updated_at||'').slice(0,16).replace('T',' ')}</td>
+        <td class="py-2">
+          <button onclick="delAccount(${i})" class="text-red-400 hover:text-red-300">删除</button>
+        </td>
+      </tr>`).join('') || `<tr><td colspan="7" class="py-3 text-slate-500">暂无账号记录</td></tr>`;
+  } catch(e){ console.error(e); }
+}
+
+async function addAccount(){
+  const model = document.getElementById('ac-model').value;
+  const phone = document.getElementById('ac-phone').value.trim();
+  const status = document.getElementById('ac-status').value;
+  const ban_until = document.getElementById('ac-banuntil').value.trim() || null;
+  const note = document.getElementById('ac-note').value.trim();
+  if(!phone){ alert('请填写账号'); return; }
+  await axios.post('/api/accounts', {model, phone, status, ban_until, note});
+  document.getElementById('ac-phone').value=''; document.getElementById('ac-note').value='';
+  loadAccounts();
+}
+
+async function setAccStatus(idx, status){
+  await axios.put(`/api/accounts/${idx}`, {status});
+  loadAccounts();
+}
+
+async function delAccount(idx){
+  if(!confirm('确认删除该账号记录？')) return;
+  await axios.delete(`/api/accounts/${idx}`);
+  loadAccounts();
+}
+
 refresh(); setInterval(refresh,3000);
+loadAccounts();
 </script>
 </body>
 </html>
