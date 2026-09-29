@@ -326,7 +326,7 @@ class BrowserBase:
                 self.captured_responses[resp.url] = body
                 print(f"[网络拦截] 捕获: {len(body)} 字节", flush=True)
                 # 捕获响应过小且页面出现人工验证 → 判定验证拦截
-                if len(body) < 2000 and await self._check_captcha():
+                if len(body) < 2000 and await self._check_captcha(strict=True):
                     print("[ask] ⚠️ 检测到人工验证（短响应+验证页面）", flush=True)
                     raise CaptchaDetected("人工验证")
             except CaptchaDetected:
