@@ -76,6 +76,8 @@ DS_DELAY_MIN = 60    # DeepSeek 额外延迟下限（秒）
 DS_DELAY_MAX = 120   # DeepSeek 额外延迟上限（秒）
 QW_DELAY_MIN = 30    # 千问额外延迟下限（秒，风控更需谨慎）
 QW_DELAY_MAX = 45    # 千问额外延迟上限（秒）
+DB_DELAY_MIN = 30    # 豆包额外延迟下限（秒，2026-09-29 两小时内两次人工验证，风控抖动期）
+DB_DELAY_MAX = 45    # 豆包额外延迟上限（秒）
 REST_EVERY = 10     # 每跑多少题休息一次
 REST_MIN = 300      # 休息最短时间（秒）= 5分钟
 REST_MAX = 600      # 休息最长时间（秒）= 10分钟
@@ -134,6 +136,8 @@ async def ask_one_prompt(question):
                 await asyncio.sleep(random.uniform(DS_DELAY_MIN, DS_DELAY_MAX))  # DeepSeek 专属降速
             elif m["id"] == "qianwen":
                 await asyncio.sleep(random.uniform(QW_DELAY_MIN, QW_DELAY_MAX))  # 千问专属降速
+            elif m["id"] == "doubao":
+                await asyncio.sleep(random.uniform(DB_DELAY_MIN, DB_DELAY_MAX))  # 豆包专属降速
             return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, question)
         except Exception as e:
             return m["id"], {
@@ -276,6 +280,8 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                             await asyncio.sleep(random.uniform(DS_DELAY_MIN, DS_DELAY_MAX))  # DeepSeek 专属降速
                         elif m["id"] == "qianwen":
                             await asyncio.sleep(random.uniform(QW_DELAY_MIN, QW_DELAY_MAX))  # 千问专属降速
+                        elif m["id"] == "doubao":
+                            await asyncio.sleep(random.uniform(DB_DELAY_MIN, DB_DELAY_MAX))  # 豆包专属降速
                         return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, text)
                     except Exception as e:
                         return m["id"], {
