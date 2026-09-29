@@ -17,10 +17,18 @@
   },
   {
     "model": "qianwen",
+    "phone": "19918589877",
+    "status": "banned",
+    "ban_until": null,
+    "note": "曾触发人工验证（滑块验证失败 error:9epyEv，操作正确仍失败=设备/会话被风控标记），已弃用换号",
+    "updated_at": "2026-09-29T11:56:36+08:00"
+  },
+  {
+    "model": "qianwen",
     "phone": "19974525997",
     "status": "active",
     "ban_until": null,
-    "note": "千问换号，当前在用；此前旧号曾触发人工验证（滑块验证失败error:9epyEv），降速观察",
-    "updated_at": "2026-09-29T11:52:49+08:00"
+    "note": "千问当前在用（与DeepSeek同号）；旧号19918589877曾触发人工验证已弃用，降速观察",
+    "updated_at": "2026-09-29T11:56:36+08:00"
   }
 ]
