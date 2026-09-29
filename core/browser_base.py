@@ -56,9 +56,10 @@ class BrowserBase:
             channel="chrome",
             headless=self.HEADLESS,
             chromium_sandbox=True,  # 禁止playwright自动加--no-sandbox（消除顶部横幅+自动化特征）
+            ignore_default_args=["--disable-blink-features=AutomationControlled"],  # 阻止playwright自动注入该flag（顶部横幅来源）
             viewport={"width": self.WINDOW_SIZE[0], "height": self.WINDOW_SIZE[1]},
             args=[
-                "--disable-blink-features=AutomationControlled",
+                # 注：webdriver 等自动化特征已由下方 add_init_script 隐藏，无需 AutomationControlled flag
                 "--disable-features=IsolateOrigins,site-per-process",
                 # 禁用"恢复之前的页面"崩溃提示气泡
                 "--disable-session-crashed-bubble",
