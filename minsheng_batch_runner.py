@@ -228,9 +228,10 @@ async def run_batch(industry_files, limit=None, only_industries=None):
             if out_file.exists():
                 resume_file = out_file
 
-            # 断点续跑：已存在且含完整结果则跳过；部分模型失败则只重跑失败的模型
+            # 断点续跑：已存在且含完整结果则跳过；部分模型失败/缺失则只重跑失败/缺失的模型
             existing_results = {}
             need_retry = False
+            active_ids = [m["id"] for m in active_models()]
             if resume_file is not None:
                 try:
                     with open(resume_file, encoding="utf-8") as f:
@@ -242,6 +243,10 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                             need_retry = True
                         else:
                             existing_results[mid] = r
+                    # 活跃模型缺失（如暂停期未参与）也要补
+                    missing_active = [mid for mid in active_ids if mid not in old_results]
+                    if missing_active:
+                        need_retry = True
                     if old_results and not need_retry:
                         total_skipped += 1
                         continue
@@ -253,8 +258,9 @@ async def run_batch(industry_files, limit=None, only_industries=None):
             _batch_status["current_question"] = text[:40]
             save_batch_status()
             if need_retry:
-                # 只重跑失败的模型，成功的复用
+                # 只重跑失败/缺失的模型，成功的复用
                 failed_ids = [mid for mid, r in (old.get("results") or {}).items() if r.get("status") != "ok"]
+                failed_ids += [mid for mid in active_ids if mid not in (old.get("results") or {})]
                 log(f"  🔄 部分重试: {failed_ids}，复用 {list(existing_results.keys())}")
                 retry_results = {}
                 async def _ask_one(m):
