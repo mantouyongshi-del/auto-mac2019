@@ -59,12 +59,20 @@ PAUSED_MODELS = load_paused_models()
 MODELS = [m for m in MODELS_ALL if m["id"] not in PAUSED_MODELS]
 if PAUSED_MODELS:
     # log() 尚未定义（定义在下方），此处用 print
-    print(f"⏸️ 已暂停模型: {sorted(PAUSED_MODELS)}，本轮仅使用 {len(MODELS)} 个模型: {[m['id'] for m in MODELS]}", flush=True)
+    print(f"⏸️ 启动时已暂停模型: {sorted(PAUSED_MODELS)}，本轮仅使用 {len(MODELS)} 个模型: {[m['id'] for m in MODELS]}", flush=True)
+
+def active_models():
+    """每题动态读取暂停列表：额度恢复后清空 paused_models.json 即自动恢复，无需重启。"""
+    paused = load_paused_models()
+    return [m for m in MODELS_ALL if m["id"] not in paused]
 MODEL_API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
 
 # 防风控节奏
 DELAY_MIN = 15      # 题间最小间隔（秒）
 DELAY_MAX = 25      # 题间最大间隔（秒）
+# DeepSeek 专属降速（该平台风控敏感，恢复后27题即触发封禁，需拉长提问间隔）
+DS_DELAY_MIN = 60    # DeepSeek 额外延迟下限（秒）
+DS_DELAY_MAX = 120   # DeepSeek 额外延迟上限（秒）
 REST_EVERY = 10     # 每跑多少题休息一次
 REST_MIN = 300      # 休息最短时间（秒）= 5分钟
 REST_MAX = 600      # 休息最长时间（秒）= 10分钟
@@ -119,6 +127,8 @@ async def ask_one_prompt(question):
     """同一问题并发发所有模型，等全部回来。返回 {model_id: result_dict}。"""
     async def _ask(m):
         try:
+            if m["id"] == "deepseek":
+                await asyncio.sleep(random.uniform(DS_DELAY_MIN, DS_DELAY_MAX))  # DeepSeek 专属降速
             return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, question)
         except Exception as e:
             return m["id"], {
@@ -129,7 +139,8 @@ async def ask_one_prompt(question):
                 "citations": [],
                 "asked_at": datetime.now().astimezone().isoformat(),
             }
-    results = await asyncio.gather(*[_ask(m) for m in MODELS])
+    models = active_models()  # 动态读取暂停模型
+    results = await asyncio.gather(*[_ask(m) for m in models])
     return dict(results)
 
 async def run_batch(industry_files, limit=None, only_industries=None):
@@ -198,6 +209,8 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                 retry_results = {}
                 async def _ask_one(m):
                     try:
+                        if m["id"] == "deepseek":
+                            await asyncio.sleep(random.uniform(DS_DELAY_MIN, DS_DELAY_MAX))  # DeepSeek 专属降速
                         return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, text)
                     except Exception as e:
                         return m["id"], {
@@ -205,7 +218,7 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                             "answer": "", "search_queries": [], "citations": [],
                             "asked_at": datetime.now().astimezone().isoformat(),
                         }
-                retry_list = [m for m in MODELS if m["id"] in failed_ids]
+                retry_list = [m for m in active_models() if m["id"] in failed_ids]
                 retried = await asyncio.gather(*[_ask_one(m) for m in retry_list])
                 for mid, r in retried:
                     retry_results[mid] = r
