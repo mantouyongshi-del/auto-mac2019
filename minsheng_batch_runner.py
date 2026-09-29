@@ -329,6 +329,9 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                 _batch_status["status"] = "resting"
                 save_batch_status()
                 await asyncio.sleep(rest)
+                # 休息结束立即恢复运行状态，避免休息后第一题期间误显示"休息中"
+                _batch_status["status"] = "running"
+                save_batch_status()
             else:
                 delay = random.uniform(DELAY_MIN, DELAY_MAX)
                 log(f"⏳ 等待 {delay:.1f} 秒...")
