@@ -326,6 +326,9 @@ class BrowserBase:
                 if len(body) < 2000 and await self._check_captcha():
                     print("[ask] ⚠️ 检测到人工验证（短响应+验证页面）", flush=True)
                     raise CaptchaDetected("人工验证")
+            except CaptchaDetected:
+                # 人工验证必须向上抛出触发暂停+报警，不能被通用except吞掉
+                raise
             except Exception as e:
                 print(f"[网络拦截] 失败: {e}", flush=True)
                 await inp.press("Enter")

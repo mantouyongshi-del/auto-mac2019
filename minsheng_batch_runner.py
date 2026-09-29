@@ -28,6 +28,7 @@ import random
 import argparse
 import asyncio
 import urllib.request
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -221,8 +222,9 @@ async def run_batch(industry_files, limit=None, only_industries=None):
             if not text:
                 continue
 
-            # 结果文件名：序号_前30字
-            fn = f"{pidx:04d}_{text[:30]}.json"
+            # 结果文件名：序号_前30字（清洗非法字符，防止/等字符创建子目录）
+            safe_tail = re.sub(r'[\\/:*?"<>|\s]+', '_', text[:30]).strip('_') or f"q{pidx}"
+            fn = f"{pidx:04d}_{safe_tail}.json"
             out_file = ind_dir / fn
 
             # 断点续跑：按序号匹配已落盘文件（不依赖文件名中的问题文本，prompt修改后仍可跳过）
@@ -284,7 +286,6 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                 retried = await asyncio.gather(*[_ask_one(m) for m in retry_list])
                 for mid, r in retried:
                     retry_results[mid] = r
-                    _note_model_result(mid, r.get("status") == "ok")
                 results = {**existing_results, **retry_results}
             else:
                 results = await ask_one_prompt(text)

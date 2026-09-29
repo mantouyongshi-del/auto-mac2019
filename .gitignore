@@ -8,6 +8,9 @@ archive/
 tasks/
 backups/
 
+# 跑批结果数据（23126题×5模型，会持续增长，不入库；备份走月度归档）
+民生行业跑批结果/
+
 # ===== Python =====
 __pycache__/
 *.py[cod]
