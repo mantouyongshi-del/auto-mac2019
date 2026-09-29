@@ -94,15 +94,19 @@ async def get_health_records():
 
 @app.post("/api/models/{model_id}/pause")
 async def pause_model(model_id: str):
-    m = MODEL_MAP[model_id]
-    paused_models.add(m["name"])
+    m = MODEL_MAP.get(model_id)
+    if not m:
+        raise HTTPException(status_code=404, detail="模型不存在")
+    paused_models.add(m["id"])
     save_paused(paused_models)
     return {"ok": True, "paused": list(paused_models)}
 
 @app.post("/api/models/{model_id}/resume")
 async def resume_model(model_id: str):
-    m = MODEL_MAP[model_id]
-    paused_models.discard(m["name"])
+    m = MODEL_MAP.get(model_id)
+    if not m:
+        raise HTTPException(status_code=404, detail="模型不存在")
+    paused_models.discard(m["id"])
     save_paused(paused_models)
     return {"ok": True, "paused": list(paused_models)}
 

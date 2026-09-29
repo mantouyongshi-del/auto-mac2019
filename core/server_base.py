@@ -13,12 +13,36 @@ from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from core.browser_base import BrowserBase, LOG_DIR
+from core.browser_base import BrowserBase, LOG_DIR, CaptchaDetected
 
 # API Key 鉴权：强制从环境变量读，未配置直接拒绝启动
 API_KEY = os.getenv("LAYA_API_KEY")
 if not API_KEY:
     raise RuntimeError("必须设置环境变量 LAYA_API_KEY")
+
+
+def _auto_pause(service_name: str):
+    """人工验证自动暂停：写入 paused_models.json（与 runner/dashboard 共用，按 model_id）。"""
+    pf = Path(__file__).parent.parent / "paused_models.json"
+    try:
+        data = json.loads(pf.read_text(encoding="utf-8")) if pf.exists() else []
+        if service_name not in data:
+            data.append(service_name)
+            pf.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+            print(f"⚠️ [{service_name}] 人工验证，已自动暂停模型", flush=True)
+    except Exception as e:
+        print(f"[auto_pause] 失败: {e}", flush=True)
+
+
+def _play_alert():
+    """播放报警：响铃3次 + 语音播报。"""
+    import subprocess
+    try:
+        for _ in range(3):
+            subprocess.run(["afplay", "/System/Library/Sounds/Glass.aiff"], check=False)
+        subprocess.run(["say", "警告：模型出现人工验证，请检查处理"], check=False)
+    except Exception as e:
+        print(f"[报警] 播放失败: {e}", flush=True)
 
 
 def verify_api_key(request: Request):
@@ -132,6 +156,19 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     "search_queries": [],
                 }, service_name)
                 raise HTTPException(status_code=502, detail=f"{service_name} 请求超时")
+            except CaptchaDetected:
+                # 人工验证：暂停模型 + 报警，让用户处理后恢复
+                _auto_pause(service_name)
+                _play_alert()
+                save_log({
+                    "question": req.question,
+                    "error": "人工验证，已自动暂停模型",
+                    "answer": "",
+                    "citations": [],
+                    "search_queries": [],
+                }, service_name)
+                raise HTTPException(status_code=503,
+                                     detail=f"{service_name} 人工验证，已暂停模型；请处理后恢复")
             except HTTPException as e:
                 # 失败也记录日志
                 save_log({

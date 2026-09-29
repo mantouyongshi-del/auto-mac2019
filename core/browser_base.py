@@ -16,6 +16,10 @@ PROJECT_ROOT = Path(__file__).parent.parent.resolve()
 LOG_DIR = PROJECT_ROOT / "server_logs"
 
 
+class CaptchaDetected(Exception):
+    """检测到人工验证（验证码/滑块）时抛出，触发暂停+报警。"""
+
+
 class BrowserBase:
     # ---------- 子类必须配置的类属性 ----------
     URL = ""                              # 目标网页
@@ -103,6 +107,26 @@ class BrowserBase:
                 print(f"[browser] playwright.stop() 异常: {e}", flush=True)
 
     # ---------- 子类必须实现 ----------
+    CAPTCHA_URL_KEYWORDS = ("captcha", "verify", "security", "nvc", "safecheck", "slider")
+    CAPTCHA_TEXT_KEYWORDS = ("请完成验证", "安全验证", "人机验证", "拖动滑块", "向右滑动", "验证码")
+
+    async def _check_captcha(self) -> bool:
+        """检测当前页面是否出现人工验证（验证码/滑块/安全验证）。"""
+        try:
+            url = self.page.url.lower()
+            if any(k in url for k in self.CAPTCHA_URL_KEYWORDS):
+                return True
+            for sel in ("[class*='captcha']", "[class*='nc_']", "iframe[src*='captcha']",
+                        "[class*='verify']", "[class*='slider']", "[class*='nvc']"):
+                if await self.page.locator(sel).count() > 0:
+                    return True
+            text = await self.page.locator("body").inner_text(timeout=2000)
+            if any(k in text for k in self.CAPTCHA_TEXT_KEYWORDS):
+                return True
+        except Exception:
+            pass
+        return False
+
     async def new_chat(self) -> bool:
         """开启新对话，确保每题独立会话。"""
         raise NotImplementedError
@@ -297,6 +321,10 @@ class BrowserBase:
                     body = body_bytes.decode('utf-8', errors='replace')
                 self.captured_responses[resp.url] = body
                 print(f"[网络拦截] 捕获: {len(body)} 字节", flush=True)
+                # 捕获响应过小且页面出现人工验证 → 判定验证拦截
+                if len(body) < 2000 and await self._check_captcha():
+                    print("[ask] ⚠️ 检测到人工验证（短响应+验证页面）", flush=True)
+                    raise CaptchaDetected("人工验证")
             except Exception as e:
                 print(f"[网络拦截] 失败: {e}", flush=True)
                 await inp.press("Enter")
@@ -308,6 +336,11 @@ class BrowserBase:
 
         # 8. 等待回答真正完成（停止按钮消失 + 内容稳定）
         await self.wait_for_answer(base_count)
+
+        # 8.5 回答完成后若页面出现验证也判定（部分验证在回答后才弹出）
+        if await self._check_captcha():
+            print("[ask] ⚠️ 回答完成后检测到人工验证", flush=True)
+            raise CaptchaDetected("人工验证")
 
         # 9. 提取
         await asyncio.sleep(1)

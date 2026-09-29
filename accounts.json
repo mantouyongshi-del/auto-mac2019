@@ -14,5 +14,13 @@
     "ban_until": null,
     "note": "当前在用，降速运行（60-120秒/题）",
     "updated_at": "2026-09-29T09:40:00+08:00"
+  },
+  {
+    "model": "qianwen",
+    "phone": "19974525997",
+    "status": "active",
+    "ban_until": null,
+    "note": "千问换号，当前在用；此前旧号曾触发人工验证（滑块验证失败error:9epyEv），降速观察",
+    "updated_at": "2026-09-29T11:52:49+08:00"
   }
 ]
