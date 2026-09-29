@@ -120,8 +120,11 @@ class BrowserBase:
             url = self.page.url.lower()
             if any(k in url for k in self.CAPTCHA_URL_KEYWORDS):
                 return True
+            # 只查高置信验证元素：verify/slider 等词在正常页面组件中太常见（如滑块组件、轮播），
+            # 会误报；captcha/nc_/nvc/yidun/geetest/iframe captcha 是验证特有标识
             for sel in ("[class*='captcha']", "[class*='nc_']", "iframe[src*='captcha']",
-                        "[class*='verify']", "[class*='slider']", "[class*='nvc']"):
+                        "[class*='nvc']", "[class*='yidun']", "[class*='geetest']",
+                        "[id*='captcha']", "iframe[src*='verify']"):
                 if await self.page.locator(sel).count() > 0:
                     return True
             if not strict:
