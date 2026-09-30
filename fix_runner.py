@@ -165,6 +165,47 @@ async def run_once(target_models: list, status: dict):
     return 1
 
 
+def write_paused(paused: list):
+    tmp = ROOT / "paused_models.json.tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(paused, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, ROOT / "paused_models.json")
+
+
+async def auto_resume_check():
+    """每 5 分钟检查被暂停模型：人工验证已解除且登录正常 → 自动恢复（写回 paused 列表）。
+    区分两种情况：验证未解除（保持暂停，等用户处理）vs 用户已解除（自动继续）。"""
+    while True:
+        await asyncio.sleep(300)
+        try:
+            paused = load_paused()
+            if not paused:
+                continue
+            log(f"🔍 自动恢复巡检：检查暂停模型 {paused}")
+            for mid in paused[:]:
+                url = MODEL_URLS.get(mid)
+                if not url:
+                    continue
+                try:
+                    r = requests.get(url, headers={"X-API-Key": MODEL_API_KEY}, timeout=10)
+                    d = r.json()
+                    if d.get("busy"):
+                        log(f"  ⏳ {mid} 正在回答中，跳过本轮巡检")
+                        continue
+                    if d.get("logged_in") and d.get("captcha_detected") is False:
+                        paused.remove(mid)
+                        write_paused(paused)
+                        log(f"🔄 自动恢复 {mid}：人工验证已解除、登录正常，恢复参与提问")
+                        os.system(f'say "模型{mid}已自动恢复" &')
+                        os.system("osascript -e 'display notification \"人工验证已解除，模型已自动恢复\" with title \"跑批自动恢复\" sound name \"Glass\"' 2>/dev/null &")
+                    else:
+                        log(f"  ⏸️ {mid} 验证未解除或登录异常（login={d.get('logged_in')}, captcha={d.get('captcha_detected')}），保持暂停")
+                except Exception as e:
+                    log(f"  ⚠️ {mid} 巡检失败: {e}")
+        except Exception as e:
+            log(f"⚠️ 自动恢复巡检异常: {e}")
+
+
 def acquire_lock() -> bool:
     """单实例锁：已存在且进程存活则拒绝启动。"""
     try:
@@ -188,6 +229,7 @@ async def main():
     log("🚀 补齐进程启动（双轨并行，目标: qianwen）")
     status = {"started_at": datetime.now().astimezone().isoformat(),
               "done": 0, "pending": 0, "qianwen_done": False}
+    asyncio.create_task(auto_resume_check())  # 后台自动恢复巡检
     while True:
         try:
             paused = load_paused()

@@ -98,7 +98,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
 
     lock = anyio.Lock()
     browser_ref = {"b": None}  # startup 后填入
-    runtime_state = {"last_success_at": None}
+    runtime_state = {"last_success_at": None, "busy": False}
 
     @app.on_event("startup")
     async def startup():
@@ -127,9 +127,11 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     async def health():
         b = browser_ref["b"]
         logged_in = False
-        if b:
+        captcha = None
+        if b and not runtime_state["busy"]:
             try:
                 logged_in = await asyncio.wait_for(b.is_logged_in(), timeout=3)
+                captcha = await asyncio.wait_for(b._check_captcha(strict=True), timeout=5)
             except:
                 pass
         return {
@@ -137,6 +139,8 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             "service": service_name,
             "browser_alive": True,
             "logged_in": logged_in,
+            "captcha_detected": captcha,
+            "busy": runtime_state["busy"],
             "last_success_at": runtime_state["last_success_at"],
         }
 
@@ -145,9 +149,11 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         if not req.question.strip():
             raise HTTPException(status_code=400, detail="问题不能为空")
         async with lock:
+            runtime_state["busy"] = True
             try:
                 result = await asyncio.wait_for(browser.ask(req.question), timeout=180)
             except asyncio.TimeoutError:
+                runtime_state["busy"] = False
                 save_log({
                     "question": req.question,
                     "error": "请求超时(180s)",
@@ -157,6 +163,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                 }, service_name)
                 raise HTTPException(status_code=502, detail=f"{service_name} 请求超时")
             except CaptchaDetected:
+                runtime_state["busy"] = False
                 # 人工验证：暂停模型 + 报警，让用户处理后恢复
                 _auto_pause(service_name)
                 _play_alert()
@@ -170,6 +177,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                 raise HTTPException(status_code=503,
                                      detail=f"{service_name} 人工验证，已暂停模型；请处理后恢复")
             except HTTPException as e:
+                runtime_state["busy"] = False
                 # 失败也记录日志
                 save_log({
                     "question": req.question,
@@ -180,6 +188,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                 }, service_name)
                 raise
             except Exception as e:
+                runtime_state["busy"] = False
                 # 失败也记录日志
                 save_log({
                     "question": req.question,
@@ -190,6 +199,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                 }, service_name)
                 raise HTTPException(status_code=502, detail=f"{service_name} 请求失败: {str(e)}")
 
+        runtime_state["busy"] = False
         result = {
             "question": req.question,
             "answer": result["answer"],
