@@ -148,7 +148,14 @@ async def ask_one_prompt(question):
                 "citations": [],
                 "asked_at": datetime.now().astimezone().isoformat(),
             }
-    models = active_models()  # 动态读取暂停模型
+    models = active_models()
+    # 千问专职补齐旧缺口期间（fix_runner 运行中）不参与新题；补齐完成后自动归队
+    try:
+        _fix = json.load(open(Path(__file__).parent / "fix_status.json", encoding="utf-8"))
+        if not _fix.get("qianwen_done") and _fix.get("pending", 0) > 0:
+            models = [m for m in models if m["id"] != "qianwen"]
+    except Exception:
+        models = [m for m in models if m["id"] != "qianwen"]
     results = await asyncio.gather(*[_ask(m) for m in models])
     return dict(results)
 
@@ -264,38 +271,16 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                 except Exception:
                     pass
 
+            if need_retry:
+                # 双轨并行：缺失/失败的模型缺口由独立补齐进程(fix_runner.py)处理，
+                # 主循环不原地等待，直接跳过本题继续推进新题，其他模型不闲置
+                log(f"  ⏭️ 缺口题跳过（缺失 {[mid for mid, r in (old.get('results') or {}).items() if r.get('status') != 'ok'] + [mid for mid in active_ids if mid not in (old.get('results') or {})]}，由补齐进程处理）")
+                continue
             log(f"[{pidx}/{len(prompts)}] 提问: {text[:50]}...")
             _batch_status["current_no"] = pidx
             _batch_status["current_question"] = text[:40]
             save_batch_status()
-            if need_retry:
-                # 只重跑失败/缺失的模型，成功的复用
-                failed_ids = [mid for mid, r in (old.get("results") or {}).items() if r.get("status") != "ok"]
-                failed_ids += [mid for mid in active_ids if mid not in (old.get("results") or {})]
-                retry_list = [m for m in active_models() if m["id"] in failed_ids]
-                log(f"  🔄 部分重试: {[m['id'] for m in retry_list]}，复用 {list(existing_results.keys())}")
-                retry_results = {}
-                async def _ask_one(m):
-                    try:
-                        if m["id"] == "deepseek":
-                            await asyncio.sleep(random.uniform(DS_DELAY_MIN, DS_DELAY_MAX))  # DeepSeek 专属降速
-                        elif m["id"] == "qianwen":
-                            await asyncio.sleep(random.uniform(QW_DELAY_MIN, QW_DELAY_MAX))  # 千问专属降速
-                        elif m["id"] == "doubao":
-                            await asyncio.sleep(random.uniform(DB_DELAY_MIN, DB_DELAY_MAX))  # 豆包专属降速
-                        return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, text)
-                    except Exception as e:
-                        return m["id"], {
-                            "status": "error", "error": str(e)[:200],
-                            "answer": "", "search_queries": [], "citations": [],
-                            "asked_at": datetime.now().astimezone().isoformat(),
-                        }
-                retried = await asyncio.gather(*[_ask_one(m) for m in retry_list])
-                for mid, r in retried:
-                    retry_results[mid] = r
-                results = {**existing_results, **retry_results}
-            else:
-                results = await ask_one_prompt(text)
+            results = await ask_one_prompt(text)
 
             # 统计失败
             # 统计各模型结果（供状态文件）——只统计本轮实际调用的模型，
