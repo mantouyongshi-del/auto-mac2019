@@ -325,7 +325,7 @@ async def run_batch(industry_files, limit=None, only_industries=None):
             _batch_status["total_failed"] = total_failed
             _batch_status["total_skipped"] = total_skipped
             _note_question(pidx, text, failed_models, len(prompts),
-                          answered=[mid for mid, r in results.items()])
+                          answered=[mid for mid in (retry_results if need_retry else results)])
             _batch_status["status"] = "resting" if total_asked % REST_EVERY == 0 else "running"
             save_batch_status()
 
