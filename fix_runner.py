@@ -57,6 +57,37 @@ def write_fix_status(data):
         pass
 
 
+def note_recent(mid: str, question: str, ok: bool, r: dict):
+    """补缺提问记录写入 recent_fix.json（驾驶舱合并展示，不区分主跑批/补缺）。"""
+    try:
+        import fcntl
+        path = ROOT / "recent_fix.json"
+        with open(path, encoding="utf-8") as fh:
+            fcntl.flock(fh, fcntl.LOCK_EX)
+            try:
+                d = json.load(fh)
+            except Exception:
+                d = {"items": []}
+        d.setdefault("items", []).insert(0, {
+            "time": datetime.now().strftime("%H:%M:%S"),
+            "no": None,
+            "question": (question or "")[:40],
+            "failed": [] if ok else [mid],
+            "models": [mid],
+            "source": "fix",
+            "cite": len(r.get("citations", [])),
+            "queries": len(r.get("search_queries", [])),
+        })
+        d["items"] = d["items"][:50]
+        tmp = path.with_suffix(".tmp")
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, path)
+        fcntl.flock(fh, fcntl.LOCK_UN)
+    except Exception:
+        pass
+
+
 def call_model(mid: str, question: str) -> dict:
     """调用模型 /ask 接口，返回统一结果字典。"""
     url = MODEL_URLS.get(mid)
@@ -157,6 +188,7 @@ async def run_once(target_models: list, status: dict):
         r = await asyncio.get_event_loop().run_in_executor(None, call_model, mid, question)
         ok = r.get("status") == "ok"
         log(f"  {'✅' if ok else '❌'} {mid} 结果: {'成功' if ok else '失败'} 引用{len(r.get('citations', []))} 搜索词{len(r.get('search_queries', []))}")
+        note_recent(mid, question, ok, r)
         if ok:
             merge_write(path, mid, r)
             status["done"] = status.get("done", 0) + 1

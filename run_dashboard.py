@@ -660,18 +660,34 @@ async def auth_middleware(request: Request, call_next):
 # ---------- 跑批状态（驾驶舱跑批监控页） ----------
 BATCH_STATUS_FILE = Path(__file__).parent / "batch_status.json"
 
+RECENT_FIX_FILE = Path(__file__).parent / "recent_fix.json"
+
+def _merge_recent(main_items, fix_items):
+    """合并主跑批与补缺的提问记录，按 time 降序，取前 50。"""
+    merged = list(main_items or []) + list(fix_items or [])
+    merged.sort(key=lambda r: r.get("time", ""), reverse=True)
+    return merged[:50]
+
 @app.get("/api/batch_status")
 def get_batch_status():
-    """读取跑批进程实时状态。"""
+    """读取跑批进程实时状态（recent 合并主跑批+补缺提问记录）。"""
+    st = {}
     try:
         if BATCH_STATUS_FILE.exists():
             with open(BATCH_STATUS_FILE, encoding="utf-8") as f:
                 st = json.load(f)
-            st["runner_alive"] = batch_runner_running()
-            return st
     except Exception:
         pass
-    return {"runner_alive": batch_runner_running(), "status": "not_running"}
+    try:
+        if RECENT_FIX_FILE.exists():
+            with open(RECENT_FIX_FILE, encoding="utf-8") as f:
+                fix = json.load(f)
+            st["recent"] = _merge_recent(st.get("recent", []), fix.get("items", []))
+    except Exception:
+        pass
+    st.setdefault("recent", [])
+    st["runner_alive"] = batch_runner_running()
+    return st
 
 
 # ---------- 自动健康检查 ----------
