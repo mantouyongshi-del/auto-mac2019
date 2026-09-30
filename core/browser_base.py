@@ -121,12 +121,20 @@ class BrowserBase:
             if any(k in url for k in self.CAPTCHA_URL_KEYWORDS):
                 return True
             # 只查高置信验证元素：verify/slider 等词在正常页面组件中太常见（如滑块组件、轮播），
-            # 会误报；captcha/nc_/nvc/yidun/geetest/iframe captcha 是验证特有标识
+            # 会误报；captcha/nc_/nvc/yidun/geetest/iframe captcha 是验证特有标识。
+            # 注意：很多 AI 站点（如豆包）即使没有验证，页面上也常驻安全 SDK 的隐藏组件
+            # （yidun/nc_/geetest 埋点），count() 会把它们误判为验证。因此只统计【可见】元素：
+            # 真正弹出来的验证弹窗必然是可见的，隐藏的 SDK 埋点不算验证。
             for sel in ("[class*='captcha']", "[class*='nc_']", "iframe[src*='captcha']",
                         "[class*='nvc']", "[class*='yidun']", "[class*='geetest']",
                         "[id*='captcha']", "iframe[src*='verify']"):
-                if await self.page.locator(sel).count() > 0:
-                    return True
+                locs = await self.page.locator(sel).all()
+                for loc in locs:
+                    try:
+                        if await loc.is_visible():
+                            return True
+                    except Exception:
+                        continue
             if not strict:
                 text = await self.page.locator("body").inner_text(timeout=2000)
                 if any(k in text for k in self.CAPTCHA_TEXT_KEYWORDS):
