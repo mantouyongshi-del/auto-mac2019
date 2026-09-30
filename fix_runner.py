@@ -24,7 +24,13 @@ OUT_DIR = ROOT / "民生行业跑批结果"
 FIX_STATUS = ROOT / "fix_status.json"
 LOCK_FILE = ROOT / "fix_runner.lock"
 MODEL_API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
-MODEL_URLS = {"qianwen": "http://127.0.0.1:8001", "deepseek": "http://127.0.0.1:8000"}
+MODEL_URLS = {
+    "deepseek": "http://127.0.0.1:8000",
+    "qianwen": "http://127.0.0.1:8001",
+    "doubao": "http://127.0.0.1:8002",
+    "wenxin": "http://127.0.0.1:8003",
+    "yuanbao": "http://127.0.0.1:8004",
+}
 QW_DELAY_MIN, QW_DELAY_MAX = 180, 210   # 千问节奏（与主跑批一致）
 DS_DELAY_MIN, DS_DELAY_MAX = 60, 120    # deepseek 节奏
 
@@ -139,7 +145,7 @@ async def run_once(target_models: list, status: dict):
     for path, mid, question in missing[:10]:  # 每轮最多补 10 题，之后重新扫描（防止阻塞主循环新缺口）
         if not question:
             continue
-        # 节奏延迟（模型专属）
+        # 节奏延迟（模型专属）：千问 3 分钟、deepseek 60-120s、其余 15-25s
         if mid == "qianwen":
             await asyncio.sleep(random.uniform(QW_DELAY_MIN, QW_DELAY_MAX))
         elif mid == "deepseek":
