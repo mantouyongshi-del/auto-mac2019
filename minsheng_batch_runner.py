@@ -74,8 +74,8 @@ DELAY_MAX = 25      # 题间最大间隔（秒）
 # DeepSeek 专属降速（该平台风控敏感，恢复后27题即触发封禁，需拉长提问间隔）
 DS_DELAY_MIN = 60    # DeepSeek 额外延迟下限（秒）
 DS_DELAY_MAX = 120   # DeepSeek 额外延迟上限（秒）
-QW_DELAY_MIN = 30    # 千问额外延迟下限（秒，风控更需谨慎）
-QW_DELAY_MAX = 45    # 千问额外延迟上限（秒）
+QW_DELAY_MIN = 180   # 千问额外延迟下限（秒，2026-09-30 用户要求拉长到3分钟一次，防人工验证风控）
+QW_DELAY_MAX = 210   # 千问额外延迟上限（秒）
 DB_DELAY_MIN = 30    # 豆包额外延迟下限（秒，2026-09-29 两小时内两次人工验证，风控抖动期）
 DB_DELAY_MAX = 45    # 豆包额外延迟上限（秒）
 REST_EVERY = 10     # 每跑多少题休息一次
@@ -182,11 +182,12 @@ def _note_model_result(mid: str, ok: bool):
         "run_ok": st["ok"], "run_err": st["err"],
     }
 
-def _note_question(no: int, text: str, failed: list, total: int):
+def _note_question(no: int, text: str, failed: list, total: int, answered: list = None):
     _batch_status["recent"].insert(0, {
         "time": datetime.now().strftime("%H:%M:%S"),
         "no": no, "question": text[:40],
         "failed": failed,
+        "models": answered or [],  # 本题实际回答的模型（含成功/失败）
     })
     _batch_status["recent"] = _batch_status["recent"][:50]
 
@@ -297,9 +298,14 @@ async def run_batch(industry_files, limit=None, only_industries=None):
                 results = await ask_one_prompt(text)
 
             # 统计失败
-            # 统计各模型结果（供状态文件）
-            for mid, r in results.items():
-                _note_model_result(mid, r.get("status") == "ok")
+            # 统计各模型结果（供状态文件）——只统计本轮实际调用的模型，
+            # 复用历史结果（existing_results）的模型不刷新 last_ask/last_result，避免误报"刚刚回答"
+            if need_retry:
+                for mid, r in retry_results.items():
+                    _note_model_result(mid, r.get("status") == "ok")
+            else:
+                for mid, r in results.items():
+                    _note_model_result(mid, r.get("status") == "ok")
             failed_models = [mid for mid, r in results.items() if r.get("status") != "ok"]
             if failed_models:
                 total_failed += 1
@@ -318,7 +324,8 @@ async def run_batch(industry_files, limit=None, only_industries=None):
             _batch_status["total_asked"] = total_asked
             _batch_status["total_failed"] = total_failed
             _batch_status["total_skipped"] = total_skipped
-            _note_question(pidx, text, failed_models, len(prompts))
+            _note_question(pidx, text, failed_models, len(prompts),
+                          answered=[mid for mid, r in results.items()])
             _batch_status["status"] = "resting" if total_asked % REST_EVERY == 0 else "running"
             save_batch_status()
 

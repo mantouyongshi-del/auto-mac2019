@@ -448,12 +448,18 @@ async function refreshBatch(){
 
     // 最近50题
     const recent = (s.recent||[]).map(r=>{
-      const fail = (r.failed||[]).length ? `<span class="text-red-400">[失败:${r.failed.join(',')}]</span>` : '<span class="text-emerald-400">✓</span>';
-      return `<div class="py-1.5 border-b border-slate-800/60 flex gap-2">
+      const nm = {deepseek:'DeepSeek',qianwen:'千问',doubao:'豆包',wenxin:'文心',yuanbao:'元宝'};
+      // 回答模型：成功绿✓ 失败红✗（r.models 来自跑批本题实际调用；旧数据无该字段时回退 failed 显示）
+      const mlist = (r.models||[]).length ? r.models : (r.failed||[]);
+      const marks = mlist.map(mid=>{
+        const bad = (r.failed||[]).includes(mid);
+        return `<span class="${bad?'text-red-400':'text-emerald-400'} text-xs mr-1">${nm[mid]||mid}${bad?'✗':'✓'}</span>`;
+      }).join('');
+      return `<div class="py-1.5 border-b border-slate-800/60 flex gap-2 items-center">
         <span class="text-slate-500 w-16 shrink-0">${r.time||''}</span>
         <span class="text-slate-300 w-12 shrink-0">#${r.no||''}</span>
         <span class="truncate flex-1" title="${r.question||''}">${r.question||''}</span>
-        ${fail}
+        <span class="shrink-0 whitespace-nowrap">${marks}</span>
       </div>`;
     }).join('') || '<div class="py-2 text-slate-500">暂无记录</div>';
     document.getElementById('bs-recent').innerHTML = recent;
