@@ -48,6 +48,19 @@ def _auto_pause(service_name: str):
         print(f"[auto_pause] 失败: {e}", flush=True)
 
 
+def _auto_unpause(service_name: str):
+    """多账号切换成功后解除暂停：从 paused_models.json 移除该模型。"""
+    pf = Path(__file__).parent.parent / "paused_models.json"
+    try:
+        data = json.loads(pf.read_text(encoding="utf-8")) if pf.exists() else []
+        if service_name in data:
+            data.remove(service_name)
+            pf.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+            print(f"✅ [{service_name}] 已自动切换备用账号，解除暂停", flush=True)
+    except Exception as e:
+        print(f"[auto_unpause] 失败: {e}", flush=True)
+
+
 def _play_alert():
     """播放报警：响铃3次 + 语音播报。"""
     import subprocess
@@ -225,7 +238,20 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     _reset_fail(service_name)
                 raise HTTPException(status_code=502, detail=f"{service_name} 请求超时")
             except CaptchaDetected:
-                # 人工验证：暂停模型 + 报警，让用户处理后恢复
+                # 人工验证：多账号模型（DeepSeek）先自动切换备用账号；无备用账号则暂停+报警
+                if getattr(browser, "ACCOUNT_PROFILES", []):
+                    switched = await browser.switch_account()
+                    if switched:
+                        _auto_unpause(service_name)
+                        save_log({
+                            "question": req.question,
+                            "error": "人工验证，已自动切换备用账号并恢复",
+                            "answer": "",
+                            "citations": [],
+                            "search_queries": [],
+                        }, service_name)
+                        raise HTTPException(status_code=503,
+                                             detail=f"{service_name} 人工验证，已自动切换备用账号")
                 _auto_pause(service_name)
                 _play_alert()
                 save_log({
@@ -238,6 +264,20 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                 raise HTTPException(status_code=503,
                                      detail=f"{service_name} 人工验证，已暂停模型；请处理后恢复")
             except HTTPException as e:
+                # 未登录/账号失效(401)且支持多账号 → 自动切换备用账号
+                if e.status_code == 401 and getattr(browser, "ACCOUNT_PROFILES", []):
+                    switched = await browser.switch_account()
+                    if switched:
+                        _auto_unpause(service_name)
+                        save_log({
+                            "question": req.question,
+                            "error": f"{e.detail}，已自动切换备用账号并恢复",
+                            "answer": "",
+                            "citations": [],
+                            "search_queries": [],
+                        }, service_name)
+                        raise HTTPException(status_code=503,
+                                             detail=f"{service_name} 未登录，已自动切换备用账号")
                 # 失败也记录日志
                 save_log({
                     "question": req.question,

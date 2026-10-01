@@ -21,6 +21,10 @@ class DeepSeekBrowser(BrowserBase):
     WINDOW_POS = (0, 0)
     WINDOW_SIZE = (597, 540)
     WINDOW_TITLE_KEYWORD = "DeepSeek"
+    # ---- DeepSeek 专属防风控增强（仅本模型生效，其他模型不加载）----
+    STEALTH_EXTRA = True               # 注入 playwright-stealth 补丁，隐藏自动化特征
+    HUMANIZE_LEVEL = 1                 # 贝塞尔鼠标轨迹 + 更慢输入节奏
+    ACCOUNT_PROFILES = ["profiles/deepseek", "profiles/deepseek_bak"]  # 主/备双账号轮换
 
     async def is_logged_in(self) -> bool:
         try:

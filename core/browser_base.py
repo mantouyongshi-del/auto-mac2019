@@ -5,6 +5,7 @@
 主流程（新会话→输入→发送→等待→提取）由本类通用完成。
 """
 import asyncio
+import math
 import random
 import subprocess
 import time
@@ -32,19 +33,35 @@ class BrowserBase:
     # 窗口位置和大小（x, y, width, height），每个模型自己配
     WINDOW_POS = (0, 0)
     WINDOW_SIZE = (1280, 900)
+    # ---- DeepSeek 专属增强开关（其他模型默认关闭，行为零变化）----
+    STEALTH_EXTRA = False        # True=额外注入 playwright-stealth 补丁（仅该模型生效）
+    HUMANIZE_LEVEL = 0           # >=1 时启用贝塞尔鼠标+更慢输入节奏（仅该模型生效）
+    ACCOUNT_PROFILES = []        # 多账号冗余：如 ["profiles/deepseek", "profiles/deepseek_bak"]，空=单账号
 
     def __init__(self):
         self.playwright = None
         self.context = None
         self.page = None
         self.captured_responses = {}  # URL -> body text（网络拦截捕获）
+        self._profile_idx = 0         # 当前使用的账号 profile 下标（ACCOUNT_PROFILES）
+        self._mouse_pos = None        # 鼠标最后位置（贝塞尔轨迹起点）
 
     # ---------- 通用：启动 / 关闭 ----------
+    def _current_profile_dir(self) -> Path:
+        """多账号模式下返回当前 profile 目录，单账号返回 PROFILE_DIR。"""
+        profiles = getattr(self, "ACCOUNT_PROFILES", [])
+        if profiles:
+            idx = getattr(self, "_profile_idx", 0)
+            if 0 <= idx < len(profiles):
+                return PROJECT_ROOT / profiles[idx]
+        return self.PROFILE_DIR
+
     async def start(self):
+        profile_dir = self._current_profile_dir()
         # 启动前清理Chrome锁文件，避免异常退出后下次启动失败
         lock_files = ["SingletonLock", "SingletonCookie", "SingletonSocket"]
         for f in lock_files:
-            lock_path = Path(self.PROFILE_DIR) / f
+            lock_path = profile_dir / f
             if lock_path.exists():
                 try:
                     lock_path.unlink()
@@ -53,7 +70,7 @@ class BrowserBase:
                     pass
         self.playwright = await async_playwright().start()
         self.context = await self.playwright.chromium.launch_persistent_context(
-            user_data_dir=str(self.PROFILE_DIR),
+            user_data_dir=str(profile_dir),
             channel="chrome",
             headless=self.HEADLESS,
             chromium_sandbox=True,  # 禁止playwright自动加--no-sandbox（消除顶部横幅+自动化特征）
@@ -82,6 +99,14 @@ class BrowserBase:
             window.chrome = {runtime: {}};
         """)
         self.page = self.context.pages[0] if self.context.pages else await self.context.new_page()
+        # DeepSeek 专属：额外注入 playwright-stealth 补丁（必须在页面加载前；懒加载避免其他模型依赖）
+        if getattr(self, "STEALTH_EXTRA", False):
+            try:
+                from playwright_stealth import Stealth
+                await Stealth().apply_stealth_async(self.page)
+                print("[stealth] playwright-stealth 补丁已注入（该模型专属）", flush=True)
+            except Exception as e:
+                print(f"[stealth] 注入失败（不影响运行）: {e}", flush=True)
         await self.page.goto(self.URL, wait_until="domcontentloaded")
         await asyncio.sleep(3)  # 等页面加载完，窗口标题出来
 
@@ -108,6 +133,37 @@ class BrowserBase:
                 await self.playwright.stop()
             except Exception as e:
                 print(f"[browser] playwright.stop() 异常: {e}", flush=True)
+
+    async def switch_account(self) -> bool:
+        """多账号轮换：切换到下一个 profile 并重启浏览器。
+        仅 ACCOUNT_PROFILES 配置了 >=2 个账号的模型（DeepSeek）生效。
+        返回是否已登录（备份账号未登录时返回 False，不解除暂停）。"""
+        profiles = getattr(self, "ACCOUNT_PROFILES", [])
+        if len(profiles) < 2:
+            return False
+        cur = getattr(self, "_profile_idx", 0)
+        new_idx = (cur + 1) % len(profiles)
+        if new_idx == cur:
+            return False
+        self._profile_idx = new_idx
+        print(f"[账号] 检测到封禁/失效，切换 profile -> {profiles[new_idx]}", flush=True)
+        try:
+            await self.close()
+        except Exception as e:
+            print(f"[账号] 关闭旧浏览器异常: {e}", flush=True)
+        self.playwright = None
+        self.context = None
+        self.page = None
+        self.captured_responses = {}
+        self._mouse_pos = None
+        try:
+            await self.start()
+            logged = await asyncio.wait_for(self.is_logged_in(), timeout=10)
+            print(f"[账号] 切换{'成功（已登录）' if logged else '完成但备份账号未登录'}", flush=True)
+            return logged
+        except Exception as e:
+            print(f"[账号] 切换启动失败: {e}", flush=True)
+            return False
 
     # ---------- 子类必须实现 ----------
     CAPTCHA_URL_KEYWORDS = ("captcha", "verify", "security", "nvc", "safecheck", "slider")
@@ -282,6 +338,60 @@ class BrowserBase:
         except Exception as e:
             print(f"[窗口] 移动 {title_keyword} 失败: {e}", flush=True)
 
+    # ---------- DeepSeek 专属：拟人化增强（HUMANIZE_LEVEL>=1 才生效）----------
+    async def _bezier_move(self, from_pt: tuple, to_pt: tuple, steps: int = 30):
+        """贝塞尔曲线鼠标移动：二次曲线 + 随机控制点 + ease 速度 + 微抖动，模拟真人轨迹。"""
+        x1, y1 = from_pt
+        x2, y2 = to_pt
+        dx, dy = x2 - x1, y2 - y1
+        dist = math.hypot(dx, dy) or 1
+        # 控制点：沿轨迹法向随机偏移（人类轨迹有弧度，不是直线）
+        offset = max(30, dist * random.uniform(0.15, 0.4))
+        angle = math.atan2(dy, dx) + math.pi / 2
+        side = random.choice([-1, 1])
+        cx = (x1 + x2) / 2 + math.cos(angle) * offset * side
+        cy = (y1 + y2) / 2 + math.sin(angle) * offset * side
+        try:
+            for i in range(1, steps + 1):
+                t = i / steps
+                ease = t * t * (3 - 2 * t)  # ease-in-out
+                x = (1 - ease) ** 2 * x1 + 2 * (1 - ease) * ease * cx + ease ** 2 * x2
+                y = (1 - ease) ** 2 * y1 + 2 * (1 - ease) * ease * cy + ease ** 2 * y2
+                # 微抖动 ±2px + 随机停顿
+                await self.page.mouse.move(
+                    int(x) + random.randint(-2, 2),
+                    int(y) + random.randint(-2, 2),
+                )
+                await asyncio.sleep(random.uniform(0.004, 0.015))
+        except Exception:
+            pass
+
+    async def _move_mouse(self, x: int, y: int, steps: int = 10):
+        """统一鼠标移动入口：HUMANIZE_LEVEL>=1 用贝塞尔轨迹，否则保持原线性移动。"""
+        try:
+            if getattr(self, "HUMANIZE_LEVEL", 0) >= 1:
+                from_pt = getattr(self, "_mouse_pos", None)
+                if from_pt is None:
+                    # 首次移动：从视口内随机点"把手移过来"
+                    vp = self.page.viewport_size or {"width": 1280, "height": 900}
+                    from_pt = (random.randint(50, vp["width"] - 50),
+                               random.randint(50, vp["height"] - 50))
+                await self._bezier_move(from_pt, (x, y), max(steps, 15))
+            else:
+                await self.page.mouse.move(x, y, steps=steps)
+        except Exception:
+            try:
+                await self.page.mouse.move(x, y, steps=steps)
+            except Exception:
+                pass
+        self._mouse_pos = (x, y)
+
+    def _typing_delay(self) -> float:
+        """逐字输入延迟：HUMANIZE_LEVEL>=1 用更慢更自然的节奏。"""
+        if getattr(self, "HUMANIZE_LEVEL", 0) >= 1:
+            return random.uniform(80, 220)
+        return random.uniform(50, 150)
+
     # ---------- 通用：提问主流程 ----------
     async def ask(self, question: str) -> dict:
         page = self.page
@@ -319,7 +429,7 @@ class BrowserBase:
             inp = page.locator(self.INPUT_SELECTOR).first
         
         # 5.1 模拟真人鼠标移动：先随机移到页面某点，再慢慢移到输入框
-        await page.mouse.move(
+        await self._move_mouse(
             random.randint(100, 800),
             random.randint(100, 400),
             steps=random.randint(10, 30)
@@ -336,7 +446,7 @@ class BrowserBase:
             # 降级：直接鼠标移到输入框中心（hover 目标不可用/视口外时）
             box = await inp.bounding_box()
             if box:
-                await page.mouse.move(
+                await self._move_mouse(
                     int(box["x"] + box["width"] / 2),
                     int(box["y"] + box["height"] / 2),
                     steps=5,
@@ -357,19 +467,25 @@ class BrowserBase:
             await asyncio.sleep(random.uniform(0.3, 0.8))
         
         # 正常输入，输入到一半偶尔停顿一下，像真人思考
-        await inp.press_sequentially(question[:len(question)//2], delay=random.uniform(50, 150))
+        await inp.press_sequentially(question[:len(question)//2], delay=self._typing_delay())
         # 20%概率输入到一半停一下
         if random.random() < 0.2:
             await asyncio.sleep(random.uniform(1.0, 2.5))
-        await inp.press_sequentially(question[len(question)//2:], delay=random.uniform(50, 150))
+        await inp.press_sequentially(question[len(question)//2:], delay=self._typing_delay())
         await asyncio.sleep(random.uniform(0.2, 0.5))
         
         # 10%概率点错地方再点回来，更像真人
         if random.random() < 0.1:
-            await page.mouse.click(
-                random.randint(100, 800),
-                random.randint(100, 400)
-            )
+            if getattr(self, "HUMANIZE_LEVEL", 0) >= 1:
+                # DeepSeek：先贝塞尔移到随机点再点击（避免 click 瞬移）
+                tx, ty = random.randint(100, 800), random.randint(100, 400)
+                await self._move_mouse(tx, ty, steps=random.randint(15, 35))
+                await page.mouse.click()
+            else:
+                await page.mouse.click(
+                    random.randint(100, 800),
+                    random.randint(100, 400)
+                )
             await asyncio.sleep(random.uniform(0.2, 0.5))
             await inp.click()
             await asyncio.sleep(random.uniform(0.2, 0.5))
