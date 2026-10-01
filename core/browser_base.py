@@ -122,17 +122,31 @@ class BrowserBase:
                 return True
             # 只查高置信验证元素：verify/slider 等词在正常页面组件中太常见（如滑块组件、轮播），
             # 会误报；captcha/nc_/nvc/yidun/geetest/iframe captcha 是验证特有标识。
-            # 注意：很多 AI 站点（如豆包）即使没有验证，页面上也常驻安全 SDK 的隐藏组件
-            # （yidun/nc_/geetest 埋点），count() 会把它们误判为验证。因此只统计【可见】元素：
-            # 真正弹出来的验证弹窗必然是可见的，隐藏的 SDK 埋点不算验证。
+            # 注意：很多 AI 站点即使没有验证，页面上也常驻安全 SDK 的隐藏组件
+            # （tcaptcha/yidun/nc_/geetest 埋点，常见 1x1、opacity:0、移出视口），
+            # is_visible() 对这些仍返回 True。因此除可见性外，还必须满足：
+            #   - 有真实 bounding box 且宽高 >= 40px（真验证弹窗/滑块都远大于此）
+            #   - 与视口有可见交集（移到屏幕外的不算）
+            vp = None
+            try:
+                vp = self.page.viewport_size
+            except Exception:
+                pass
             for sel in ("[class*='captcha']", "[class*='nc_']", "iframe[src*='captcha']",
                         "[class*='nvc']", "[class*='yidun']", "[class*='geetest']",
                         "[id*='captcha']", "iframe[src*='verify']"):
                 locs = await self.page.locator(sel).all()
                 for loc in locs:
                     try:
-                        if await loc.is_visible():
-                            return True
+                        if not await loc.is_visible():
+                            continue
+                        box = await loc.bounding_box()
+                        if not box or box["width"] < 40 or box["height"] < 40:
+                            continue  # 极小/无尺寸埋点不算
+                        if vp and (box["x"] + box["width"] < 0 or box["y"] + box["height"] < 0
+                                   or box["x"] > vp["width"] or box["y"] > vp["height"]):
+                            continue  # 完全移出视口不算
+                        return True
                     except Exception:
                         continue
             if not strict:
@@ -146,6 +160,28 @@ class BrowserBase:
     async def new_chat(self) -> bool:
         """开启新对话，确保每题独立会话。"""
         raise NotImplementedError
+
+    async def recover_page(self):
+        """连续失败后彻底重置页面：刷新 + 等待加载 + 开新会话。
+
+        解决"页面看似正常但回答接口无响应"的持续失败（如元宝连续 502）。
+        """
+        try:
+            print("[恢复] 连续失败，刷新页面重置状态", flush=True)
+            await self.page.reload()
+            await asyncio.sleep(random.uniform(3, 5))
+            try:
+                await self.page.wait_for_load_state("domcontentloaded", timeout=15000)
+            except Exception:
+                pass
+            await asyncio.sleep(random.uniform(1, 2))
+            try:
+                await self.new_chat()
+            except Exception:
+                pass
+            print("[恢复] 页面已刷新并开新会话", flush=True)
+        except Exception as e:
+            print(f"[恢复] 页面刷新失败: {e}", flush=True)
 
     async def is_logged_in(self) -> bool:
         """检查是否已登录。"""
