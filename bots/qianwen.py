@@ -78,7 +78,10 @@ class QianwenBrowser(BrowserBase):
 
     async def _click_daily_tab_pw(self):
         """playwright 文本定位点击「日常」对话模式 Tab。"""
-        els = await self.page.get_by_text("日常", exact=True).all()
+        try:
+            els = await asyncio.wait_for(self.page.get_by_text("日常", exact=True).all(), timeout=3)
+        except Exception:
+            els = []
         if not els:
             raise RuntimeError("未找到「日常」文本")
         await els[-1].click(timeout=5000)
@@ -210,11 +213,14 @@ class QianwenBrowser(BrowserBase):
 
             # 千问来源是标签式卡片，直接抓页面所有外链，排除自家域名
             seen = set()
-            links = await self.page.locator("a[href^='http']").all()
+            try:
+                links = await asyncio.wait_for(self.page.locator("a[href^='http']").all(), timeout=3)
+            except Exception:
+                links = []
             for el in links:
                 try:
-                    href = await el.get_attribute("href")
-                    text = (await el.inner_text()).strip()
+                    href = await asyncio.wait_for(el.get_attribute("href"), timeout=2)
+                    text = (await asyncio.wait_for(el.inner_text(), timeout=2)).strip()
                     if (href and "qianwen.com" not in href
                             and "aliyun.com" not in href and href not in seen):
                         seen.add(href)

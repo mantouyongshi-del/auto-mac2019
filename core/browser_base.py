@@ -135,12 +135,16 @@ class BrowserBase:
             for sel in ("[class*='captcha']", "[class*='nc_']", "iframe[src*='captcha']",
                         "[class*='nvc']", "[class*='yidun']", "[class*='geetest']",
                         "[id*='captcha']", "iframe[src*='verify']"):
-                locs = await self.page.locator(sel).all()
+                # 所有 playwright 调用带短超时：长回答页面 DOM 重，挂起会阻塞整条 ask 链路
+                try:
+                    locs = await asyncio.wait_for(self.page.locator(sel).all(), timeout=1.5)
+                except Exception:
+                    continue
                 for loc in locs:
                     try:
-                        if not await loc.is_visible():
+                        if not await asyncio.wait_for(loc.is_visible(), timeout=1.5):
                             continue
-                        box = await loc.bounding_box()
+                        box = await asyncio.wait_for(loc.bounding_box(), timeout=1.5)
                         if not box or box["width"] < 40 or box["height"] < 40:
                             continue  # 极小/无尺寸埋点不算
                         if vp and (box["x"] + box["width"] < 0 or box["y"] + box["height"] < 0
@@ -150,7 +154,11 @@ class BrowserBase:
                     except Exception:
                         continue
             if not strict:
-                text = await self.page.locator("body").inner_text(timeout=2000)
+                try:
+                    text = await asyncio.wait_for(
+                        self.page.locator("body").inner_text(timeout=2000), timeout=3)
+                except Exception:
+                    text = ""
                 if any(k in text for k in self.CAPTCHA_TEXT_KEYWORDS):
                     return True
         except Exception:

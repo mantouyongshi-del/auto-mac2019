@@ -144,22 +144,26 @@ class DoubaoBrowser(BrowserBase):
         if hasattr(self, '_last_citations') and self._last_citations:
             return self._last_citations
 
-        # 兜底：DOM 抓取
+        # 兜底：DOM 抓取（所有 playwright 调用带短超时，长回答页面 DOM 重易挂起）
         citations = []
         try:
             try:
                 ref_bar = self.page.locator("text=/参考 \\d+ 篇资料/").first
-                if await ref_bar.count() > 0:
-                    await ref_bar.click()
+                if await asyncio.wait_for(ref_bar.count(), timeout=2) > 0:
+                    await asyncio.wait_for(ref_bar.click(), timeout=2)
                     await asyncio.sleep(2)
             except Exception:
                 pass
-            links = await self.page.locator("a[href^='http']").all()
+            try:
+                links = await asyncio.wait_for(
+                    self.page.locator("a[href^='http']").all(), timeout=3)
+            except Exception:
+                links = []
             seen = set()
             for el in links:
                 try:
-                    href = await el.get_attribute("href")
-                    text = (await el.inner_text()).strip()
+                    href = await asyncio.wait_for(el.get_attribute("href"), timeout=2)
+                    text = (await asyncio.wait_for(el.inner_text(), timeout=2)).strip()
                     if (href and "doubao.com" not in href and "bytedance" not in href
                             and "volces.com" not in href and href not in seen):
                         seen.add(href)

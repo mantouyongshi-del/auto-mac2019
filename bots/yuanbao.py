@@ -209,11 +209,14 @@ class YuanbaoBrowser(BrowserBase):
         citations = []
         try:
             seen = set()
-            links = await self.page.locator("a[href^='http']").all()
+            try:
+                links = await asyncio.wait_for(self.page.locator("a[href^='http']").all(), timeout=3)
+            except Exception:
+                links = []
             for el in links:
                 try:
-                    href = await el.get_attribute("href")
-                    text = (await el.inner_text()).strip()
+                    href = await asyncio.wait_for(el.get_attribute("href"), timeout=2)
+                    text = (await asyncio.wait_for(el.inner_text(), timeout=2)).strip()
                     if (href and "tencent.com" not in href and href not in seen):
                         seen.add(href)
                         citations.append({
