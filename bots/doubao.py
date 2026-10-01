@@ -125,18 +125,21 @@ class DoubaoBrowser(BrowserBase):
                     self._last_search_queries = search_queries
                     return {"text": text.strip(), "html": text.strip()}
 
-        # 兜底：DOM 提取
+        # 兜底：DOM 提取（全部带短超时：长回答页面 DOM 重，无超时会挂起）
         try:
             blocks = self.page.locator(self.ANSWER_BLOCK_SELECTOR)
-            count = await blocks.count()
+            count = await asyncio.wait_for(blocks.count(), timeout=2)
             if count > 0:
                 block = blocks.last
-                text = await block.inner_text()
-                html = await block.inner_html()
+                text = await asyncio.wait_for(block.inner_text(), timeout=3)
+                html = await asyncio.wait_for(block.inner_html(), timeout=3)
                 return {"text": text.strip(), "html": html}
         except Exception:
             pass
-        body_text = await self.page.inner_text("body")
+        try:
+            body_text = await asyncio.wait_for(self.page.inner_text("body"), timeout=3)
+        except Exception:
+            body_text = ""
         return {"text": body_text, "html": body_text}
 
     async def extract_citations(self, base_count: int = 0) -> list:
