@@ -567,7 +567,7 @@ class BrowserBase:
         citations = await self.extract_citations(base_count)
         search_queries = await self.extract_search_queries(base_count)
 
-        # 10. 回答完后先停留2-5秒，像在看回答内容，再开新对话
+        # 10. 回答完后先停留2-5秒，像在看回答内容（保留对话在窗口，便于观察/回溯）
         await asyncio.sleep(random.uniform(2.0, 5.0))
         # 偶尔滚动一下，像在仔细看回答
         if random.random() < 0.3:
@@ -575,11 +575,8 @@ class BrowserBase:
             await asyncio.sleep(random.uniform(0.5, 1.5))
             await page.mouse.wheel(0, -random.randint(100, 300))
             await asyncio.sleep(random.uniform(0.3, 1.0))
-        
-        try:
-            await self.new_chat()
-        except Exception:
-            pass
+        # 不再立即开新会话：保留当前问答在窗口，直到下一次提问时（步骤1）再开新会话
+        # 原逻辑回答后立即 new_chat，导致窗口始终是空会话，用户无法看到问答内容
 
         return {
             "answer": answer["text"],
