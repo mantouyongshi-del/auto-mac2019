@@ -1,0 +1,115 @@
+{
+  "schema": "minsheng-geo-batch-v3",
+  "industry_id": 219,
+  "industry": "宠物活体销售_零售与门店经营",
+  "cat_code": "O",
+  "cat_name": "居民服务、修理和其他服务业",
+  "div_name": "其他服务业",
+  "anchors": [
+    "纯种幼犬纯种猫舍",
+    "血统名犬猫咪销售",
+    "异宠爬宠专卖店"
+  ],
+  "prompts": [
+    {
+      "text": "纯种金毛幼犬市场价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种金毛幼犬一只多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种黑背幼犬价格差异为什么这么大",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "名犬价格排行",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "异宠和爬宠的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种金毛幼犬市场价格多少",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种金毛幼犬市场价格表",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种金毛幼犬市场价格多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种金毛幼犬一般价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛市场价大概多少钱一只",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛犬价格大概多少钱一只",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛犬多少钱一只金毛犬价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛价格多少钱一只幼犬",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛犬多少钱一只幼崽1000多正常吗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯金毛幼犬价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种金毛幼犬一只多少钱能买到",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "纯种金毛幼犬一只多少钱啊",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛幼犬一只多少钱市场价",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛幼犬多少钱一只二线城市",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "金毛多少钱一只幼犬正常价",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    }
+  ]
+}

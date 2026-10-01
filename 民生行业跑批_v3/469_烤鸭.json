@@ -1,0 +1,115 @@
+{
+  "schema": "minsheng-geo-batch-v3",
+  "industry_id": 469,
+  "industry": "烤鸭_餐饮门店加盟与单店运营",
+  "cat_code": "H",
+  "cat_name": "住宿和餐饮业",
+  "div_name": "餐饮业",
+  "anchors": [
+    "北京传统烤鸭店",
+    "挂炉果木烤鸭",
+    "脆皮烤鸭外带店"
+  ],
+  "prompts": [
+    {
+      "text": "北京传统烤鸭店排行榜",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京哪家烤鸭店又便宜最正宗",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "果木烤鸭和挂炉烤鸭的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "果木烤鸭烤鸡炉多少钱一台的",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "果木烤鸭烤炉图片及价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "挂炉烤鸭和焖炉烤鸭区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "闷炉烤鸭和挂炉烤鸭的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "果木烤鸭和北京烤鸭区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "果木烤鸭和普通烤鸭的区别",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "脆皮烤鸭买多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "脆皮烤鸭培训学费多少钱",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "烤鸭品牌排行榜前十名",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京传统烤鸭店排行榜最新",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京传统烤鸭店排行榜第一名",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京传统烤鸭店排行榜前十",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京烤鸭品牌排行榜前十名",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京烤鸭排行榜前十名",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京哪家烤鸭店性价比高还好吃",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京哪家烤鸭店又便宜最正宗的",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "北京烤鸭店哪家最便宜实惠",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    }
+  ]
+}

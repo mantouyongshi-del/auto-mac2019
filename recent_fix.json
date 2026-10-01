@@ -1,0 +1,626 @@
+{
+  "items": [
+    {
+      "time": "03:48:54",
+      "no": null,
+      "question": "冒菜加盟费用",
+      "failed": [],
+      "models": [
+        "yuanbao"
+      ],
+      "source": "fix",
+      "cite": 16,
+      "queries": 3
+    },
+    {
+      "time": "03:34:29",
+      "no": null,
+      "question": "特色冒菜加盟多少钱合适",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 8,
+      "queries": 0
+    },
+    {
+      "time": "03:28:31",
+      "no": null,
+      "question": "钵钵鸡和冒菜有什么区别",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "03:21:22",
+      "no": null,
+      "question": "钵钵鸡与冒菜的区别",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 6,
+      "queries": 0
+    },
+    {
+      "time": "03:15:19",
+      "no": null,
+      "question": "钵钵鸡冒菜麻辣烫区别",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "03:09:31",
+      "no": null,
+      "question": "十大冒菜加盟店排行榜",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 10,
+      "queries": 0
+    },
+    {
+      "time": "03:02:40",
+      "no": null,
+      "question": "冒菜加盟排行榜",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 9,
+      "queries": 0
+    },
+    {
+      "time": "02:56:06",
+      "no": null,
+      "question": "特色冒菜加盟多少钱",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 9,
+      "queries": 0
+    },
+    {
+      "time": "02:39:02",
+      "no": null,
+      "question": "中医门诊部执业范围",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:35:47",
+      "no": null,
+      "question": "小型净菜加工厂投资多少钱",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 14,
+      "queries": 3
+    },
+    {
+      "time": "02:34:53",
+      "no": null,
+      "question": "中医门诊部审批条件",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:33:49",
+      "no": null,
+      "question": "净菜加工厂投资多少钱一个",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 12,
+      "queries": 3
+    },
+    {
+      "time": "02:31:49",
+      "no": null,
+      "question": "净菜加工厂投资多少钱一套",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 13,
+      "queries": 4
+    },
+    {
+      "time": "02:30:44",
+      "no": null,
+      "question": "中医门诊部管理制度",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 16,
+      "queries": 0
+    },
+    {
+      "time": "02:29:39",
+      "no": null,
+      "question": "净菜加工厂投资多少钱合适",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 14,
+      "queries": 4
+    },
+    {
+      "time": "02:28:13",
+      "no": null,
+      "question": "中央厨房与食品生产企业的区别在于什么内容",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 17,
+      "queries": 3
+    },
+    {
+      "time": "02:25:53",
+      "no": null,
+      "question": "中医门诊部设置标准",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 17,
+      "queries": 0
+    },
+    {
+      "time": "02:22:01",
+      "no": null,
+      "question": "中医门诊部的申办条件",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 19,
+      "queries": 0
+    },
+    {
+      "time": "02:18:07",
+      "no": null,
+      "question": "中医馆健康信息平台入口",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:14:11",
+      "no": null,
+      "question": "中医馆名字大全简单大气",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:13:09",
+      "no": null,
+      "question": "净菜加工厂投资多少钱一个月",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 17,
+      "queries": 4
+    },
+    {
+      "time": "02:11:52",
+      "no": null,
+      "question": "中央厨房和食品厂的区别",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:10:34",
+      "no": null,
+      "question": "中央厨房与食品生产企业的区别在于什么类型",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 17,
+      "queries": 3
+    },
+    {
+      "time": "02:10:28",
+      "no": null,
+      "question": "中医馆文化墙图片",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:09:14",
+      "no": null,
+      "question": "中央厨房与食品生产企业的区别在于什么方面",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:07:46",
+      "no": null,
+      "question": "中央厨房与食品生产企业的区别在于什么内容",
+      "failed": [
+        "doubao"
+      ],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "02:05:11",
+      "no": null,
+      "question": "中医馆设计",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 11,
+      "queries": 0
+    },
+    {
+      "time": "02:01:32",
+      "no": null,
+      "question": "中医馆名字取名大全集",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 13,
+      "queries": 0
+    },
+    {
+      "time": "01:57:42",
+      "no": null,
+      "question": "中医馆装修图片大全",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:54:54",
+      "no": null,
+      "question": "中央厨房与集体用餐配送的区别",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 10,
+      "queries": 2
+    },
+    {
+      "time": "01:53:32",
+      "no": null,
+      "question": "中医馆门头",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:52:53",
+      "no": null,
+      "question": "中央厨房和食品工程的区别是什么",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:50:53",
+      "no": null,
+      "question": "中央厨房与食品生产企业的区别在于中央厨房供应对象是",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 11,
+      "queries": 2
+    },
+    {
+      "time": "01:49:43",
+      "no": null,
+      "question": "中医馆对联",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 13,
+      "queries": 0
+    },
+    {
+      "time": "01:49:01",
+      "no": null,
+      "question": "中央厨房与食品生产企业的区别在哪里",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:47:01",
+      "no": null,
+      "question": "中央厨房与预制菜区别",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:44:39",
+      "no": null,
+      "question": "中医馆在线咨询",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:40:34",
+      "no": null,
+      "question": "中医馆图片",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:36:43",
+      "no": null,
+      "question": "中医馆附近",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:32:41",
+      "no": null,
+      "question": "中央厨房和食品生产企业的区别",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 17,
+      "queries": 3
+    },
+    {
+      "time": "01:32:41",
+      "no": null,
+      "question": "中医馆开办条件",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 11,
+      "queries": 0
+    },
+    {
+      "time": "01:31:16",
+      "no": null,
+      "question": "中央厨房和预制菜有什么区别",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:29:52",
+      "no": null,
+      "question": "中央厨房和预制菜的区别在哪里",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 10,
+      "queries": 2
+    },
+    {
+      "time": "01:28:49",
+      "no": null,
+      "question": "中医馆起名大全",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 11,
+      "queries": 0
+    },
+    {
+      "time": "01:28:25",
+      "no": null,
+      "question": "中央厨房制作产品的和预制菜的区别在哪里",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 10,
+      "queries": 3
+    },
+    {
+      "time": "01:27:04",
+      "no": null,
+      "question": "中央厨房跟预制菜区别",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 12,
+      "queries": 3
+    },
+    {
+      "time": "01:23:49",
+      "no": null,
+      "question": "中医馆设计效果图",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 0,
+      "queries": 0
+    },
+    {
+      "time": "01:19:41",
+      "no": null,
+      "question": "国医馆和中医馆的区别",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 10,
+      "queries": 0
+    },
+    {
+      "time": "01:16:06",
+      "no": null,
+      "question": "中医馆和国医堂的区别",
+      "failed": [],
+      "models": [
+        "qianwen"
+      ],
+      "source": "fix",
+      "cite": 12,
+      "queries": 0
+    },
+    {
+      "time": "01:14:13",
+      "no": null,
+      "question": "中央厨房和预制菜的区别在哪",
+      "failed": [],
+      "models": [
+        "doubao"
+      ],
+      "source": "fix",
+      "cite": 10,
+      "queries": 3
+    }
+  ],
+  "stats": {
+    "doubao": {
+      "run_ok": 89,
+      "run_err": 11,
+      "last_ask": "2026-10-02T02:35:47.892712+08:00",
+      "last_result": "ok"
+    },
+    "qianwen": {
+      "run_ok": 134,
+      "run_err": 1,
+      "last_ask": "2026-10-02T03:34:29.890634+08:00",
+      "last_result": "ok"
+    },
+    "yuanbao": {
+      "run_ok": 1,
+      "run_err": 0,
+      "last_ask": "2026-10-02T03:48:54.392361+08:00",
+      "last_result": "ok"
+    }
+  }
+}

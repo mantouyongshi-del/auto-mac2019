@@ -1,505 +1,511 @@
 [
   {
-    "time": "2026-09-28T20:28:52.622178+08:00",
+    "time": "2026-10-02T05:18:37.558492",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T04:55:57.251479",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T04:36:23.439420",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T04:16:03.351807",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T03:57:18.022298",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T03:38:57.199935",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T03:15:04.337950",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T02:57:50.913661",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T02:50:40.733941",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T02:25:00.914509",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T01:58:14.094380",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T01:32:22.830753",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T01:12:06.655958",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T00:56:55.395417",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T00:32:14.592104",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-02T00:15:34.679605",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T23:58:45.485782",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T23:43:00.595715",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T23:24:44.508249",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T23:20:19.344669",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T22:52:32.863328",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T22:32:08.803008",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T22:11:05.035455",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T21:50:27.093568",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T21:25:50.899922",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T21:04:11.824384",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T20:46:35.678232",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T20:24:07.214045",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T20:05:16.268405",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T19:49:49.176439",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T19:20:13.159002",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T19:00:58.582749",
+    "abnormal": [],
+    "self_healed": false
+  },
+  {
+    "time": "2026-10-01T18:31:55.288340+08:00",
     "abnormal": [
-      "豆包 异常: Remote end closed connection without response"
+      "DeepSeek 异常: HTTP Error 502: Bad Gateway"
     ],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T20:02:28.441112",
+    "time": "2026-10-01T18:07:59.104573",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T19:46:23.568803",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T19:25:50.222172",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T19:05:59.565231",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T18:41:08.496688",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T18:21:20.890732",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T17:56:02.152284",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T17:39:00.113485",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T17:09:25.317525",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T16:40:17.555139",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T16:19:48.493727",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T16:02:22.028001",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T15:42:41.080557",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T15:24:25.237169",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T15:06:30.963589",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T14:37:40.519869",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T14:07:27.815639",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T13:43:37.522462",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T12:55:33.472839+08:00",
+    "time": "2026-10-01T17:46:02.825100+08:00",
     "abnormal": [
-      "元宝 异常: <urlopen error [Errno 61] Connection refused>"
+      "DeepSeek 异常: HTTP Error 502: Bad Gateway"
     ],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T12:30:43.250538",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T12:00:57.507733",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T11:34:05.781385",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T11:09:34.956115",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T10:53:33.202607",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T10:32:40.026848",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T10:07:33.143679",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T09:41:39.722932",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T09:13:29.827389",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T08:56:10.069797",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T08:36:10.141439",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T08:14:05.452459",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T07:53:23.252271",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T07:24:28.668740",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T06:58:37.600332",
-    "abnormal": [],
-    "self_healed": false
-  },
-  {
-    "time": "2026-09-28T06:35:26.561525",
-    "abnormal": [],
+    "time": "2026-10-01T17:37:31.161696+08:00",
+    "abnormal": [
+      "DeepSeek 异常: HTTP Error 502: Bad Gateway"
+    ],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T06:05:18.503697",
-    "abnormal": [],
+    "time": "2026-10-01T17:17:48.475207+08:00",
+    "abnormal": [
+      "DeepSeek 异常: HTTP Error 502: Bad Gateway"
+    ],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T05:40:35.371605",
-    "abnormal": [],
+    "time": "2026-10-01T16:46:01.654340+08:00",
+    "abnormal": [
+      "DeepSeek 异常: HTTP Error 502: Bad Gateway"
+    ],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T05:11:01.426680",
+    "time": "2026-10-01T16:20:46.587951",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T04:43:19.238978",
+    "time": "2026-10-01T15:55:02.338566",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T04:26:51.391566",
+    "time": "2026-10-01T15:36:34.346018",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T04:05:35.400648",
+    "time": "2026-10-01T15:08:54.732410",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T03:35:40.400823",
+    "time": "2026-10-01T14:45:51.589349",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T03:16:33.969355",
+    "time": "2026-10-01T14:24:24.648170",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T02:55:40.729399",
+    "time": "2026-10-01T14:09:06.489312",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T02:38:25.989813",
+    "time": "2026-10-01T13:53:20.733159",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T02:12:48.613866",
+    "time": "2026-10-01T13:24:50.391236",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T01:50:43.967649",
+    "time": "2026-10-01T13:01:47.967393",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T01:32:15.080112",
+    "time": "2026-10-01T12:35:19.549767",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T01:05:52.538646",
+    "time": "2026-10-01T12:13:24.509196",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T00:42:07.500435",
+    "time": "2026-10-01T11:53:53.377718",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-28T00:16:05.406665",
+    "time": "2026-10-01T11:26:22.977379",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T23:54:34.106839",
+    "time": "2026-10-01T11:05:08.647340",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T23:32:58.545245",
+    "time": "2026-10-01T10:43:18.371456",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T23:07:13.342529",
+    "time": "2026-10-01T10:25:46.862312",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T22:37:12.703131",
+    "time": "2026-10-01T10:09:02.847989",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T22:16:31.224920",
+    "time": "2026-10-01T09:47:36.723897",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T21:58:23.317464",
+    "time": "2026-10-01T09:22:09.029337",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T21:39:08.223293",
+    "time": "2026-10-01T08:57:45.200856",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T21:11:49.545787",
+    "time": "2026-10-01T08:33:03.298137",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T20:52:21.078457",
+    "time": "2026-10-01T08:15:13.078128",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T20:30:40.979097",
+    "time": "2026-10-01T07:57:33.565743",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T20:07:52.796211",
+    "time": "2026-10-01T07:36:27.611634",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T19:39:56.369715",
+    "time": "2026-10-01T07:15:28.573944",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T19:20:07.273456",
+    "time": "2026-10-01T06:53:04.863455",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T18:54:27.092744",
+    "time": "2026-10-01T06:34:23.920265",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T18:32:32.885278",
+    "time": "2026-10-01T06:16:44.698151",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T18:16:22.103360",
+    "time": "2026-10-01T05:57:01.069492",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T17:53:04.356813",
+    "time": "2026-10-01T05:40:13.923004",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T17:36:17.438980",
+    "time": "2026-10-01T05:20:05.524020",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T17:07:14.677474",
+    "time": "2026-10-01T04:55:16.820431",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T16:36:27.611497",
+    "time": "2026-10-01T04:36:22.286445",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T16:17:56.884823",
+    "time": "2026-10-01T04:09:50.802444",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T15:58:04.707937",
+    "time": "2026-10-01T03:54:42.276856",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T15:30:27.904379",
+    "time": "2026-10-01T03:26:24.541353",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T15:07:17.359800",
+    "time": "2026-10-01T03:04:21.096153",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T14:38:55.793035",
+    "time": "2026-10-01T02:40:38.844764",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T14:11:49.349988",
+    "time": "2026-10-01T02:18:41.847369",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T13:53:25.508089",
+    "time": "2026-10-01T01:56:50.375857",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T13:37:14.312488",
+    "time": "2026-10-01T01:34:32.839701",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T13:11:21.935493",
+    "time": "2026-10-01T01:09:02.010058",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T12:50:40.573403",
+    "time": "2026-10-01T00:51:15.913718",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T12:33:13.565148",
+    "time": "2026-10-01T00:23:01.285914",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T12:08:28.706626",
+    "time": "2026-09-30T23:58:27.052900",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T11:38:47.068885",
+    "time": "2026-09-30T23:32:23.407162",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T11:13:06.242666",
+    "time": "2026-09-30T23:15:52.636579",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T10:43:53.820778",
+    "time": "2026-09-30T22:56:24.317536",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T10:14:58.595647",
+    "time": "2026-09-30T22:36:31.756914",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T09:45:12.607326",
+    "time": "2026-09-30T22:16:08.916753",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T09:26:22.918237",
+    "time": "2026-09-30T21:47:30.361522",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T08:56:41.421148",
+    "time": "2026-09-30T21:26:01.373908",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T08:30:00.878925",
+    "time": "2026-09-30T21:02:09.532583",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T08:13:25.763223",
+    "time": "2026-09-30T20:34:03.608280",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T07:53:47.307889",
+    "time": "2026-09-30T20:26:01.647416",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T07:26:23.127482",
+    "time": "2026-09-30T20:08:28.461108",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T06:59:49.350402",
+    "time": "2026-09-30T19:48:36.183950",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T06:29:14.346405",
+    "time": "2026-09-30T19:19:54.846385",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T06:07:23.282625",
+    "time": "2026-09-30T19:02:12.037221",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T05:36:37.906336",
+    "time": "2026-09-30T18:46:25.530001",
     "abnormal": [],
     "self_healed": false
   },
   {
-    "time": "2026-09-27T05:13:18.409247",
+    "time": "2026-09-30T18:16:39.441449",
     "abnormal": [],
     "self_healed": false
   }

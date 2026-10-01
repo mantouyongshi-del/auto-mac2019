@@ -1,0 +1,23 @@
+{
+  "request_id": "test_worker_1",
+  "question": "验证worker消费测试",
+  "models": [
+    "wenxin"
+  ],
+  "priority": 10,
+  "callback_url": null,
+  "metadata": {},
+  "status": "completed",
+  "results": {
+    "wenxin": {
+      "status": "ok",
+      "answer": "模拟回答内容",
+      "citations": [],
+      "search_queries": [],
+      "finished_at": "2026-10-02T05:10:14.617663+08:00"
+    }
+  },
+  "created_at": "2026-10-02T05:10:14.616074+08:00",
+  "started_at": "2026-10-02T05:10:14.616418+08:00",
+  "completed_at": "2026-10-02T05:10:14.618510+08:00"
+}

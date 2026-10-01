@@ -1,0 +1,15 @@
+{
+  "request_id": "e6faaa9f909e429d",
+  "question": "武陵山脉地质构造对湖南地形的影响？",
+  "models": [
+    "yuanbao"
+  ],
+  "priority": 10,
+  "callback_url": null,
+  "metadata": {},
+  "status": "cancelled",
+  "results": {},
+  "created_at": "2026-10-02T05:15:42.069506+08:00",
+  "started_at": null,
+  "completed_at": "2026-10-02T05:15:45.144243+08:00"
+}

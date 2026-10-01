@@ -1,0 +1,120 @@
+{
+  "schema": "minsheng-geo-batch-v3",
+  "industry_id": 782,
+  "industry": "景区运营_山岳景区运营与门票索道文旅体验",
+  "cat_code": "R",
+  "cat_name": "文化、体育和娱乐业",
+  "div_name": "文化艺术业",
+  "anchors": [
+    "景区门票",
+    "张家界旅游",
+    "凤凰古城",
+    "索道漂流",
+    "景区运营",
+    "文旅融合",
+    "研学旅行",
+    "民宿预订"
+  ],
+  "prompts": [
+    {
+      "text": "凤凰古城和芙蓉镇哪个好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "索道门票价格",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "民宿预订平台哪个好",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "民宿预订后没有住不退款合理么?",
+      "verdict": "ACCEPT_BUYER_DECISION",
+      "depth": 1
+    },
+    {
+      "text": "景区门票优惠政策",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票在哪里买",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票怎么预约",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票可以退吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票怎么开发票",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票60岁以上有优惠吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票怎么买",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票含保险吗",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票儿童票标准",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "景区门票多少岁老人免费",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "张家界旅游攻略",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "张家界旅游攻略路线",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "张家界旅游攻略自由行",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "张家界旅游最佳时间",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "张家界旅游景点",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    },
+    {
+      "text": "张家界旅游攻略三日游自由行路线",
+      "verdict": "ACCEPT_AWARENESS",
+      "depth": 1
+    }
+  ]
+}

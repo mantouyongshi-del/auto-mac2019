@@ -21,6 +21,20 @@ if not API_KEY:
     raise RuntimeError("必须设置环境变量 LAYA_API_KEY")
 
 
+# 连续失败计数：达到阈值触发页面重置（解决"页面正常但持续失败"）
+_fail_counts = {}
+_FAIL_RECOVER_THRESHOLD = 3
+
+
+def _bump_fail(service_name: str) -> int:
+    _fail_counts[service_name] = _fail_counts.get(service_name, 0) + 1
+    return _fail_counts[service_name]
+
+
+def _reset_fail(service_name: str):
+    _fail_counts[service_name] = 0
+
+
 def _auto_pause(service_name: str):
     """人工验证自动暂停：写入 paused_models.json（与 runner/dashboard 共用，按 model_id）。"""
     pf = Path(__file__).parent.parent / "paused_models.json"
@@ -45,6 +59,47 @@ def _play_alert():
         print(f"[报警] 播放失败: {e}", flush=True)
 
 
+class PriorityLock:
+    """按优先级 + 到达顺序获取的锁。
+
+    - priority 高的请求先获得锁（上游实时任务 priority=10，农场批处理 priority=0）。
+    - 同优先级按先到先得（FIFO）。
+    - 不抢占正在执行的任务，只控制等待队列顺序——浏览器单实例同一时刻仍只处理一个 ask。
+    """
+
+    def __init__(self):
+        self._locked = False
+        self._waiters = []  # [(priority, seq, future)]
+        self._seq = 0
+
+    async def acquire(self, priority: int = 0):
+        if not self._locked:
+            self._locked = True
+            return
+        seq = self._seq
+        self._seq += 1
+        loop = asyncio.get_event_loop()
+        fut = loop.create_future()
+        self._waiters.append((priority, seq, fut))
+        self._waiters.sort(key=lambda x: (-x[0], x[1]))
+        try:
+            await fut
+        except asyncio.CancelledError:
+            try:
+                self._waiters.remove((priority, seq, fut))
+            except ValueError:
+                pass
+            raise
+
+    def release(self):
+        if self._waiters:
+            _, _, fut = self._waiters.pop(0)
+            if not fut.done():
+                fut.set_result(None)
+        else:
+            self._locked = False
+
+
 def verify_api_key(request: Request):
     """强制 API Key 校验，不允许未鉴权访问"""
     api_key = request.headers.get("X-API-Key", "")
@@ -54,10 +109,12 @@ def verify_api_key(request: Request):
 
 class AskRequest(BaseModel):
     question: str
+    priority: int = 0  # 0=农场批处理；10=上游实时任务（优先插队）
 
 
 class BatchAskRequest(BaseModel):
     questions: list[str]
+    priority: int = 0
 
 
 def save_log(record: dict, service_name: str):
@@ -96,7 +153,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         allow_headers=["*"],
     )
 
-    lock = anyio.Lock()
+    lock = PriorityLock()
     browser_ref = {"b": None}  # startup 后填入
     runtime_state = {"last_success_at": None, "busy": False}
 
@@ -148,12 +205,12 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     async def ask(req: AskRequest):
         if not req.question.strip():
             raise HTTPException(status_code=400, detail="问题不能为空")
-        async with lock:
+        await lock.acquire(priority=req.priority)
+        try:
             runtime_state["busy"] = True
             try:
                 result = await asyncio.wait_for(browser.ask(req.question), timeout=180)
             except asyncio.TimeoutError:
-                runtime_state["busy"] = False
                 save_log({
                     "question": req.question,
                     "error": "请求超时(180s)",
@@ -161,9 +218,13 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     "citations": [],
                     "search_queries": [],
                 }, service_name)
+                # 连续失败恢复：刷新页面重置状态
+                if _bump_fail(service_name) >= _FAIL_RECOVER_THRESHOLD:
+                    print(f"[{service_name}] 连续失败{_fail_counts[service_name]}次，重置页面", flush=True)
+                    await browser.recover_page()
+                    _reset_fail(service_name)
                 raise HTTPException(status_code=502, detail=f"{service_name} 请求超时")
             except CaptchaDetected:
-                runtime_state["busy"] = False
                 # 人工验证：暂停模型 + 报警，让用户处理后恢复
                 _auto_pause(service_name)
                 _play_alert()
@@ -177,7 +238,6 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                 raise HTTPException(status_code=503,
                                      detail=f"{service_name} 人工验证，已暂停模型；请处理后恢复")
             except HTTPException as e:
-                runtime_state["busy"] = False
                 # 失败也记录日志
                 save_log({
                     "question": req.question,
@@ -188,7 +248,6 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                 }, service_name)
                 raise
             except Exception as e:
-                runtime_state["busy"] = False
                 # 失败也记录日志
                 save_log({
                     "question": req.question,
@@ -197,9 +256,17 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     "citations": [],
                     "search_queries": [],
                 }, service_name)
+                # 连续失败恢复：刷新页面重置状态
+                if _bump_fail(service_name) >= _FAIL_RECOVER_THRESHOLD:
+                    print(f"[{service_name}] 连续失败{_fail_counts[service_name]}次，重置页面", flush=True)
+                    await browser.recover_page()
+                    _reset_fail(service_name)
                 raise HTTPException(status_code=502, detail=f"{service_name} 请求失败: {str(e)}")
+        finally:
+            runtime_state["busy"] = False
+            lock.release()
+            _reset_fail(service_name)
 
-        runtime_state["busy"] = False
         result = {
             "question": req.question,
             "answer": result["answer"],
@@ -220,7 +287,8 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         results = []
         succeeded = failed = 0
 
-        async with lock:
+        await lock.acquire(priority=req.priority)
+        try:
             for q in req.questions:
                 q = q.strip()
                 if not q:
@@ -251,6 +319,9 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     record = {"question": q, "error": f"{service_name} 请求失败: {e}"}
                     save_log(record, service_name)
                     results.append(record)
+        finally:
+            runtime_state["busy"] = False
+            lock.release()
 
         return {
             "total": len(req.questions),

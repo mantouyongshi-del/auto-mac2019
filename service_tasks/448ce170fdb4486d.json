@@ -1,0 +1,124 @@
+{
+  "request_id": "448ce170fdb4486d",
+  "question": "杭州西湖十景中雷峰夕照的观赏特点是什么？",
+  "models": [
+    "wenxin"
+  ],
+  "priority": 10,
+  "callback_url": null,
+  "metadata": {},
+  "status": "completed",
+  "results": {
+    "wenxin": {
+      "status": "ok",
+      "answer": "需要我为你整理雷峰夕照的‌最佳观赏机位和日落时间参考‌吗？帮你拍出绝美的湖光塔影大片。",
+      "citations": [
+        {
+          "ref": "雷峰夕照（浙江省杭州市西湖区第七批全国重点文物保护单位�西湖十景�组成部分）_百度百科",
+          "url": "https://baike.baidu.com/item/雷峰夕照/2195468"
+        },
+        {
+          "ref": "湖山十景�雷峰夕照_百度百科",
+          "url": "https://baike.baidu.com/item/湖山十景�雷峰夕照/17028890"
+        },
+        {
+          "ref": "雷峰夕照：西湖十景之一，雷峰塔落日余晖绝美画卷-古建筑设计 - 专注寺庙设计规划 - 古建筑公司 - 汉匠",
+          "url": "https://www.nbgjz.com/59404.html"
+        },
+        {
+          "ref": "杭州雷峰塔景区-雷峰夕照游玩攻略-雷峰塔景区-雷峰夕照门票多少钱/价格表-团购票价预定优惠-景点地址在哪里/图片介绍/参观预约/旅游游览",
+          "url": "https://gs.ctrip.com/html5/you/sight/hangzhou14/98275654.html"
+        },
+        {
+          "ref": "雷峰塔（中国浙江省杭州市4A级景区）_百度百科",
+          "url": "https://baike.baidu.com/item/雷峰塔/427171"
+        },
+        {
+          "ref": "雷峰塔遗址_百度百科",
+          "url": "https://baike.baidu.com/item/雷峰塔遗址/9319129"
+        },
+        {
+          "ref": "西湖十景，为什么偏偏是�四个字�？这场展览讲透了",
+          "url": "https://ori.hangzhou.com.cn/ornews/content/2026-09/30/content_9325241.htm"
+        },
+        {
+          "ref": "西湖十景中的�雷峰夕照�是怎样的风景?你认为它有何特点?_百度教育",
+          "url": "https://easylearn.baidu.com/edu-page/tiangong/questiondetail?id=1793137551606689610&fr=search"
+        },
+        {
+          "ref": "西湖十景 - 云端档案 - 杭州市文物遗产与历史建筑保护中心",
+          "url": "http://www.singdo.org/wenbao/luelan_disp.php?luelan_id=25"
+        },
+        {
+          "ref": "杭州西湖十景全解析，解锁绝美湖光山色",
+          "url": "https://baijiahao.baidu.com/s?id=1822663248470657230&wfr=spider&for=pc"
+        },
+        {
+          "ref": "杭州雷峰塔，夕照霞光万道，俯瞰西湖全景美",
+          "url": "https://baijiahao.baidu.com/s?id=1865055924366115045&wfr=spider&for=pc"
+        },
+        {
+          "ref": "西湖十景_360百科",
+          "url": "https://baike.so.com/doc/30527723-32410098.html"
+        },
+        {
+          "ref": "雷峰夕照是什么意思？西湖十景之一的神奇景观全解析_百度文库",
+          "url": "https://wenku.baidu.com/view/799b22fb0429bd64783e0912a216147917117ef3.html"
+        },
+        {
+          "ref": "杭州雷峰夕照，夕照雷锋塔影美，白蛇传说千古情",
+          "url": "https://baijiahao.baidu.com/s?id=1865546761634811109&wfr=spider&for=pc"
+        },
+        {
+          "ref": "西湖十景攻略雷峰夕照游览全指南",
+          "url": "http://post.smzdm.com/p/axk5wnn4/"
+        },
+        {
+          "ref": "一座铜塔撑起的雷峰夕照",
+          "url": "https://baijiahao.baidu.com/s?id=1866167013664323996&wfr=spider&for=pc"
+        },
+        {
+          "ref": "雷峰夕照(雷峰塔)_360百科",
+          "url": "https://baike.so.com/doc/5336205-5571644.html"
+        },
+        {
+          "ref": "夕照山_百度百科",
+          "url": "https://baike.baidu.com/item/夕照山/2996756"
+        },
+        {
+          "ref": "雷峰夕照(雷峰塔)_360百科",
+          "url": "https://upimg.baike.so.com/doc/5336205-5571644.html"
+        },
+        {
+          "ref": "景观图里的故事：杭州雷峰塔",
+          "url": "https://baijiahao.baidu.com/s?id=1871916018443902811&wfr=spider&for=pc"
+        },
+        {
+          "ref": "史话杭州�秀水明山：�西湖十景�之雷峰夕照",
+          "url": "https://mp.weixin.qq.com/s?__biz=MzA4Mjc5NTYzOA==&mid=2651367604&idx=1&sn=fadd9a61f16b32469bd0362c76874bfa&chksm=8504376fb95f2ab5015e224cd910664aa5168a22a730088d89fdaf3cf48a0c7ed0ce3e2a5973&scene=27"
+        },
+        {
+          "ref": "雷峰夕照｜登塔望远，尽览杭城山河壮阔",
+          "url": "https://baijiahao.baidu.com/s?id=1861627281559130690&wfr=spider&for=pc"
+        },
+        {
+          "ref": "杭州�西湖十景�御碑亭今安在？",
+          "url": "https://mp.weixin.qq.com/s?__biz=MjM5NTQwMTk3Mg==&mid=2650503986&idx=2&sn=4137d547dd98ce0580da8b5571a4b842&chksm=bf86f96ae831b9ca74390530cf9ad815da3c4492a4b5d6ebb08cac5a8e488b8c88e0868d7217&scene=27"
+        },
+        {
+          "ref": "雷峰塔_韵味杭州",
+          "url": "https://ywhz.hangzhou.com.cn/yjls/content/content_6218549.htm"
+        },
+        {
+          "ref": "后悔没早看90的人都去错了这才是雷峰夕照的正确打开方式",
+          "url": "http://post.m.smzdm.com/p/a6z66m8o/"
+        }
+      ],
+      "search_queries": [],
+      "finished_at": "2026-10-02T05:31:51.620446+08:00"
+    }
+  },
+  "created_at": "2026-10-02T05:30:22.213205+08:00",
+  "started_at": "2026-10-02T05:30:44.674335+08:00",
+  "completed_at": "2026-10-02T05:31:51.621656+08:00"
+}

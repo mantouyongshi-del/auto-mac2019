@@ -109,6 +109,9 @@ class WenxinBrowser(BrowserBase):
             # 回答文本：markdown-yiyan 组件
             if comp == "markdown-yiyan" and text:
                 last_answer = text
+            elif text and comp != "markdown-yiyan":
+                # 诊断：SSE 中其他文本组件（排查最终回答组件类型）
+                print(f"[wenxin-sse] comp={comp!r} text={text[:80]!r}", flush=True)
 
             # 引用：data.referenceList 数组
             gen_data = gen.get("data", {})
@@ -132,20 +135,29 @@ class WenxinBrowser(BrowserBase):
 
         return last_answer.strip(), unique_citations
 
+    def _looks_like_process_text(self, text: str) -> bool:
+        """文心 SSE 中搜索过程/资料列表的特征（此时缺最终回答，需走 DOM 兜底）。"""
+        markers = ("搜索", "共参考", "使用工具", "搜索关键词", "搜索全网", "已搜索")
+        return sum(1 for m in markers if m in text) >= 2
+
     async def extract_answer(self, base_count: int = 0) -> dict:
         # 优先从网络拦截的 SSE 流提取
         for url, body in self.captured_responses.items():
             if '/aichat/api/conversation' in url:
                 text, citations = self._parse_sse(body)
-                if text:
+                # 过滤：SSE 可能只捕获到"搜索过程+资料列表"，缺最终回答，此时走 DOM
+                if text and not self._looks_like_process_text(text):
                     self._last_citations = citations
                     return {"text": text, "html": text}
 
-        # 兜底：DOM 提取
+        # 兜底：DOM 提取（文心：取最后一个 markdown 块，跳过"搜索过程+资料列表"块）
         try:
             blocks = self.page.locator(self.ANSWER_BLOCK_SELECTOR)
             count = await blocks.count()
-            idx = base_count if count > base_count else max(count - 1, 0)
+            if count == 0:
+                body = await self.page.inner_text("body")
+                return {"text": body, "html": body}
+            idx = count - 1  # 最后一个块 = 最终回答
             block = blocks.nth(idx)
             text = await block.inner_text()
             html = await block.inner_html()
