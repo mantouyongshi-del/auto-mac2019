@@ -81,8 +81,8 @@ MODEL_API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
 DELAY_MIN = 15      # 题间最小间隔（秒）
 DELAY_MAX = 25      # 题间最大间隔（秒）
 # DeepSeek 专属降速（该平台风控敏感，恢复后27题即触发封禁，需拉长提问间隔）
-DS_DELAY_MIN = 90    # DeepSeek 额外延迟下限（秒，2026-10-02 再拉长一档防风控）
-DS_DELAY_MAX = 150   # DeepSeek 额外延迟上限（秒）
+DS_DELAY_MIN = 150   # DeepSeek 额外延迟下限（秒，2026-10-02 再拉长一档防风控，150-210s）
+DS_DELAY_MAX = 210   # DeepSeek 额外延迟上限（秒）
 QW_DELAY_MIN = 180   # 千问额外延迟下限（秒，2026-09-30 用户要求拉长到3分钟一次，防人工验证风控）
 QW_DELAY_MAX = 210   # 千问额外延迟上限（秒）
 DB_DELAY_MIN = 30    # 豆包额外延迟下限（秒，2026-09-29 两小时内两次人工验证，风控抖动期）

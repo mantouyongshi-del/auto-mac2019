@@ -33,7 +33,7 @@ MODEL_URLS = {
     "yuanbao": "http://127.0.0.1:8004",
 }
 QW_DELAY_MIN, QW_DELAY_MAX = 180, 210   # 千问节奏（与主跑批一致）
-DS_DELAY_MIN, DS_DELAY_MAX = 90, 150   # deepseek 节奏（2026-10-02 再拉长一档防风控）
+DS_DELAY_MIN, DS_DELAY_MAX = 150, 210   # deepseek 节奏（2026-10-02 再拉长一档防风控，150-210s）
 
 
 def batch_paused():
