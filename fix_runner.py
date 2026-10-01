@@ -8,6 +8,7 @@
 用法: nohup .venv39/bin/python3 fix_runner.py >> /tmp/fix_run.log 2>&1 &
 """
 import asyncio
+import atexit
 import glob
 import json
 import os
@@ -33,6 +34,15 @@ MODEL_URLS = {
 }
 QW_DELAY_MIN, QW_DELAY_MAX = 180, 210   # 千问节奏（与主跑批一致）
 DS_DELAY_MIN, DS_DELAY_MAX = 60, 120    # deepseek 节奏
+
+
+def batch_paused():
+    """整批暂停标记（mac-monitor 控制端写入 pause_batch.json）。"""
+    try:
+        with open(ROOT / "pause_batch.json", encoding="utf-8") as f:
+            return json.load(f).get("paused", False)
+    except Exception:
+        return False
 
 
 def log(msg):
@@ -62,12 +72,18 @@ def note_recent(mid: str, question: str, ok: bool, r: dict):
     try:
         import fcntl
         path = ROOT / "recent_fix.json"
-        with open(path, encoding="utf-8") as fh:
-            fcntl.flock(fh, fcntl.LOCK_EX)
-            try:
-                d = json.load(fh)
-            except Exception:
-                d = {"items": []}
+        try:
+            fh = open(path, encoding="utf-8")
+        except FileNotFoundError:
+            d = {"items": []}
+            fh = None
+        if fh is not None:
+            with fh:
+                fcntl.flock(fh, fcntl.LOCK_EX)
+                try:
+                    d = json.load(fh)
+                except Exception:
+                    d = {"items": []}
         d.setdefault("items", []).insert(0, {
             "time": datetime.now().strftime("%H:%M:%S"),
             "no": None,
@@ -79,6 +95,13 @@ def note_recent(mid: str, question: str, ok: bool, r: dict):
             "queries": len(r.get("search_queries", [])),
         })
         d["items"] = d["items"][:50]
+        # 模型统计：补缺成功/失败计入 run_ok/run_err（dashboard 合并展示）
+        stats = d.setdefault("stats", {})
+        mstat = stats.setdefault(mid, {"run_ok": 0, "run_err": 0})
+        mstat["run_ok" if ok else "run_err"] = mstat.get("run_ok" if ok else "run_err", 0) + 1
+        mstat["last_ask"] = datetime.now().astimezone().isoformat()
+        mstat["last_result"] = "ok" if ok else "error"
+        d["stats"] = stats
         tmp = path.with_suffix(".tmp")
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(d, f, ensure_ascii=False, indent=2)
@@ -130,11 +153,10 @@ def scan_missing(target_models: list) -> list:
         except Exception:
             continue
         res = d.get("results") or {}
+        question = d.get("prompt_text") or d.get("question") or ""
         for mid in target_models:
             if mid not in res:
-                question = d.get("prompt_text") or d.get("question") or ""
                 missing.append((f, mid, question))
-                break
     return missing
 
 
@@ -173,7 +195,28 @@ async def run_once(target_models: list, status: dict):
     status["qianwen_done"] = False
     write_fix_status(status)
 
-    for path, mid, question in missing[:10]:  # 每轮最多补 10 题，之后重新扫描（防止阻塞主循环新缺口）
+    # 每轮配额：qianwen 与其他模型并行补（千问 3 分钟节奏、其余 15-25 秒，互不阻塞）
+    qw_items = [x for x in missing if x[1] == "qianwen"][:5]
+    other_items = [x for x in missing if x[1] != "qianwen"][:5]
+    tasks = []
+    if other_items:
+        tasks.append(_run_pick(other_items, status))
+    if qw_items:
+        tasks.append(_run_pick(qw_items, status))
+    if tasks:
+        done_add = sum(await asyncio.gather(*tasks))
+        if done_add:
+            status["done"] = status.get("done", 0) + done_add
+            status["pending"] = max(0, status.get("pending", 0) - done_add)
+            status["last_success"] = datetime.now().astimezone().isoformat()
+            write_fix_status(status)
+    return 1
+
+
+async def _run_pick(pick_items: list, status: dict) -> int:
+    """补一组缺口（同一模型节奏内部串行，多模型之间并行）。返回成功题数。"""
+    ok_count = 0
+    for path, mid, question in pick_items:
         if not question:
             continue
         # 节奏延迟（模型专属）：千问 3 分钟、deepseek 60-120s、其余 15-25s
@@ -191,16 +234,13 @@ async def run_once(target_models: list, status: dict):
         note_recent(mid, question, ok, r)
         if ok:
             merge_write(path, mid, r)
-            status["done"] = status.get("done", 0) + 1
-            status["pending"] = max(0, status.get("pending", 1) - 1)
-            status["last_success"] = datetime.now().astimezone().isoformat()
-            write_fix_status(status)
+            ok_count += 1
         else:
             status["last_error"] = {"mid": mid, "time": datetime.now().astimezone().isoformat(),
                                     "error": str(r.get("error"))[:150]}
             write_fix_status(status)
             log(f"  ⏸️ {mid} 失败，保留缺口等待下轮重试")
-    return 1
+    return ok_count
 
 
 def write_paused(paused: list):
@@ -245,19 +285,30 @@ async def auto_resume_check():
 
 
 def acquire_lock() -> bool:
-    """单实例锁：已存在且进程存活则拒绝启动。"""
+    """单实例锁：已存在且进程存活则拒绝启动；退出时自动清理锁。"""
     try:
         if LOCK_FILE.exists():
             pid = int(LOCK_FILE.read_text().strip())
             os.kill(pid, 0)  # 存活则占用
             return False
         LOCK_FILE.write_text(str(os.getpid()))
+        atexit.register(lambda: _release_lock())
         return True
     except (ProcessLookupError, ValueError):
         LOCK_FILE.write_text(str(os.getpid()))
+        atexit.register(lambda: _release_lock())
         return True
     except Exception:
         return True
+
+
+def _release_lock():
+    """退出时删除锁文件（仅当锁是自己的 PID）。"""
+    try:
+        if LOCK_FILE.exists() and LOCK_FILE.read_text().strip() == str(os.getpid()):
+            LOCK_FILE.unlink()
+    except Exception:
+        pass
 
 
 async def main():
@@ -270,6 +321,10 @@ async def main():
     asyncio.create_task(auto_resume_check())  # 后台自动恢复巡检
     while True:
         try:
+            # 控制端暂停：不补缺，等恢复
+            while batch_paused():
+                log("⏸️ 补缺已暂停（控制端），等待恢复...")
+                await asyncio.sleep(30)
             paused = load_paused()
             targets = [m for m in MODEL_URLS if m not in paused]
             await run_once(targets, status)

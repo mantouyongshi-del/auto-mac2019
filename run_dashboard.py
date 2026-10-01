@@ -114,6 +114,32 @@ async def resume_model(model_id: str):
 async def get_paused():
     return {"paused": list(paused_models)}
 
+# ---------- 跑批暂停/恢复（mac-monitor 控制端调用） ----------
+BATCH_PAUSE_FILE = Path(__file__).parent / "pause_batch.json"
+
+def read_batch_pause() -> dict:
+    try:
+        with open(BATCH_PAUSE_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {"paused": False}
+
+@app.post("/api/batch/pause")
+async def api_batch_pause():
+    BATCH_PAUSE_FILE.write_text(json.dumps({
+        "paused": True,
+        "paused_at": datetime.now().astimezone().isoformat(),
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {"ok": True, "paused": True}
+
+@app.post("/api/batch/resume")
+async def api_batch_resume():
+    BATCH_PAUSE_FILE.write_text(json.dumps({
+        "paused": False,
+        "resumed_at": datetime.now().astimezone().isoformat(),
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {"ok": True, "paused": False}
+
 # 结构化JSONL日志
 GEO_LOG_FILE = Path(__file__).parent / "server_logs" / "geo_requests.jsonl"
 GEO_LOG_FILE.parent.mkdir(exist_ok=True)
@@ -151,7 +177,109 @@ class CreateTaskRequest(BaseModel):
 @app.get("/api/resource")
 def api_resource():
     import psutil
-    return {"cpu_percent": psutil.cpu_percent(), "mem_percent": psutil.virtual_memory().percent}
+    import re
+    import subprocess
+    vm = psutil.virtual_memory()
+    # 活动监视器口径：used ≈ total - free - inactive（inactive 为可回收缓存）
+    try:
+        out = subprocess.run(["vm_stat"], capture_output=True, text=True).stdout
+        page = 4096
+        free = inactive = 0
+        for line in out.splitlines():
+            m = re.match(r"page size of (\d+) bytes", line)
+            if m:
+                page = int(m.group(1))
+            m = re.match(r"Pages free:\s+(\d+)", line)
+            if m:
+                free = int(m.group(1))
+            m = re.match(r"Pages inactive:\s+(\d+)", line)
+            if m:
+                inactive = int(m.group(1))
+        used = max(vm.total - (free + inactive) * page, 0)
+    except Exception:
+        used = vm.used
+    return {
+        "cpu_percent": psutil.cpu_percent(),
+        "mem_percent": int(used / vm.total * 100),
+        "mem_used_gb": round(used / 2**30, 1),
+        "mem_cached_gb": round(inactive * page / 2**30, 1) if 'inactive' in dir() and 'page' in dir() else 0,
+    }
+
+# ---------- 模型问答累计统计（从落盘结果文件统计，跨重启不重置） ----------
+RESULTS_ROOT = Path(__file__).parent / "民生行业跑批结果"
+MODEL_COUNTS_CACHE = {"ts": 0.0, "data": {}}
+
+def _scan_model_counts() -> dict:
+    counts = {}
+    if not RESULTS_ROOT.is_dir():
+        return counts
+    for fp in RESULTS_ROOT.glob("*/*.json"):
+        try:
+            d = json.loads(fp.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        results = d.get("results") or {}
+        if not isinstance(results, dict):
+            continue
+        for mid, v in results.items():
+            if isinstance(v, dict):
+                status = v.get("status")
+                answer = v.get("answer") or ""
+                if status == "success" or (isinstance(answer, str) and answer.strip()):
+                    counts[mid] = counts.get(mid, 0) + 1
+    return counts
+
+@app.get("/api/model_counts")
+async def api_model_counts():
+    now = time.time()
+    if now - MODEL_COUNTS_CACHE["ts"] > 300:
+        MODEL_COUNTS_CACHE["data"] = await asyncio.to_thread(_scan_model_counts)
+        MODEL_COUNTS_CACHE["ts"] = now
+    return MODEL_COUNTS_CACHE["data"]
+
+# ---------- 核心服务探活（供监控面板显示在线/离线） ----------
+@app.get("/api/services")
+async def api_services():
+    import socket, subprocess
+    async def probe(name: str, port: int):
+        def _p():
+            s = socket.socket()
+            s.settimeout(1.5)
+            try:
+                s.connect(("127.0.0.1", port))
+                return True
+            except Exception:
+                return False
+            finally:
+                s.close()
+        return name, await asyncio.to_thread(_p)
+    model_ports = [("deepseek", 8000), ("qianwen", 8001), ("doubao", 8002),
+                   ("wenxin", 8003), ("yuanbao", 8004)]
+    pairs = await asyncio.gather(*[probe(n, p) for n, p in model_ports])
+    services = {"models": dict(pairs), "dashboard": True}
+    # 主跑批：进程探测
+    try:
+        services["runner"] = subprocess.run(
+            ["pgrep", "-f", "minsheng_batch_runner.py"],
+            capture_output=True).returncode == 0
+    except Exception:
+        services["runner"] = False
+    # 补缺 runner：锁文件 PID + kill -0
+    lock = Path(__file__).parent / "fix_runner.lock"
+    try:
+        pid = int(lock.read_text().strip())
+        os.kill(pid, 0)
+        services["fix_runner"] = True
+    except Exception:
+        services["fix_runner"] = False
+    # 内存守护：launchd 注册状态
+    try:
+        out = subprocess.run(["launchctl", "list"], capture_output=True, text=True).stdout
+        services["memory_guard"] = "com.laya.memoryguard" in out
+    except Exception:
+        services["memory_guard"] = False
+    return services
+
 
 @app.get("/api/models")
 def get_models():
@@ -683,10 +811,19 @@ def get_batch_status():
             with open(RECENT_FIX_FILE, encoding="utf-8") as f:
                 fix = json.load(f)
             st["recent"] = _merge_recent(st.get("recent", []), fix.get("items", []))
+            # 合并补缺模型统计：千问等专职补缺模型的成功/失败计入卡片
+            for mid, mstat in (fix.get("stats") or {}).items():
+                cur = st.setdefault("models", {}).setdefault(mid, {})
+                cur["run_ok"] = (cur.get("run_ok") or 0) + mstat.get("run_ok", 0)
+                cur["run_err"] = (cur.get("run_err") or 0) + mstat.get("run_err", 0)
+                if mstat.get("last_ask"):
+                    cur["last_ask"] = mstat["last_ask"]
+                    cur["last_result"] = mstat.get("last_result") or cur.get("last_result")
     except Exception:
         pass
     st.setdefault("recent", [])
     st["runner_alive"] = batch_runner_running()
+    st["batch_paused"] = read_batch_pause().get("paused", False)
     return st
 
 

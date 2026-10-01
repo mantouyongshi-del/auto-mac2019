@@ -34,7 +34,7 @@ from pathlib import Path
 
 # ---------- 配置 ----------
 ROOT = Path(__file__).parent
-SRC_DIR = ROOT / "民生行业大模型跑批"
+SRC_DIR = ROOT / "民生行业跑批_v3"
 OUT_DIR = ROOT / "民生行业跑批结果"
 
 # 模型服务（全部5个）
@@ -66,6 +66,15 @@ def active_models():
     """每题动态读取暂停列表：额度恢复后清空 paused_models.json 即自动恢复，无需重启。"""
     paused = load_paused_models()
     return [m for m in MODELS_ALL if m["id"] not in paused]
+
+def batch_paused():
+    """整批暂停标记（mac-monitor 控制端写入 pause_batch.json）。"""
+    try:
+        with open(Path(__file__).parent / "pause_batch.json", encoding="utf-8") as f:
+            return json.load(f).get("paused", False)
+    except Exception:
+        return False
+
 MODEL_API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
 
 # 防风控节奏
@@ -138,7 +147,20 @@ async def ask_one_prompt(question):
                 await asyncio.sleep(random.uniform(QW_DELAY_MIN, QW_DELAY_MAX))  # 千问专属降速
             elif m["id"] == "doubao":
                 await asyncio.sleep(random.uniform(DB_DELAY_MIN, DB_DELAY_MAX))  # 豆包专属降速
-            return m["id"], await asyncio.get_event_loop().run_in_executor(None, call_model, m, question)
+            # 硬超时兜底：run_in_executor 的线程不可中断，但主流程不等它——
+            # wait_for 超时后立即返回 error 继续下一题，底层线程自行收尾，
+            # 防止服务端流式慢发导致 urlopen 的 socket 超时永不触发、整题永久卡死。
+            fut = asyncio.get_event_loop().run_in_executor(None, call_model, m, question)
+            return m["id"], await asyncio.wait_for(fut, timeout=ASK_TIMEOUT)
+        except asyncio.TimeoutError:
+            return m["id"], {
+                "status": "error",
+                "error": f"硬超时 {ASK_TIMEOUT}s（服务端持续慢发未响应）",
+                "answer": "",
+                "search_queries": [],
+                "citations": [],
+                "asked_at": datetime.now().astimezone().isoformat(),
+            }
         except Exception as e:
             return m["id"], {
                 "status": "error",
@@ -215,6 +237,11 @@ async def run_batch(industry_files, limit=None, only_industries=None):
         if only_industries and industry_id not in only_industries:
             continue
 
+        # 控制端暂停：停在当前行业，不提问不写文件
+        while batch_paused():
+            log("⏸️ 跑批已暂停（控制端），等待恢复...")
+            await asyncio.sleep(10)
+
         # 行业目录：ID_行业名
         safe_name = str(ind_file.get("industry", str(industry_id))).replace("/", "_").replace("\\", "_")
         ind_dir = OUT_DIR / f"{industry_id}_{safe_name}"
@@ -226,6 +253,11 @@ async def run_batch(industry_files, limit=None, only_industries=None):
         save_batch_status()
 
         for pidx, p in enumerate(prompts, 1):
+            # 控制端暂停：停在当前题，等恢复后继续断点
+            while batch_paused():
+                log("⏸️ 跑批已暂停（控制端），等待恢复...")
+                await asyncio.sleep(10)
+
             if limit and total_asked >= limit:
                 log(f"达到测试上限 {limit} 条，停止。")
                 return total_asked, total_skipped, total_failed
