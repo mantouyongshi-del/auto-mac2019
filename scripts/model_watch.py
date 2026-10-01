@@ -18,6 +18,10 @@ from pathlib import Path
 
 import requests
 
+# busy 卡死检测：连续 busy 超过该秒数视为卡死（正常回答最长约260s，6分钟阈值留裕量）
+BUSY_STUCK_SEC = 360
+_busy_since = {}  # mid -> 开始 busy 的时间戳
+
 ROOT = Path(__file__).parent.parent  # /Users/alili/laya
 API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
 LOG = "/tmp/model_watch.log"
@@ -83,6 +87,7 @@ def restart_service(mid):
 
 def check_models(paused):
     """检查各模型健康，返回问题列表"""
+    global _busy_since
     issues = []
     for mid, port in MODEL_URLS.items():
         try:
@@ -99,6 +104,18 @@ def check_models(paused):
                 f"  {mid}: alive={alive} login={login} captcha={captcha} "
                 f"busy={busy} last={last_ok}"
             )
+
+            # busy 卡死检测：连续 busy 超过阈值（正常回答最长约260s）→ 疑似卡死，强制重启
+            if busy:
+                _busy_since.setdefault(mid, time.time())
+                if time.time() - _busy_since[mid] > BUSY_STUCK_SEC:
+                    log(f"  ⚠️ {mid} busy 已超过 {BUSY_STUCK_SEC}s，疑似卡死，强制重启")
+                    _busy_since.pop(mid, None)
+                    if restart_service(mid):
+                        alert(f"{mid} 疑似卡死已自动重启")
+                    continue
+            else:
+                _busy_since.pop(mid, None)
 
             if mid in paused:
                 # 暂停中：验证已解除且登录正常 → 自动恢复

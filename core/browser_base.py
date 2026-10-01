@@ -382,17 +382,23 @@ class BrowserBase:
 
         if answer_url_pattern:
             # 监听所有匹配"回答接口"的响应（部分模型如文心分"搜索过程流"+"最终回答流"两个响应）
-            captured = []
+            # 实时填充 self.captured_responses，让 wait_for_answer 的 has_capture 生效（有捕获≤12s返回）
             pattern_sub = answer_url_pattern.replace("**", "")
 
             async def _on_resp(resp):
                 try:
                     if resp.url and pattern_sub in resp.url:
-                        body = await resp.body()
-                        captured.append((resp.url, body))
+                        body_bytes = await resp.body()
+                        try:
+                            body = self._fix_double_encoding(body_bytes.decode('utf-8'))
+                        except Exception:
+                            body = body_bytes.decode('utf-8', errors='replace')
+                        self.captured_responses[resp.url] = body
+                        print(f"[网络拦截] 实时捕获: {len(body)} 字节", flush=True)
                 except Exception:
                     pass
 
+            self.captured_responses.clear()
             page.on("response", _on_resp)
             try:
                 await inp.press("Enter")
@@ -403,17 +409,10 @@ class BrowserBase:
             # 等待回答真正完成（停止按钮消失 + 内容稳定）后再收口
             await self.wait_for_answer(base_count)
             page.remove_listener("response", _on_resp)
-            if captured:
-                # 取最后一个响应（最终回答流；单响应模型即唯一响应）
-                url, body_bytes = captured[-1]
-                try:
-                    body = self._fix_double_encoding(body_bytes.decode('utf-8'))
-                except Exception:
-                    body = body_bytes.decode('utf-8', errors='replace')
-                self.captured_responses[url] = body
-                print(f"[网络拦截] 捕获 {len(captured)} 个响应, 取最后: {len(body)} 字节", flush=True)
-                # 捕获响应过小且页面出现人工验证 → 判定验证拦截
-                if len(body) < 2000 and await self._check_captcha(strict=True):
+            if self.captured_responses:
+                # 取最后一个响应（最终回答流；单响应模型即唯一响应）做短响应验证码检查
+                last_body = list(self.captured_responses.values())[-1]
+                if len(last_body) < 2000 and await self._check_captcha(strict=True):
                     print("[ask] ⚠️ 检测到人工验证（短响应+验证页面）", flush=True)
                     raise CaptchaDetected("人工验证")
             else:
@@ -490,7 +489,9 @@ class BrowserBase:
             has_stop = False
             if stop_sel:
                 try:
-                    has_stop = await page.locator(stop_sel).count() > 0
+                    # count() 也带超时：避免页面/驱动异常时 count 挂起导致整轮空转
+                    has_stop = await asyncio.wait_for(
+                        page.locator(stop_sel).count(), timeout=2) > 0
                 except Exception:
                     has_stop = True
 

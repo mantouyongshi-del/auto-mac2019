@@ -134,7 +134,7 @@ def save_log(record: dict, service_name: str):
             break
         seq += 1
     
-    record["timestamp"] = datetime.now().isoformat()
+    record["timestamp"] = datetime.now().astimezone().isoformat()
     record["service"] = service_name
     with open(log_file, "a", encoding="utf-8") as f:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
@@ -209,7 +209,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         try:
             runtime_state["busy"] = True
             try:
-                result = await asyncio.wait_for(browser.ask(req.question), timeout=180)
+                result = await asyncio.wait_for(browser.ask(req.question), timeout=260)
             except asyncio.TimeoutError:
                 save_log({
                     "question": req.question,
@@ -265,8 +265,9 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         finally:
             runtime_state["busy"] = False
             lock.release()
-            _reset_fail(service_name)
 
+        # 成功路径清零失败计数（失败路径由 _bump_fail 累计，达阈值触发页面重置）
+        _reset_fail(service_name)
         result = {
             "question": req.question,
             "answer": result["answer"],
@@ -298,7 +299,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     results.append(record)
                     continue
                 try:
-                    r = await asyncio.wait_for(browser.ask(q), timeout=180)
+                    r = await asyncio.wait_for(browser.ask(q), timeout=260)
                     record = {
                         "question": q,
                         "answer": r["answer"],

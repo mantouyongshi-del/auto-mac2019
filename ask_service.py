@@ -45,7 +45,7 @@ PAUSED_FILE = BASE_DIR / "paused_models.json"
 SERVICE_API_KEY = os.getenv("SERVICE_API_KEY", "laya-service-key")
 MODEL_API_KEY = os.getenv("LAYA_API_KEY", "laya-local-model-key")
 UPSTREAM_PRIORITY = 10      # 上游任务在模型优先级锁中的权重
-ASK_TIMEOUT = 180           # 单模型提问硬超时，与模型服务一致
+ASK_TIMEOUT = 260           # 单模型提问硬超时，与模型服务一致（> browser.ask 内部240s上限，避免外层取消打断playwright）
 
 MODELS_ALL = [
     {"id": "deepseek", "name": "DeepSeek", "port": 8000},

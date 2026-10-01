@@ -35,19 +35,25 @@ def find_bad():
     return bad
 
 
-def ask_question(q):
+def ask_question(q, retries=2):
     req = urllib.request.Request(
         MODEL_URL,
         data=json.dumps({"question": q}).encode(),
         headers={"Content-Type": "application/json", "X-API-Key": API_KEY},
         method="POST",
     )
-    try:
-        with urllib.request.urlopen(req, timeout=300) as resp:
-            d = json.load(resp)
-            return d.get("result") or d
-    except Exception as e:
-        return {"status": "error", "error": str(e)}
+    last = None
+    for attempt in range(retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=420) as resp:
+                raw = resp.read().decode("utf-8", errors="replace")
+                d = json.loads(raw)
+                return d.get("result") or d
+        except Exception as e:
+            last = {"status": "error", "error": repr(e)[:300]}
+            print(f"    重试 {attempt + 1}/{retries + 1}: {last['error']}", flush=True)
+            time.sleep(30)
+    return last
 
 
 def main():
@@ -63,7 +69,8 @@ def main():
             continue
         print(f"[{i}/{len(bad)}] {f.parent.name}: {q[:40]}...", flush=True)
         res = ask_question(q)
-        if res.get("status") == "ok":
+        # 模型服务 /ask 成功返回无 status 键（含 answer 即成功）
+        if (res.get("status") == "ok") or (res.get("answer") or "").strip():
             r = d.setdefault("results", {})
             r["wenxin"] = {
                 "status": "ok",
@@ -78,8 +85,9 @@ def main():
             print(f"  OK 长度:{len(res.get('answer') or '')} 引用:{len(res.get('citations') or [])}", flush=True)
         else:
             fail += 1
-            print(f"  FAIL {res.get('error')}", flush=True)
-        time.sleep(random.uniform(15, 25))
+            print(f"  FAIL {res}", flush=True)
+        # 问完休息 25-35 秒（比跑批慢，让跑批优先用文心）
+        time.sleep(random.uniform(25, 35))
     print(f"[文心修复] 完成: 成功{ok} 失败{fail}", flush=True)
 
 
