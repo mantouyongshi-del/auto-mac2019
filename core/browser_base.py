@@ -7,6 +7,7 @@
 import asyncio
 import random
 import subprocess
+import time
 from pathlib import Path
 from playwright.async_api import async_playwright
 from fastapi import HTTPException
@@ -424,13 +425,11 @@ class BrowserBase:
                     print("[ask] ⚠️ 检测到人工验证（短响应+验证页面）", flush=True)
                     raise CaptchaDetected("人工验证")
             else:
-                # 没捕获到任何响应（可能接口路径变化），重新回车触发
-                print("[网络拦截] 未捕获到回答响应", flush=True)
-                try:
-                    await inp.press("Enter")
-                except Exception:
-                    pass
-                await self.handle_post_send_popups()
+                # 没捕获到任何响应（可能接口路径变化/页面状态异常）。
+                # 不再重复回车重试：重试会让总时长超过外层 260s 超时，
+                # 外层超时取消 playwright 会卡死（驱动层不响应取消、锁永占）。
+                # 直接按 DOM 判定返回，缺口由 fix_runner 补齐。
+                print("[网络拦截] 未捕获到回答响应（不重试，缺口由fix_runner补）", flush=True)
                 await self.wait_for_answer(base_count)
         else:
             await inp.press("Enter")
@@ -486,12 +485,18 @@ class BrowserBase:
 
         has_capture = bool(self.captured_responses)
         max_rounds = 6 if has_capture else self.WAIT_TIMEOUT // 2  # 有捕获≤12s，无捕获≤120s
+        # 总时长硬限：操作超时会叠加（count 2s + inner_text 3s + sleep 2s ≈ 7s/轮），
+        # 必须按墙钟时间兜底，否则总时长超过外层 260s 超时 → 取消 playwright 会卡死
+        start_t = time.time()
+        max_elapsed = 10 if has_capture else 118
 
         last_len = -1
         stable_rounds = 0
         stop_sel = self.stop_button_selector()
 
         for _ in range(max_rounds):
+            if time.time() - start_t > max_elapsed:
+                break
             await asyncio.sleep(2)
 
             has_stop = False
