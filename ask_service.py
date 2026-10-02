@@ -33,6 +33,10 @@ from pathlib import Path
 
 import uvicorn
 from contextlib import asynccontextmanager
+
+
+class CooldownError(RuntimeError):
+    """模型强制休息（冷却）期间的临时错误：不视为失败，延时重试。"""
 from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
@@ -125,6 +129,9 @@ async def call_model(model: dict, question: str) -> dict:
             detail = json.loads(e.read().decode()).get("detail", str(e))
         except Exception:
             detail = str(e)
+        if e.code == 429 and "冷却" in str(detail):
+            # 模型强制休息（DeepSeek 每 50 题休 30 分钟）：交给 worker 延时重试，不误判失败
+            raise CooldownError(f"{model['id']}: 冷却休息中 {detail}")
         raise RuntimeError(f"{model['id']}: HTTP {e.code} {detail}")
     except asyncio.TimeoutError:
         raise RuntimeError(f"{model['id']}: 超时({ASK_TIMEOUT}s)")
@@ -237,9 +244,9 @@ class TaskManager:
                 task["status"] = "running"
                 task["started_at"] = task["started_at"] or now_iso()
                 save_task(task)
-                # 执行，失败自动重试 1 次
+                # 执行，失败自动重试 1 次；模型强制休息（冷却）则延时重试等冷却窗口
                 err = None
-                for attempt in range(2):
+                for attempt in range(3):
                     try:
                         r = await asyncio.wait_for(
                             call_model(model, task["question"]), timeout=ASK_TIMEOUT + 15)
@@ -252,6 +259,10 @@ class TaskManager:
                         }
                         err = None
                         break
+                    except CooldownError as e:
+                        err = str(e)
+                        log(f"任务 {rid} {mid} 冷却休息中，60s 后重试 ({attempt + 1}/3)")
+                        await asyncio.sleep(60)
                     except asyncio.TimeoutError:
                         err = f"{mid}: 超时({ASK_TIMEOUT}s)"
                     except Exception as e:

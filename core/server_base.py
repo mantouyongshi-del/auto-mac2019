@@ -5,7 +5,7 @@ FastAPI 应用工厂：所有模型服务共享的 HTTP 接口骨架。
 import os
 import asyncio
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import anyio
@@ -153,6 +153,28 @@ def save_log(record: dict, service_name: str):
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
+# ---------- 模型冷却（防风控：每 N 次成功提问强制休息 M 秒） ----------
+# 仅当环境变量 ASK_COUNT_RESET > 0 时启用（DeepSeek 配置 50 次 / 30 分钟；
+# 其他模型不设置 → 完全关闭，零影响）。
+def _cooldown_file(service_name: str):
+    return Path(f"/tmp/laya_{service_name}_cooldown.json")
+
+
+def _load_cooldown(service_name: str) -> dict:
+    try:
+        return json.load(open(_cooldown_file(service_name), encoding="utf-8"))
+    except Exception:
+        return {"ask_count": 0, "cooldown_until": None}
+
+
+def _save_cooldown(service_name: str, st: dict):
+    try:
+        with open(_cooldown_file(service_name), "w", encoding="utf-8") as f:
+            json.dump(st, f)
+    except Exception:
+        pass
+
+
 def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     """根据一个浏览器实例创建完整的 FastAPI 应用。"""
     app = FastAPI(title=service_name)
@@ -169,6 +191,21 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     lock = PriorityLock()
     browser_ref = {"b": None}  # startup 后填入
     runtime_state = {"last_success_at": None, "busy": False}
+
+    # 冷却配置（DeepSeek: ASK_COUNT_RESET=50, ASK_COOLDOWN_SEC=1800）
+    ask_reset = int(os.environ.get("ASK_COUNT_RESET", "0") or 0)
+    ask_cooldown = int(os.environ.get("ASK_COOLDOWN_SEC", "0") or 0)
+    cooldown_state = _load_cooldown(service_name) if ask_reset > 0 else {"ask_count": 0, "cooldown_until": None}
+
+    def _in_cooldown() -> bool:
+        """是否处于强制休息期（跨服务重启持久化，按文件时间戳判断）"""
+        cu = cooldown_state.get("cooldown_until")
+        if not cu:
+            return False
+        try:
+            return datetime.fromisoformat(cu) > datetime.now().astimezone()
+        except Exception:
+            return False
 
     @app.on_event("startup")
     async def startup():
@@ -212,6 +249,8 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             "captcha_detected": captcha,
             "busy": runtime_state["busy"],
             "last_success_at": runtime_state["last_success_at"],
+            "ask_count": cooldown_state.get("ask_count", 0),
+            "cooldown_until": cooldown_state.get("cooldown_until"),
         }
 
     @app.post("/switch_account", dependencies=[Depends(verify_api_key)])
@@ -229,6 +268,12 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     async def ask(req: AskRequest):
         if not req.question.strip():
             raise HTTPException(status_code=400, detail="问题不能为空")
+        # 强制休息期：拒绝提问，由 runner 识别后跳过（不计失败、不重试）
+        if ask_reset > 0 and _in_cooldown():
+            raise HTTPException(
+                status_code=429,
+                detail=f"模型冷却休息中（每{ask_reset}题强制休息）",
+            )
         await lock.acquire(priority=req.priority)
         try:
             runtime_state["busy"] = True
@@ -326,6 +371,20 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             "search_queries": result.get("search_queries", []),
         }
         runtime_state["last_success_at"] = datetime.now().astimezone().isoformat()
+        # 冷却计数：成功提问 +1，达到阈值 → 进入强制休息期（跨重启持久化）
+        if ask_reset > 0:
+            cooldown_state["ask_count"] = cooldown_state.get("ask_count", 0) + 1
+            if cooldown_state["ask_count"] >= ask_reset:
+                cooldown_state["ask_count"] = 0
+                cooldown_state["cooldown_until"] = (
+                    datetime.now().astimezone() + timedelta(seconds=ask_cooldown)
+                ).isoformat()
+                print(
+                    f"[{service_name}] 已连续成功 {ask_reset} 题，进入强制休息 "
+                    f"{ask_cooldown // 60} 分钟",
+                    flush=True,
+                )
+            _save_cooldown(service_name, cooldown_state)
         save_log(result, service_name)
         return result
 

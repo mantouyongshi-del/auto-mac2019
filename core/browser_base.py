@@ -5,6 +5,7 @@
 主流程（新会话→输入→发送→等待→提取）由本类通用完成。
 """
 import asyncio
+import json
 import math
 import random
 import subprocess
@@ -43,8 +44,28 @@ class BrowserBase:
         self.context = None
         self.page = None
         self.captured_responses = {}  # URL -> body text（网络拦截捕获）
-        self._profile_idx = 0         # 当前使用的账号 profile 下标（ACCOUNT_PROFILES）
+        # 多账号轮换：当前 profile 下标持久化到 /tmp，服务重启后保持上次切到的账号，
+        # 避免重启又退回主 profile（主号封禁时会再次失效）。
+        self._profile_idx = self._load_profile_idx()   # 当前使用的账号 profile 下标（ACCOUNT_PROFILES）
         self._mouse_pos = None        # 鼠标最后位置（贝塞尔轨迹起点）
+
+    # ---------- 多账号 profile 持久化 ----------
+    def _active_profile_file(self) -> Path:
+        name = Path(self.PROFILE_DIR).name if self.PROFILE_DIR else self.__class__.__name__
+        return Path(f"/tmp/laya_{name}_active_profile.json")
+
+    def _load_profile_idx(self) -> int:
+        try:
+            return int(json.load(open(self._active_profile_file())).get("idx", 0) or 0)
+        except Exception:
+            return 0
+
+    def _save_profile_idx(self):
+        try:
+            with open(self._active_profile_file(), "w") as f:
+                json.dump({"idx": self._profile_idx}, f)
+        except Exception:
+            pass
 
     # ---------- 通用：启动 / 关闭 ----------
     def _current_profile_dir(self) -> Path:
@@ -146,6 +167,7 @@ class BrowserBase:
         if new_idx == cur:
             return False
         self._profile_idx = new_idx
+        self._save_profile_idx()  # 持久化当前账号，服务重启后保持备份号
         print(f"[账号] 检测到封禁/失效，切换 profile -> {profiles[new_idx]}", flush=True)
         try:
             await self.close()

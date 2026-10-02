@@ -121,6 +121,11 @@ def call_model(mid: str, question: str) -> dict:
     try:
         r = requests.post(f"{url}/ask", json={"question": question},
                           headers={"X-API-Key": MODEL_API_KEY}, timeout=330)
+        if r.status_code == 429 and "冷却" in r.text[:300]:
+            # 模型强制休息（冷却）：不计数失败，保留缺口等冷却结束后自然补上
+            return {"status": "cooldown", "error": "模型强制休息中",
+                    "answer": "", "search_queries": [], "citations": [],
+                    "asked_at": datetime.now().astimezone().isoformat()}
         if r.status_code != 200:
             return {"status": "error", "error": f"HTTP {r.status_code}",
                     "answer": "", "search_queries": [], "citations": [],
@@ -229,6 +234,10 @@ async def _run_pick(pick_items: list, status: dict) -> int:
 
         log(f"  🔧 [{mid}] 补齐: {Path(path).parent.name}/{Path(path).name[:40]} → {question[:30]}")
         r = await asyncio.get_event_loop().run_in_executor(None, call_model, mid, question)
+        if r.get("status") == "cooldown":
+            # 模型强制休息中：跳过该缺口，等冷却结束后下轮自然补上（不计数失败）
+            log(f"  ⏳ {mid} 强制休息中，缺口保留待冷却后补齐")
+            continue
         ok = r.get("status") == "ok"
         log(f"  {'✅' if ok else '❌'} {mid} 结果: {'成功' if ok else '失败'} 引用{len(r.get('citations', []))} 搜索词{len(r.get('search_queries', []))}")
         note_recent(mid, question, ok, r)

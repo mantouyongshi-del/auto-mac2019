@@ -98,14 +98,34 @@ def log(msg):
     print(f"[{ts}] {msg}", flush=True)
 
 def call_model(model, question):
-    """调用单个模型 /ask，返回 dict。失败抛异常。"""
+    """调用单个模型 /ask，返回 dict。失败抛异常。
+    模型处于强制休息（冷却）时返回 {"status": "cooldown"}，调用方跳过、不计失败。"""
     req = urllib.request.Request(
         f"http://127.0.0.1:{model['port']}/ask",
         data=json.dumps({"question": question}).encode(),
         headers={"Content-Type": "application/json", "X-API-Key": MODEL_API_KEY},
     )
-    with urllib.request.urlopen(req, timeout=ASK_TIMEOUT) as resp:
-        data = json.loads(resp.read())
+    try:
+        with urllib.request.urlopen(req, timeout=ASK_TIMEOUT) as resp:
+            data = json.loads(resp.read())
+    except urllib.error.HTTPError as e:
+        if e.code == 429:
+            body = b""
+            try:
+                body = e.read()
+            except Exception:
+                pass
+            detail = body.decode("utf-8", "ignore")[:200]
+            if "冷却" in detail:
+                return {
+                    "status": "cooldown",
+                    "error": "模型强制休息中",
+                    "answer": "",
+                    "search_queries": [],
+                    "citations": [],
+                    "asked_at": datetime.now().astimezone().isoformat(),
+                }
+        raise
     return {
         "status": "ok",
         "answer": data.get("answer", ""),
@@ -151,7 +171,11 @@ async def ask_one_prompt(question):
             # wait_for 超时后立即返回 error 继续下一题，底层线程自行收尾，
             # 防止服务端流式慢发导致 urlopen 的 socket 超时永不触发、整题永久卡死。
             fut = asyncio.get_event_loop().run_in_executor(None, call_model, m, question)
-            return m["id"], await asyncio.wait_for(fut, timeout=ASK_TIMEOUT)
+            mid, r = await asyncio.wait_for(fut, timeout=ASK_TIMEOUT)
+            # 模型强制休息（冷却）→ 返回 None，调用方过滤，本轮跳过该模型、不计失败
+            if r.get("status") == "cooldown":
+                return m["id"], None
+            return mid, r
         except asyncio.TimeoutError:
             return m["id"], {
                 "status": "error",
@@ -179,7 +203,8 @@ async def ask_one_prompt(question):
     except Exception:
         models = [m for m in models if m["id"] != "qianwen"]
     results = await asyncio.gather(*[_ask(m) for m in models])
-    return dict(results)
+    # 过滤冷却休息的模型（None），本轮跳过、不写入结果 → 由 fix_runner 在冷却结束后补缺
+    return {k: v for k, v in dict(results).items() if v is not None}
 
 # ---------- 跑批状态（供驾驶舱读取） ----------
 STATUS_FILE = Path(__file__).parent / "batch_status.json"
