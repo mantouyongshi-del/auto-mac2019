@@ -2,18 +2,20 @@
   {
     "model": "deepseek",
     "phone": "19918589877",
-    "status": "banned",
-    "ban_until": "2026-09-07",
-    "note": "曾因高频提问被封，申诉恢复后再次触发风控，已弃用",
-    "updated_at": "2026-09-29T09:40:00+08:00"
+    "status": "pending",
+    "ban_until": null,
+    "note": "曾高频提问被封；用户将尝试重新登录验证可用性，验证通过后恢复启用",
+    "updated_at": "2026-09-29T09:40:00+08:00",
+    "profile": "profiles/deepseek_3"
   },
   {
     "model": "deepseek",
     "phone": "19974525997",
-    "status": "banned",
-    "ban_until": "2026-10-02 13:06",
-    "note": "账号弹出重新登录（风控），封禁至2026-10-02 13:06；同号也用于千问，可能受影响；恢复前不调用",
-    "updated_at": "2026-09-29T15:15:01+08:00"
+    "status": "active",
+    "ban_until": null,
+    "note": "DeepSeek 当前在用（2026-10-02 重新登录启用）；旧封禁记录 10-02 13:06 已解除",
+    "updated_at": "2026-10-02T20:24:33.552625+08:00",
+    "profile": "profiles/deepseek_bak"
   },
   {
     "model": "qianwen",
@@ -28,7 +30,25 @@
     "phone": "19974525997",
     "status": "active",
     "ban_until": null,
-    "note": "千问当前在用（与DeepSeek同号）；旧号19918589877临时风控冷却至2026-09-30 12:00，降速观察",
-    "updated_at": "2026-09-29T12:00:31+08:00"
+    "note": "DeepSeek 当前在用（2026-10-02 重新登录启用）；旧封禁记录 10-02 13:06 已解除",
+    "updated_at": "2026-10-02T20:24:33.552625+08:00"
+  },
+  {
+    "model": "deepseek",
+    "phone": "19974520790",
+    "status": "banned",
+    "ban_until": "2026-10-05 12:09",
+    "note": "DeepSeek 主账号（profiles/deepseek），登录后触发风控封禁至 2026-10-05 12:09，暂停使用",
+    "updated_at": "2026-10-02T20:22:57.810213+08:00",
+    "profile": "profiles/deepseek"
+  },
+  {
+    "model": "deepseek",
+    "phone": "18670454441",
+    "status": "banned",
+    "ban_until": "2026-10-05 06:41",
+    "note": "DeepSeek 备份账号（profiles/deepseek_bak），2026-10-02 登录后触发风控封禁至 2026-10-05 06:41，暂停使用",
+    "updated_at": "2026-10-02T20:22:11.988171+08:00",
+    "profile": "profiles/deepseek_bak"
   }
 ]

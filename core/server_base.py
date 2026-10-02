@@ -191,10 +191,12 @@ def _load_account_usage(service_name: str) -> dict:
     try:
         d = json.load(open(_account_usage_file(service_name), encoding="utf-8"))
         if d.get("date") != _today_str():
-            return {"date": _today_str(), "counts": {}}
+            return {"date": _today_str(), "counts": {}, "used_today": []}
+        d.setdefault("counts", {})
+        d.setdefault("used_today", [])
         return d
     except Exception:
-        return {"date": _today_str(), "counts": {}}
+        return {"date": _today_str(), "counts": {}, "used_today": []}
 
 
 def _save_account_usage(service_name: str, usage: dict):
@@ -203,6 +205,55 @@ def _save_account_usage(service_name: str, usage: dict):
             json.dump(usage, f)
     except Exception:
         pass
+
+
+# ---------- 账号池（accounts.json 为权威）：动态决定可用账号 ----------
+# 封禁中的账号自动剔除；ban_until 到期自动恢复可用；active 直接可用。
+# 每个账号绑定登录所在的 profile（登录后由台账维护）。
+ACCOUNT_POOL_FILE = Path(__file__).resolve().parent.parent / "accounts.json"
+
+
+def _load_available_profiles(service_name: str) -> list:
+    """返回该模型当前可用（非封禁中/已到期恢复）的 profile 路径列表。"""
+    try:
+        data = json.load(open(ACCOUNT_POOL_FILE, encoding="utf-8"))
+    except Exception:
+        return []
+    now = datetime.now().astimezone()
+    profiles = []
+    for a in data:
+        if a.get("model") != service_name or not a.get("profile"):
+            continue
+        status = a.get("status", "")
+        if status == "active":
+            profiles.append(a["profile"])
+        elif status in ("banned", "pending") and a.get("ban_until"):
+            try:
+                t = datetime.strptime(a["ban_until"], "%Y-%m-%d %H:%M").replace(tzinfo=now.tzinfo)
+                if now >= t:
+                    profiles.append(a["profile"])
+            except Exception:
+                pass
+    return profiles
+
+
+def _pick_switch_target(service_name: str, browser: BrowserBase, usage: dict,
+                        ask_switch_limit: int, require_unused_only: bool = False):
+    """从账号池选切号目标：今天未启用（每号每天一轮）；满额切号额外要求目标未满。
+    返回 profile 路径或 None。"""
+    cur_name = Path(browser._current_profile_dir()).name
+    candidates = _load_available_profiles(service_name) or [
+        p for p in getattr(browser, "ACCOUNT_PROFILES", [])
+    ]
+    used = usage.get("used_today", [])
+    for p in candidates:
+        name = Path(p).name
+        if name == cur_name or name in used:
+            continue
+        if not require_unused_only and usage["counts"].get(name, 0) >= ask_switch_limit:
+            continue
+        return p
+    return None
 
 
 def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
@@ -289,12 +340,22 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
 
     @app.post("/switch_account", dependencies=[Depends(verify_api_key)])
     async def switch_account_endpoint():
-        """未登录/验证码场景：尝试自动切换到备用账号（DeepSeek 等配置了 ACCOUNT_PROFILES 的模型）。
+        """未登录/验证码场景：从账号池自动切换到"今天未启用"的账号。
         切换成功（新账号已登录）→ 解除暂停；失败 → 保持现状等待人工登录新号。"""
         if not getattr(browser, "ACCOUNT_PROFILES", []):
             return {"switched": False, "reason": "该模型未配置备用账号"}
-        switched = await browser.switch_account()
+        usage = _load_account_usage(service_name)
+        target = _pick_switch_target(service_name, browser, usage, ask_switch_limit, require_unused_only=True)
+        if target is None:
+            # 无今天未启用的可用账号 → 退化为顺序切换下一个（原逻辑）
+            switched = await browser.switch_account()
+        else:
+            switched = await browser.switch_account_to(target)
         if switched:
+            cur_name = Path(browser._current_profile_dir()).name
+            if cur_name not in usage["used_today"]:
+                usage["used_today"].append(cur_name)
+            _save_account_usage(service_name, usage)
             _auto_unpause(service_name)
         return {"switched": switched}
 
@@ -311,24 +372,19 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         await lock.acquire(priority=req.priority)
         try:
             runtime_state["busy"] = True
-            # 账号日限额检查：当前账号今日已满 → 自动切到未满账号再提问
+            # 账号日限额检查：当前账号今日已满 → 自动切到账号池中"今天未启用且未满"的号
             if ask_switch_limit > 0 and getattr(browser, "ACCOUNT_PROFILES", []):
                 usage = _load_account_usage(service_name)
                 cur_name = Path(browser._current_profile_dir()).name
                 cur_count = usage["counts"].get(cur_name, 0)
                 if cur_count >= ask_switch_limit:
-                    target = None
-                    for p in browser.ACCOUNT_PROFILES:
-                        name = Path(p).name
-                        if name != cur_name and usage["counts"].get(name, 0) < ask_switch_limit:
-                            target = p
-                            break
+                    target = _pick_switch_target(service_name, browser, usage, ask_switch_limit, require_unused_only=False)
                     if target is None:
                         _save_account_usage(service_name, usage)
                         _auto_pause(service_name)
                         raise HTTPException(
                             status_code=429,
-                            detail=f"所有账号今日额度已用尽（每号{ask_switch_limit}次），已暂停等待次日",
+                            detail=f"所有可用账号今日额度已用尽（每号{ask_switch_limit}次），已暂停等待次日",
                         )
                     switched = await browser.switch_account_to(target)
                     if not switched:
@@ -338,6 +394,10 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                             status_code=429,
                             detail=f"账号{cur_name}今日已满，切换{Path(target).name}失败（未登录），已暂停等待人工",
                         )
+                    # 当前号今天已启用一轮，切走后当天不再切回
+                    if cur_name not in usage["used_today"]:
+                        usage["used_today"].append(cur_name)
+                    _save_account_usage(service_name, usage)
                     print(
                         f"[{service_name}] 账号 {cur_name} 今日已达 {ask_switch_limit} 次，自动切号 -> {Path(target).name}",
                         flush=True,
@@ -451,11 +511,13 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     flush=True,
                 )
             _save_cooldown(service_name, cooldown_state)
-        # 账号日限额计数：成功提问按当前 profile 累加（切号/跨天自动清零）
+        # 账号日限额计数：成功提问按当前 profile 累加；记录"今天已启用"（每号每天一轮）
         if ask_switch_limit > 0:
             usage = _load_account_usage(service_name)
             cur_name = Path(browser._current_profile_dir()).name
             usage["counts"][cur_name] = usage["counts"].get(cur_name, 0) + 1
+            if cur_name not in usage["used_today"]:
+                usage["used_today"].append(cur_name)
             _save_account_usage(service_name, usage)
         save_log(result, service_name)
         return result

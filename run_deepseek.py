@@ -5,8 +5,9 @@ DeepSeek 问答服务入口（端口 8000）。
 """
 import os
 
-os.environ.setdefault("ASK_COUNT_RESET", "50")
-os.environ.setdefault("ASK_COOLDOWN_SEC", "1800")
+# 冷却已取消：每号每天限 70 次(ASK_SWITCH_LIMIT)已足够防风控，无需中间强制休息
+os.environ.setdefault("ASK_COUNT_RESET", "0")
+os.environ.setdefault("ASK_COOLDOWN_SEC", "0")
 os.environ.setdefault("ASK_SWITCH_LIMIT", "70")  # 每号每天最多70次，达到自动切号
 
 import uvicorn
