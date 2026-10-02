@@ -29,8 +29,23 @@ if not DASHBOARD_PASSWORD:
     raise RuntimeError("必须设置环境变量 DASHBOARD_PASSWORD")
 if not GEO_API_KEY:
     raise RuntimeError("必须设置环境变量 GEO_API_KEY")
-# 简单token存储（内存里，重启失效）
-valid_tokens = set()
+# token 持久化：Dashboard 重启后 mac-monitor 等已登录客户端的 cookie 仍有效，
+# 避免重启后所有鉴权接口 401 导致监控显示"核心服务全部离线/最近提问消失"
+TOKEN_FILE = Path(__file__).parent / "dashboard_tokens.json"
+
+def _load_tokens() -> set:
+    try:
+        return set(json.load(open(TOKEN_FILE)))
+    except Exception:
+        return set()
+
+def _save_tokens():
+    try:
+        json.dump(list(valid_tokens), open(TOKEN_FILE, "w"))
+    except Exception:
+        pass
+
+valid_tokens = _load_tokens()
 
 # GEO API 鉴权依赖
 from fastapi import Security, status
@@ -763,6 +778,7 @@ async def login(req: LoginRequest):
         raise HTTPException(status_code=401, detail="密码错误")
     token = secrets.token_urlsafe(32)
     valid_tokens.add(token)
+    _save_tokens()  # 持久化，重启后仍有效
     from fastapi.responses import Response
     resp = Response(status_code=200)
     resp.set_cookie(key="dashboard_token", value=token, httponly=True, max_age=86400)
