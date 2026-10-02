@@ -1,10 +1,10 @@
 [
   {
     "model": "deepseek",
-    "phone": "19918589877",
-    "status": "pending",
-    "ban_until": null,
-    "note": "曾高频提问被封；用户将尝试重新登录验证可用性，验证通过后恢复启用",
+    "phone": "19518589877",
+    "status": "banned",
+    "ban_until": "2026-10-07 18:00",
+    "note": "高频提问触发风控，封禁至2026-10-07 18:00；到期自动恢复可参与轮换",
     "updated_at": "2026-09-29T09:40:00+08:00",
     "profile": "profiles/deepseek_3"
   },
@@ -19,10 +19,10 @@
   },
   {
     "model": "qianwen",
-    "phone": "19918589877",
+    "phone": "19518589877",
     "status": "banned",
-    "ban_until": "2026-09-30 12:00",
-    "note": "触发人工验证（滑块验证失败 error:9epyEv，设备/会话被风控标记）；冷却24小时至 2026-09-30 12:00 后可尝试恢复，当前已换新号在用",
+    "ban_until": "2026-10-07 18:00",
+    "note": "高频提问触发风控，封禁至2026-10-07 18:00；到期自动恢复可参与轮换",
     "updated_at": "2026-09-29T12:00:31+08:00"
   },
   {
@@ -50,5 +50,13 @@
     "note": "DeepSeek 备份账号（profiles/deepseek_bak），2026-10-02 登录后触发风控封禁至 2026-10-05 06:41，暂停使用",
     "updated_at": "2026-10-02T20:22:11.988171+08:00",
     "profile": "profiles/deepseek_bak"
+  },
+  {
+    "model": "deepseek",
+    "phone": "15688282888",
+    "status": "active",
+    "ban_until": null,
+    "profile": "profiles/deepseek_4",
+    "note": "DeepSeek 新账号（2026-10-02 登录），今日可参与切号轮换"
   }
 ]
