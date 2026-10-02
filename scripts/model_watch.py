@@ -20,7 +20,13 @@ import requests
 
 # busy 卡死检测：连续 busy 超过该秒数视为卡死（正常回答最长约260s，6分钟阈值留裕量）
 BUSY_STUCK_SEC = 360
-_busy_since = {}  # mid -> 开始 busy 的时间戳
+# 静默失效检测：last_success_at 距今超过该小时数且模型看似正常 → 自动重启一次
+SILENT_HOURS = 6
+# 静默重启防抖：同一模型距上次静默重启至少间隔秒数才再次触发
+SILENT_COOLDOWN = 3600
+# 状态持久化文件：launchd 每次触发是独立进程，内存变量跨进程不保留，
+# 必须落盘才能让 busy 卡死 / 静默失效检测跨巡检生效。
+STATE_FILE = "/tmp/model_watch_state.json"
 
 ROOT = Path(__file__).parent.parent  # /Users/alili/laya
 API_KEY = os.environ.get("LAYA_API_KEY", "laya-local-model-key")
@@ -72,6 +78,24 @@ def write_paused(paused):
     os.replace(tmp, PAUSED_FILE)
 
 
+def load_state():
+    """读取跨巡检持久化状态（busy_since / silent_restart_at）"""
+    try:
+        return json.load(open(STATE_FILE, encoding="utf-8"))
+    except Exception:
+        return {"busy_since": {}, "silent_restart_at": {}}
+
+
+def save_state(state):
+    try:
+        tmp = STATE_FILE + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(state, f)
+        os.replace(tmp, STATE_FILE)
+    except Exception:
+        pass
+
+
 def restart_service(mid):
     """重启 launchd 服务（拉起浏览器）"""
     try:
@@ -87,8 +111,11 @@ def restart_service(mid):
 
 def check_models(paused):
     """检查各模型健康，返回问题列表"""
-    global _busy_since
     issues = []
+    state = load_state()
+    busy_since = state.setdefault("busy_since", {})
+    silent_at = state.setdefault("silent_restart_at", {})
+    now = time.time()
     for mid, port in MODEL_URLS.items():
         try:
             r = requests.get(
@@ -105,17 +132,19 @@ def check_models(paused):
                 f"busy={busy} last={last_ok}"
             )
 
-            # busy 卡死检测：连续 busy 超过阈值（正常回答最长约260s）→ 疑似卡死，强制重启
+            # busy 卡死检测（状态持久化，跨巡检生效）：
+            # 连续 busy 超过阈值（正常回答最长约260s）→ 疑似卡死，强制重启
             if busy:
-                _busy_since.setdefault(mid, time.time())
-                if time.time() - _busy_since[mid] > BUSY_STUCK_SEC:
+                if mid not in busy_since:
+                    busy_since[mid] = now
+                if now - busy_since[mid] > BUSY_STUCK_SEC:
                     log(f"  ⚠️ {mid} busy 已超过 {BUSY_STUCK_SEC}s，疑似卡死，强制重启")
-                    _busy_since.pop(mid, None)
+                    busy_since.pop(mid, None)
                     if restart_service(mid):
                         alert(f"{mid} 疑似卡死已自动重启")
                     continue
             else:
-                _busy_since.pop(mid, None)
+                busy_since.pop(mid, None)
 
             if mid in paused:
                 # 暂停中：验证已解除且登录正常 → 自动恢复
@@ -145,6 +174,21 @@ def check_models(paused):
                 elif not login:
                     issues.append(f"{mid} 未登录（login=False）")
                     log(f"  ⚠️ {mid} 未登录，请检查浏览器登录状态")
+                elif last_ok:
+                    # 静默失效检测：曾成功过但长时间无新成功，且模型看似正常
+                    # （alive/login 正常、无验证码、不忙碌）→ 页面可能已损坏但无报错，
+                    # 自动重启服务一次恢复，避免"文心一直失败却无人处理"类场景。
+                    try:
+                        last_dt = datetime.fromisoformat(last_ok)
+                        hours = (now - last_dt.timestamp()) / 3600
+                    except Exception:
+                        hours = 0
+                    if hours > SILENT_HOURS and now - silent_at.get(mid, 0) > SILENT_COOLDOWN:
+                        silent_at[mid] = now
+                        log(f"  ⚠️ {mid} 已 {hours:.1f} 小时无成功提问（last={last_ok[:19]}），疑似静默失效，自动重启")
+                        issues.append(f"{mid} 长时间无成功提问，已自动重启")
+                        if restart_service(mid):
+                            alert(f"{mid} 长时间无成功提问，已自动重启")
         except requests.RequestException as e:
             issues.append(f"{mid} 服务无响应: {str(e)[:80]}")
             log(f"  ⚠️ {mid} 服务无响应，尝试重启")
@@ -153,6 +197,7 @@ def check_models(paused):
         except Exception as e:
             issues.append(f"{mid} 检查异常: {str(e)[:80]}")
             log(f"  ⚠️ {mid} 检查异常: {e}")
+    save_state(state)
     return issues
 
 
