@@ -175,6 +175,36 @@ def _save_cooldown(service_name: str, st: dict):
         pass
 
 
+# ---------- 账号日限额（每号每天最多 N 次成功提问，达到后自动切到未满账号） ----------
+# 仅当 ASK_SWITCH_LIMIT > 0 且模型配置了 ACCOUNT_PROFILES 时启用（DeepSeek 70；
+# 其他模型不设置 → 完全关闭，零影响）。计数按 profile+日期 独立持久化，
+# 双号轮换不会因切号而丢失，跨天自动清零。
+def _account_usage_file(service_name: str):
+    return Path(f"/tmp/laya_{service_name}_account_usage.json")
+
+
+def _today_str() -> str:
+    return datetime.now().astimezone().strftime("%Y-%m-%d")
+
+
+def _load_account_usage(service_name: str) -> dict:
+    try:
+        d = json.load(open(_account_usage_file(service_name), encoding="utf-8"))
+        if d.get("date") != _today_str():
+            return {"date": _today_str(), "counts": {}}
+        return d
+    except Exception:
+        return {"date": _today_str(), "counts": {}}
+
+
+def _save_account_usage(service_name: str, usage: dict):
+    try:
+        with open(_account_usage_file(service_name), "w", encoding="utf-8") as f:
+            json.dump(usage, f)
+    except Exception:
+        pass
+
+
 def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     """根据一个浏览器实例创建完整的 FastAPI 应用。"""
     app = FastAPI(title=service_name)
@@ -196,6 +226,8 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     ask_reset = int(os.environ.get("ASK_COUNT_RESET", "0") or 0)
     ask_cooldown = int(os.environ.get("ASK_COOLDOWN_SEC", "0") or 0)
     cooldown_state = _load_cooldown(service_name) if ask_reset > 0 else {"ask_count": 0, "cooldown_until": None}
+    # 账号日限额（DeepSeek: ASK_SWITCH_LIMIT=70，达到自动切号）
+    ask_switch_limit = int(os.environ.get("ASK_SWITCH_LIMIT", "0") or 0)
 
     def _in_cooldown() -> bool:
         """是否处于强制休息期（跨服务重启持久化，按文件时间戳判断）"""
@@ -251,6 +283,8 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             "last_success_at": runtime_state["last_success_at"],
             "ask_count": cooldown_state.get("ask_count", 0),
             "cooldown_until": cooldown_state.get("cooldown_until"),
+            "account_usage": _load_account_usage(service_name)["counts"] if ask_switch_limit > 0 else {},
+            "ask_switch_limit": ask_switch_limit,
         }
 
     @app.post("/switch_account", dependencies=[Depends(verify_api_key)])
@@ -277,6 +311,38 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
         await lock.acquire(priority=req.priority)
         try:
             runtime_state["busy"] = True
+            # 账号日限额检查：当前账号今日已满 → 自动切到未满账号再提问
+            if ask_switch_limit > 0 and getattr(browser, "ACCOUNT_PROFILES", []):
+                usage = _load_account_usage(service_name)
+                cur_name = Path(browser._current_profile_dir()).name
+                cur_count = usage["counts"].get(cur_name, 0)
+                if cur_count >= ask_switch_limit:
+                    target = None
+                    for p in browser.ACCOUNT_PROFILES:
+                        name = Path(p).name
+                        if name != cur_name and usage["counts"].get(name, 0) < ask_switch_limit:
+                            target = p
+                            break
+                    if target is None:
+                        _save_account_usage(service_name, usage)
+                        _auto_pause(service_name)
+                        raise HTTPException(
+                            status_code=429,
+                            detail=f"所有账号今日额度已用尽（每号{ask_switch_limit}次），已暂停等待次日",
+                        )
+                    switched = await browser.switch_account_to(target)
+                    if not switched:
+                        _save_account_usage(service_name, usage)
+                        _auto_pause(service_name)
+                        raise HTTPException(
+                            status_code=429,
+                            detail=f"账号{cur_name}今日已满，切换{Path(target).name}失败（未登录），已暂停等待人工",
+                        )
+                    print(
+                        f"[{service_name}] 账号 {cur_name} 今日已达 {ask_switch_limit} 次，自动切号 -> {Path(target).name}",
+                        flush=True,
+                    )
+                _save_account_usage(service_name, usage)
             try:
                 result = await asyncio.wait_for(browser.ask(req.question), timeout=260)
             except asyncio.TimeoutError:
@@ -385,6 +451,12 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     flush=True,
                 )
             _save_cooldown(service_name, cooldown_state)
+        # 账号日限额计数：成功提问按当前 profile 累加（切号/跨天自动清零）
+        if ask_switch_limit > 0:
+            usage = _load_account_usage(service_name)
+            cur_name = Path(browser._current_profile_dir()).name
+            usage["counts"][cur_name] = usage["counts"].get(cur_name, 0) + 1
+            _save_account_usage(service_name, usage)
         save_log(result, service_name)
         return result
 

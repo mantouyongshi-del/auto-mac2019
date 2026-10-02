@@ -7,6 +7,7 @@ import os
 
 os.environ.setdefault("ASK_COUNT_RESET", "50")
 os.environ.setdefault("ASK_COOLDOWN_SEC", "1800")
+os.environ.setdefault("ASK_SWITCH_LIMIT", "70")  # 每号每天最多70次，达到自动切号
 
 import uvicorn
 

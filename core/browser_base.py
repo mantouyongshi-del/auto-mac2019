@@ -166,9 +166,28 @@ class BrowserBase:
         new_idx = (cur + 1) % len(profiles)
         if new_idx == cur:
             return False
+        return await self._switch_to(new_idx)
+
+    async def switch_account_to(self, target: str) -> bool:
+        """切换到指定 profile（如 "profiles/deepseek_bak"）并重启浏览器。
+        用于"账号日限额用尽→切到指定未满账号"。目标就是当前账号时只做登录检测。"""
+        profiles = getattr(self, "ACCOUNT_PROFILES", [])
+        if target not in profiles:
+            return False
+        idx = profiles.index(target)
+        if idx == getattr(self, "_profile_idx", 0):
+            try:
+                return bool(await asyncio.wait_for(self.is_logged_in(), timeout=10))
+            except Exception:
+                return False
+        return await self._switch_to(idx)
+
+    async def _switch_to(self, new_idx: int) -> bool:
+        """切到指定下标 profile：关浏览器→重启→检测登录。"""
+        profiles = getattr(self, "ACCOUNT_PROFILES", [])
         self._profile_idx = new_idx
-        self._save_profile_idx()  # 持久化当前账号，服务重启后保持备份号
-        print(f"[账号] 检测到封禁/失效，切换 profile -> {profiles[new_idx]}", flush=True)
+        self._save_profile_idx()  # 持久化当前账号，服务重启后保持
+        print(f"[账号] 切换 profile -> {profiles[new_idx]}", flush=True)
         try:
             await self.close()
         except Exception as e:
