@@ -137,7 +137,7 @@ def call_model(mid: str, question: str) -> dict:
                 "asked_at": datetime.now().astimezone().isoformat()}
     try:
         r = requests.post(f"{url}/ask", json={"question": question},
-                          headers={"X-API-Key": MODEL_API_KEY}, timeout=330)
+                          headers={"X-API-Key": MODEL_API_KEY}, timeout=360)
         if r.status_code == 429:
             # 429（冷却/配额已尽/切换失败等）一律按 cooldown 跳过：不计数失败，
             # 保留缺口等恢复后自然补上；模型自身会维护暂停/恢复状态。

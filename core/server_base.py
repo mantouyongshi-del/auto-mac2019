@@ -274,6 +274,8 @@ def _pick_switch_target(service_name: str, browser: BrowserBase, usage: dict,
 
 def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
     """根据一个浏览器实例创建完整的 FastAPI 应用。"""
+    # 单次回答超时按模型差异化：元宝生成慢且引用多，放宽到 320s；其他模型 260s
+    ask_answer_timeout = {"yuanbao": 320}.get(service_name, 260)
     app = FastAPI(title=service_name)
 
     # 允许跨域（Dashboard 9000 端口调用）
@@ -420,7 +422,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     )
                 _save_account_usage(service_name, usage)
             try:
-                result = await asyncio.wait_for(browser.ask(req.question), timeout=260)
+                result = await asyncio.wait_for(browser.ask(req.question), timeout=ask_answer_timeout)
             except asyncio.TimeoutError:
                 save_log({
                     "question": req.question,
@@ -559,7 +561,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     results.append(record)
                     continue
                 try:
-                    r = await asyncio.wait_for(browser.ask(q), timeout=260)
+                    r = await asyncio.wait_for(browser.ask(q), timeout=ask_answer_timeout)
                     record = {
                         "question": q,
                         "answer": r["answer"],

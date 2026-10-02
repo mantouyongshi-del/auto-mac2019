@@ -32,6 +32,42 @@ MODELS = ["deepseek", "qianwen", "doubao", "wenxin", "yuanbao"]
 PORTS = {"deepseek": 8000, "qianwen": 8001, "doubao": 8002,
          "wenxin": 8003, "yuanbao": 8004}
 
+# ---- 日志轮转：防止 24×7 长期运行磁盘膨胀 ----
+LOG_RETENTION_DAYS = 7          # server_logs/*.jsonl 保留天数
+LOG_MAX_MB = 100                # /tmp 核心日志单文件上限（超限截断保留尾部）
+CLEANUP_MARKER = Path("/tmp/.laya_log_cleanup_date")
+
+
+def cleanup_logs():
+    """每日一次：清理过期 jsonl 日志、截断超大 /tmp 日志。launchd 每 5 分钟触发，
+    用日期标记文件保证每天只执行一次。"""
+    try:
+        today = time.strftime("%Y-%m-%d")
+        if CLEANUP_MARKER.exists() and CLEANUP_MARKER.read_text().strip() == today:
+            return
+        logs_dir = Path(__file__).parent / "server_logs"
+        if logs_dir.is_dir():
+            for f in logs_dir.glob("*.jsonl"):
+                try:
+                    if (time.time() - f.stat().st_mtime) / 86400 > LOG_RETENTION_DAYS:
+                        f.unlink()
+                except Exception:
+                    pass
+        for p in ["/tmp/batch_run.log", "/tmp/fix_run.log", "/tmp/model_watch.log",
+                  "/tmp/batch_watchdog.log", "/tmp/memory_guard.log"]:
+            f = Path(p)
+            try:
+                if f.exists() and f.stat().st_size > LOG_MAX_MB * 1024 * 1024:
+                    tmp = f.with_suffix(".log.tmp")
+                    subprocess.run(["tail", "-n", "5000", str(f)],
+                                   stdout=open(tmp, "w", encoding="utf-8"), timeout=60)
+                    os.replace(tmp, f)
+            except Exception:
+                pass
+        CLEANUP_MARKER.write_text(today)
+    except Exception:
+        pass
+
 
 def log(msg):
     line = f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {msg}"
@@ -151,6 +187,7 @@ def pick_target(mems, prefer_rotation, last_mid):
 
 def main():
     dry = "--check" in os.sys.argv
+    cleanup_logs()  # 每日一次日志轮转（磁盘卫生）
     mem = get_mem_pct()
     state = load_state()
     now = time.time()
