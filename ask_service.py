@@ -24,6 +24,7 @@ import os
 import sys
 import json
 import uuid
+import random
 import asyncio
 import urllib.request
 import urllib.error
@@ -46,6 +47,16 @@ SERVICE_API_KEY = os.getenv("SERVICE_API_KEY", "laya-service-key")
 MODEL_API_KEY = os.getenv("LAYA_API_KEY", "laya-local-model-key")
 UPSTREAM_PRIORITY = 10      # 上游任务在模型优先级锁中的权重
 ASK_TIMEOUT = 260           # 单模型提问硬超时，与模型服务一致（> browser.ask 内部240s上限，避免外层取消打断playwright）
+
+# 防风控节奏（与农场模式对齐）：每个模型两次提问之间的最小/最大间隔（秒）。
+# 上游任务同样继承此节奏，避免连续快速提问触发平台风控。
+MODEL_DELAY = {
+    "deepseek": (150, 210),   # 风控最敏感，2.5-3.5 分钟
+    "qianwen": (180, 210),    # 3 分钟
+    "doubao": (30, 45),       # 30-45s
+    "wenxin": (15, 25),       # 通用节奏
+    "yuanbao": (15, 25),      # 通用节奏
+}
 
 MODELS_ALL = [
     {"id": "deepseek", "name": "DeepSeek", "port": 8000},
@@ -253,6 +264,9 @@ class TaskManager:
                     log(f"任务 {rid} {mid} 失败: {err}")
                 save_task(task)
                 await self._maybe_finalize(task)
+                # 防风控：模型专属提问间隔（与农场模式对齐，成功失败都生效，避免连续快速提问触发风控）
+                lo, hi = MODEL_DELAY.get(mid, (15, 25))
+                await asyncio.sleep(random.uniform(lo, hi))
             finally:
                 q.task_done()
 
