@@ -35,27 +35,43 @@ def _reset_fail(service_name: str):
     _fail_counts[service_name] = 0
 
 
-def _auto_pause(service_name: str):
-    """人工验证自动暂停：写入 paused_models.json（与 runner/dashboard 共用，按 model_id）。"""
+def _auto_pause(service_name: str, reason: str = "captcha"):
+    """自动暂停：写入 paused_models.json（与 runner/dashboard 共用，按 model_id）。
+    reason 同步记录到 paused_reasons.json：captcha=人工验证，quota_exhausted=当日额度用尽，
+    switch_failed=切号失败未登录；fix_runner 只自动恢复 captcha 类，quota 类等跨天额度重置后恢复。"""
     pf = Path(__file__).parent.parent / "paused_models.json"
+    rf = Path(__file__).parent.parent / "paused_reasons.json"
     try:
         data = json.loads(pf.read_text(encoding="utf-8")) if pf.exists() else []
         if service_name not in data:
             data.append(service_name)
             pf.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-            print(f"⚠️ [{service_name}] 人工验证，已自动暂停模型", flush=True)
+            try:
+                reasons = json.loads(rf.read_text(encoding="utf-8")) if rf.exists() else {}
+                reasons[service_name] = reason
+                rf.write_text(json.dumps(reasons, ensure_ascii=False, indent=2), encoding="utf-8")
+            except Exception:
+                pass
+            print(f"⚠️ [{service_name}] 已自动暂停模型（原因: {reason}）", flush=True)
     except Exception as e:
         print(f"[auto_pause] 失败: {e}", flush=True)
 
 
 def _auto_unpause(service_name: str):
-    """多账号切换成功后解除暂停：从 paused_models.json 移除该模型。"""
+    """多账号切换成功后解除暂停：从 paused_models.json 移除该模型，并清理暂停原因。"""
     pf = Path(__file__).parent.parent / "paused_models.json"
+    rf = Path(__file__).parent.parent / "paused_reasons.json"
     try:
         data = json.loads(pf.read_text(encoding="utf-8")) if pf.exists() else []
         if service_name in data:
             data.remove(service_name)
             pf.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+            try:
+                reasons = json.loads(rf.read_text(encoding="utf-8")) if rf.exists() else {}
+                reasons.pop(service_name, None)
+                rf.write_text(json.dumps(reasons, ensure_ascii=False, indent=2), encoding="utf-8")
+            except Exception:
+                pass
             print(f"✅ [{service_name}] 已自动切换备用账号，解除暂停", flush=True)
     except Exception as e:
         print(f"[auto_unpause] 失败: {e}", flush=True)
@@ -381,7 +397,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     target = _pick_switch_target(service_name, browser, usage, ask_switch_limit, require_unused_only=False)
                     if target is None:
                         _save_account_usage(service_name, usage)
-                        _auto_pause(service_name)
+                        _auto_pause(service_name, "quota_exhausted")
                         raise HTTPException(
                             status_code=429,
                             detail=f"所有可用账号今日额度已用尽（每号{ask_switch_limit}次），已暂停等待次日",
@@ -389,7 +405,7 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
                     switched = await browser.switch_account_to(target)
                     if not switched:
                         _save_account_usage(service_name, usage)
-                        _auto_pause(service_name)
+                        _auto_pause(service_name, "switch_failed")
                         raise HTTPException(
                             status_code=429,
                             detail=f"账号{cur_name}今日已满，切换{Path(target).name}失败（未登录），已暂停等待人工",

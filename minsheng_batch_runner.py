@@ -110,21 +110,22 @@ def call_model(model, question):
             data = json.loads(resp.read())
     except urllib.error.HTTPError as e:
         if e.code == 429:
+            # 429（冷却/当日额度已尽/切换失败等）一律按 cooldown 跳过：
+            # 不计失败、不重试；模型自身会维护暂停/恢复，恢复后由 fix_runner 补缺。
             body = b""
             try:
                 body = e.read()
             except Exception:
                 pass
             detail = body.decode("utf-8", "ignore")[:200]
-            if "冷却" in detail:
-                return {
-                    "status": "cooldown",
-                    "error": "模型强制休息中",
-                    "answer": "",
-                    "search_queries": [],
-                    "citations": [],
-                    "asked_at": datetime.now().astimezone().isoformat(),
-                }
+            return {
+                "status": "cooldown",
+                "error": detail or "模型暂不可用（429），跳过本轮",
+                "answer": "",
+                "search_queries": [],
+                "citations": [],
+                "asked_at": datetime.now().astimezone().isoformat(),
+            }
         raise
     return {
         "status": "ok",

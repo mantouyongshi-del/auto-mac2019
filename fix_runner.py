@@ -57,6 +57,23 @@ def load_paused():
         return []
 
 
+def load_pause_reasons():
+    """读暂停原因 map（captcha/quota_exhausted/switch_failed）。缺失视为 captcha。"""
+    try:
+        return json.load(open(ROOT / "paused_reasons.json", encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def quota_reset_today(mid: str) -> bool:
+    """额度用尽类暂停是否仍处当天（未跨天）。true=仍当天，保持暂停；false=跨天已重置，可恢复。"""
+    try:
+        d = json.load(open(f"/tmp/laya_{mid}_account_usage.json", encoding="utf-8"))
+        return d.get("date") == datetime.now().strftime("%Y-%m-%d")
+    except Exception:
+        return True  # 拿不到计数文件则保守保持暂停
+
+
 def write_fix_status(data):
     try:
         tmp = FIX_STATUS.with_suffix(".tmp")
@@ -121,9 +138,10 @@ def call_model(mid: str, question: str) -> dict:
     try:
         r = requests.post(f"{url}/ask", json={"question": question},
                           headers={"X-API-Key": MODEL_API_KEY}, timeout=330)
-        if r.status_code == 429 and "冷却" in r.text[:300]:
-            # 模型强制休息（冷却）：不计数失败，保留缺口等冷却结束后自然补上
-            return {"status": "cooldown", "error": "模型强制休息中",
+        if r.status_code == 429:
+            # 429（冷却/配额已尽/切换失败等）一律按 cooldown 跳过：不计数失败，
+            # 保留缺口等恢复后自然补上；模型自身会维护暂停/恢复状态。
+            return {"status": "cooldown", "error": "模型暂不可用（429），跳过本轮",
                     "answer": "", "search_queries": [], "citations": [],
                     "asked_at": datetime.now().astimezone().isoformat()}
         if r.status_code != 200:
@@ -269,9 +287,21 @@ async def auto_resume_check():
             if not paused:
                 continue
             log(f"🔍 自动恢复巡检：检查暂停模型 {paused}")
+            reasons = load_pause_reasons()
             for mid in paused[:]:
                 url = MODEL_URLS.get(mid)
                 if not url:
+                    continue
+                reason = reasons.get(mid, "captcha")
+                # 额度用尽类：不按登录态恢复，只有跨天（usage 日期重置）后才解除暂停
+                if reason == "quota_exhausted":
+                    if quota_reset_today(mid):
+                        log(f"  ⏸️ {mid} 当日额度已用尽（quota_exhausted），保持暂停等待次日")
+                        continue
+                    paused.remove(mid)
+                    write_paused(paused)
+                    log(f"🔄 自动恢复 {mid}：新的一天额度已重置，解除额度暂停")
+                    os.system(f'say "模型{mid}额度已恢复" &')
                     continue
                 try:
                     r = requests.get(url, headers={"X-API-Key": MODEL_API_KEY}, timeout=10)
