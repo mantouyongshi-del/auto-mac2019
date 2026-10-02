@@ -69,7 +69,9 @@ def save_paused(paused):
     with open(PAUSE_FILE, "w") as f:
         json.dump(list(paused), f)
 
-paused_models = load_paused()
+# 注意：暂停状态的唯一权威是 paused_models.json 文件。
+# 切号/自动恢复/自动暂停等外部组件直接改文件，Dashboard 读取必须实时 load_paused()，
+# 不能缓存到内存（否则切号恢复后驾驶舱/监控仍显示旧暂停状态）。
 # 健康检查记录存储
 HEALTH_RECORD_FILE = Path(__file__).parent / "health_records.json"
 MAX_HEALTH_RECORDS = 100  # 最多存100条
@@ -97,22 +99,24 @@ async def pause_model(model_id: str):
     m = MODEL_MAP.get(model_id)
     if not m:
         raise HTTPException(status_code=404, detail="模型不存在")
-    paused_models.add(m["id"])
-    save_paused(paused_models)
-    return {"ok": True, "paused": list(paused_models)}
+    paused = load_paused()
+    paused.add(m["id"])
+    save_paused(paused)
+    return {"ok": True, "paused": list(paused)}
 
 @app.post("/api/models/{model_id}/resume")
 async def resume_model(model_id: str):
     m = MODEL_MAP.get(model_id)
     if not m:
         raise HTTPException(status_code=404, detail="模型不存在")
-    paused_models.discard(m["id"])
-    save_paused(paused_models)
-    return {"ok": True, "paused": list(paused_models)}
+    paused = load_paused()
+    paused.discard(m["id"])
+    save_paused(paused)
+    return {"ok": True, "paused": list(paused)}
 
 @app.get("/api/paused")
 async def get_paused():
-    return {"paused": list(paused_models)}
+    return {"paused": list(load_paused())}
 
 # ---------- 跑批暂停/恢复（mac-monitor 控制端调用） ----------
 BATCH_PAUSE_FILE = Path(__file__).parent / "pause_batch.json"
@@ -547,7 +551,7 @@ async def create_task(req: CreateTaskRequest):
     all_ids = [m["id"] for m in MODELS]
     model_ids = req.models or all_ids
     # 过滤掉暂停的模型
-    model_ids = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in paused_models]
+    model_ids = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in load_paused()]
     # 校验模型ID
     for mid in model_ids:
         if mid not in MODEL_MAP:
@@ -1410,7 +1414,7 @@ def play_alarm():
 
 async def check_single_model(m: dict) -> str:
     # 暂停的模型不检查
-    if m["name"] in paused_models:
+    if m["name"] in load_paused():
         return ""
     """并发检查单个模型，返回异常描述或空字符串。"""
     try:
@@ -1449,7 +1453,7 @@ async def health_check_loop():
             print(f"[健康检查] {mode}，只做HTTP探活，不发提问", flush=True)
             abnormal = []
             for m in MODELS:
-                if m["name"] in paused_models:
+                if m["name"] in load_paused():
                     continue
                 try:
                     urllib.request.urlopen(f"http://127.0.0.1:{m['port']}/", timeout=5)
@@ -1859,7 +1863,7 @@ async def geo_health():
     model_status = {}
     for m in MODELS:
         model_info = {
-            "paused": m["name"] in paused_models,
+            "paused": m["name"] in load_paused(),
             "port": m["port"]
         }
         try:
@@ -1917,7 +1921,7 @@ async def geo_run_task(task_id, questions, model_ids, req):
             geo_log("task_started", {"task_id": task_id, "models": model_ids, "questions": len(questions)})
             
             # 过滤暂停模型
-            active_models = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in paused_models]
+            active_models = [mid for mid in model_ids if MODEL_MAP[mid]["name"] not in load_paused()]
             
             # 并发给所有模型发问题
             for q_idx, q_text in enumerate(questions):
