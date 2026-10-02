@@ -24,7 +24,7 @@ class DeepSeekBrowser(BrowserBase):
     # ---- DeepSeek 专属防风控增强（仅本模型生效，其他模型不加载）----
     STEALTH_EXTRA = True               # 注入 playwright-stealth 补丁，隐藏自动化特征
     HUMANIZE_LEVEL = 1                 # 贝塞尔鼠标轨迹 + 更慢输入节奏
-    ACCOUNT_PROFILES = ["profiles/deepseek", "profiles/deepseek_bak"]  # 主/备双账号轮换
+    ACCOUNT_PROFILES = ["profiles/deepseek", "profiles/deepseek_bak", "profiles/deepseek_4"]  # 账号池：主号/备份号/三号(15688282888)轮换
 
     async def is_logged_in(self) -> bool:
         try:

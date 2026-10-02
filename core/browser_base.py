@@ -183,7 +183,7 @@ class BrowserBase:
         return await self._switch_to(idx)
 
     async def _switch_to(self, new_idx: int) -> bool:
-        """切到指定下标 profile：关浏览器→重启→检测登录。"""
+        """切到指定下标 profile：关浏览器→清理目标残留进程→重启→检测登录。"""
         profiles = getattr(self, "ACCOUNT_PROFILES", [])
         self._profile_idx = new_idx
         self._save_profile_idx()  # 持久化当前账号，服务重启后保持
@@ -197,6 +197,25 @@ class BrowserBase:
         self.page = None
         self.captured_responses = {}
         self._mouse_pos = None
+        # 防残留：登录窗口/旧实例可能仍占用目标 profile 目录，先杀掉再启动，
+        # 否则 launch_persistent_context 会报"正在现有的浏览器会话中打开"而失败。
+        try:
+            import subprocess
+            target_dir = (Path(__file__).resolve().parent.parent / profiles[new_idx]).resolve()
+            subprocess.run(
+                ["pkill", "-f", f"user-data-dir={target_dir}"],
+                capture_output=True,
+                timeout=10,
+            )
+            await asyncio.sleep(2)
+            for f in target_dir.glob("Singleton*"):
+                try:
+                    f.unlink()
+                except Exception:
+                    pass
+            print(f"[账号] 已清理目标 profile 残留进程/锁: {profiles[new_idx]}", flush=True)
+        except Exception as e:
+            print(f"[账号] 清理目标残留警告: {e}", flush=True)
         try:
             await self.start()
             logged = await asyncio.wait_for(self.is_logged_in(), timeout=10)
