@@ -214,6 +214,17 @@ def create_app(browser: BrowserBase, service_name: str) -> FastAPI:
             "last_success_at": runtime_state["last_success_at"],
         }
 
+    @app.post("/switch_account", dependencies=[Depends(verify_api_key)])
+    async def switch_account_endpoint():
+        """未登录/验证码场景：尝试自动切换到备用账号（DeepSeek 等配置了 ACCOUNT_PROFILES 的模型）。
+        切换成功（新账号已登录）→ 解除暂停；失败 → 保持现状等待人工登录新号。"""
+        if not getattr(browser, "ACCOUNT_PROFILES", []):
+            return {"switched": False, "reason": "该模型未配置备用账号"}
+        switched = await browser.switch_account()
+        if switched:
+            _auto_unpause(service_name)
+        return {"switched": switched}
+
     @app.post("/ask", dependencies=[Depends(verify_api_key)])
     async def ask(req: AskRequest):
         if not req.question.strip():

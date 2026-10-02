@@ -172,8 +172,29 @@ def check_models(paused):
                     log(f"  ⚠️ {msg}")
                     alert(msg)
                 elif not login:
-                    issues.append(f"{mid} 未登录（login=False）")
-                    log(f"  ⚠️ {mid} 未登录，请检查浏览器登录状态")
+                    # 未登录：尝试自动切换备用账号（DeepSeek 等配置了 ACCOUNT_PROFILES）
+                    # 切换成功（新账号已登录）→ 解除暂停、恢复跑批；失败 → 暂停等人工登录
+                    log(f"  ⚠️ {mid} 未登录（login=False），尝试自动切换备用账号")
+                    try:
+                        sr = requests.post(
+                            f"http://127.0.0.1:{port}/switch_account",
+                            headers={"X-API-Key": API_KEY},
+                            timeout=200,
+                        )
+                        sd = sr.json()
+                        if sd.get("switched"):
+                            issues.append(f"{mid} 未登录，已自动切换备用账号")
+                            alert(f"{mid} 未登录，已自动切换备用账号")
+                        else:
+                            if mid not in paused:
+                                paused.append(mid)
+                                write_paused(paused)
+                            issues.append(f"{mid} 未登录且备用账号不可用，已暂停等待人工登录")
+                            log(f"  ⚠️ {mid} 未登录且无可用备用账号，已暂停等待处理")
+                            alert(f"{mid} 未登录且备用账号不可用，已暂停等待处理")
+                    except requests.RequestException as e:
+                        issues.append(f"{mid} 切换账号调用失败: {str(e)[:60]}")
+                        log(f"  ⚠️ {mid} /switch_account 调用失败: {e}")
                 elif last_ok:
                     # 静默失效检测：曾成功过但长时间无新成功，且模型看似正常
                     # （alive/login 正常、无验证码、不忙碌）→ 页面可能已损坏但无报错，
