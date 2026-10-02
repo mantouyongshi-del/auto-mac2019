@@ -540,7 +540,7 @@ class BrowserBase:
                 # DeepSeek：先贝塞尔移到随机点再点击（避免 click 瞬移）
                 tx, ty = random.randint(100, 800), random.randint(100, 400)
                 await self._move_mouse(tx, ty, steps=random.randint(15, 35))
-                await page.mouse.click()
+                await page.mouse.click(tx, ty)
             else:
                 await page.mouse.click(
                     random.randint(100, 800),
