@@ -172,11 +172,12 @@ async def ask_one_prompt(question):
             # wait_for 超时后立即返回 error 继续下一题，底层线程自行收尾，
             # 防止服务端流式慢发导致 urlopen 的 socket 超时永不触发、整题永久卡死。
             fut = asyncio.get_event_loop().run_in_executor(None, call_model, m, question)
-            mid, r = await asyncio.wait_for(fut, timeout=ASK_TIMEOUT)
+            # call_model 返回单值 dict（status/answer/citations...），不是 (mid, r) 元组，直接取 r
+            r = await asyncio.wait_for(fut, timeout=ASK_TIMEOUT)
             # 模型强制休息（冷却）→ 返回 None，调用方过滤，本轮跳过该模型、不计失败
             if r.get("status") == "cooldown":
                 return m["id"], None
-            return mid, r
+            return m["id"], r
         except asyncio.TimeoutError:
             return m["id"], {
                 "status": "error",

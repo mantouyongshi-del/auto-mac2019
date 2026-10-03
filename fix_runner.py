@@ -80,8 +80,8 @@ def write_fix_status(data):
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         os.replace(tmp, FIX_STATUS)
-    except Exception:
-        pass
+    except Exception as e:
+        log(f"⚠️ write_fix_status 失败: {e!r}")
 
 
 def note_recent(mid: str, question: str, ok: bool, r: dict):
@@ -202,6 +202,7 @@ def merge_write(path: str, mid: str, r: dict):
 
 
 async def run_once(target_models: list, status: dict):
+    log(f"🔄 run_once 开始: targets={target_models} paused={load_paused()}")
     missing = scan_missing(target_models)
     total = len(missing)
     done = status.get("done", 0)
@@ -262,9 +263,13 @@ async def _run_pick(pick_items: list, status: dict) -> int:
         if ok:
             merge_write(path, mid, r)
             ok_count += 1
+            status["last_success"] = datetime.now().astimezone().isoformat()
+            status["updated_at"] = datetime.now().astimezone().isoformat()
+            write_fix_status(status)
         else:
             status["last_error"] = {"mid": mid, "time": datetime.now().astimezone().isoformat(),
                                     "error": str(r.get("error"))[:150]}
+            status["updated_at"] = datetime.now().astimezone().isoformat()
             write_fix_status(status)
             log(f"  ⏸️ {mid} 失败，保留缺口等待下轮重试")
     return ok_count
