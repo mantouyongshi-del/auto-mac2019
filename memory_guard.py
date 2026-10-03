@@ -80,12 +80,19 @@ def log(msg):
 
 
 def get_mem_pct() -> int:
+    """活动监视器口径：used = active + wired + compressed（不含可回收 inactive 缓存）。
+    避免 top 的 PhysMem used 含 inactive 缓存导致长期虚高（如真实 56% 显示 90%），
+    从而误触紧急重启浏览器。"""
     try:
-        out = subprocess.run(["top", "-l", "1", "-n", "0"],
-                             capture_output=True, text=True, timeout=30).stdout
-        m = re.search(r"PhysMem:\s*(\d+)G\s*used", out)
-        if m:
-            return int(m.group(1)) * 100 // TOTAL_MEM_GB
+        out = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=30).stdout
+
+        def gb(key: str) -> float:
+            m = re.search(rf"{key}:\s+(\d+)", out)
+            return int(m.group(1)) * 4096 / (1024 ** 3) if m else 0.0
+
+        used = gb("Pages active") + gb("Pages wired down") + gb("Pages occupied by compressor")
+        if used > 0:
+            return int(used * 100 // TOTAL_MEM_GB)
     except Exception:
         pass
     return 0
